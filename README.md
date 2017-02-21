@@ -1,19 +1,19 @@
 # EDUGraphAPI - Office 365 Education Code Sample
 
-O365 for Education tenants offer schools 
 In this sample we show you how to integrate with school roles/roster data as well as O365 services available via the Graph API. 
 
 School data is kept in sync in O365 Education tenants by [Microsoft School Data Sync](http://sds.microsoft.com).  
 
 **Table of contents**
-* [Sample Goals](#summary)
-* [Prerequisites](#prereqs)
-* [Register the application](#register)
-* [Build and debug locally](#build)
-* [Deploy the sample to Azure](#deploy)
-* [Understand the code](#understand)
-* [Questions and comments](#questions)
-* [Contributing](#contribute)
+* [Sample Goals](#sample-goals)
+* [Prerequisites](#prerequisites)
+* [Register the application in Azure Active Directory](#register-the-application-in-azure-active-directory)
+* [Build and debug locally](#build-and-debug-locally)
+* [Deploy the sample to Azure](#deploy-the-sample-to-azure)
+* [Understand the code](#understand-the-code)
+* [[Optional] Build and debug the WebJob locally](#optional-build-and-debug-the-webjob-locally)
+* [Questions and comments](#questions-and-comments)
+* [Contributing](#contributing)
 
 ## Sample Goals
 
@@ -192,13 +192,13 @@ Debug the **EDUGraphAPI.Web**:
 
 **Deploy the Azure Components from GitHub**
 
-1. Check to ensure that the build is passing VSTS Build
+1. Check to ensure that the build is passing VSTS Build.
 
-2. Fork this repository to your GitHub account
+2. Fork this repository to your GitHub account.
 
-3. Click the Deploy to Azure Button
+3. Click the Deploy to Azure Button:
 
-   [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3a%2f%2fraw.githubusercontent.com%2fTylerLu%2fEDUGraphAPI%2fmaster%2fazuredeploy.json)
+   [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficeDev%2FO365-EDU-AspNetMVC-Samples%2Fmaster%2Fazuredeploy.json)
 
 4. Fill in the values in the deployment page and select the **I agree to the terms and conditions stated above** checkbox.
 
@@ -396,7 +396,7 @@ An X509 certificate is used. For more details, please check the following links:
 
 There are two distinct Graph APIs used in this sample:
 
-|              | [Azure AD Graph API](https://msdn.microsoft.com/en-us/library/azure/ad/graphInstall-Package) | [Microsoft Graph API](https://graph.microsoft.io/) |
+|              | [Azure AD Graph API](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-graph-api) | [Microsoft Graph API](https://graph.microsoft.io/) |
 | ------------ | ---------------------------------------- | ---------------------------------------- |
 | Description  | The Azure Active Directory Graph API provides programmatic access to Azure Active Directory through REST API endpoints. Apps can use the Azure AD Graph API to perform create, read, update, and delete (CRUD) operations on directory data and directory objects, such as users, groups, and organizational contacts | A unified API that also includes APIs from other Microsoft services like Outlook, OneDrive, OneNote, Planner, and Office Graph, all accessed through a single endpoint with a single access token. |
 | Client       | Install-Package [Microsoft.Azure.ActiveDirectory.GraphClient](https://www.nuget.org/packages/Microsoft.Azure.ActiveDirectory.GraphClient/) | Install-Package [Microsoft.Graph](https://www.nuget.org/packages/Microsoft.Graph/) |
@@ -787,7 +787,7 @@ Debug the **EDUGraphAPI.SyncData**:
    > Note: 
    > - Local debugging with Azure Storage Emulator will be supported after [Azure WebJobs SDK](https://github.com/Azure/azure-webjobs-sdk)  V2 related. Please refer to [Support Azure Storage Emulator](https://github.com/Azure/azure-webjobs-sdk/issues/53) for more details.
    > - It is **not** recommended to local debugging while published web job is running in the azure with the same storage account. Please check [this question]([What happened when using same Storage account for multiple Azure WebJobs (dev/live)?](http://stackoverflow.com/questions/42020647/what-happened-when-using-same-storage-account-for-multiple-azure-webjobs-dev-li)) for more details.
-   
+
 2. Configure the **App.config**:
 
    ![](Images/webjob-app-config.png)
@@ -807,7 +807,7 @@ Debug the **EDUGraphAPI.SyncData**:
 
 ##Contributing
 
-We encourage you to contribute to our samples. For guidelines on how to proceed, see our contribution guide
+We encourage you to contribute to our samples. For guidelines on how to proceed, see [our contribution guide](/Contributing.md).
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
