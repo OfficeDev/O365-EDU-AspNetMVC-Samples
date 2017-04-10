@@ -33,6 +33,7 @@ $(document).ready(function () {
     bindShowDetail($(".section-tiles .tile-container"));
 
     $(".sections .filterlink-container .filterlink").click(function () {
+        search(true);
         var element = $(this);
         element.addClass("selected").siblings("a").removeClass("selected");
         var filterType = element.data("type");
@@ -41,6 +42,7 @@ $(document).ready(function () {
     });
 
     $("#see-more  span").click(function () {
+        search(true);
         var element = $(this);
         if (element.hasClass("disabled") || element.hasClass("nomore")) {
             return;
@@ -118,4 +120,35 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#btnsearch").click(function () {
+        search();
+    });
+
+    $('.txtsearch').on('keypress', function (e) {
+        if (e.which === 13) {
+            search();
+        }
+    });
+    function search(isReset) {
+        var queryString;
+        if (isReset) {
+            queryString = "";
+            $(".txtsearch").val("");
+        } else {
+            queryString = $(".txtsearch").val();
+        }
+        if (queryString) {
+            $(".tile-container h2").each(function () {
+                if ($(this).text().search(new RegExp(queryString, "i")) < 0) {
+                    $(this).closest(".tile-container").hide();
+                } else {
+                    $(this).closest(".tile-container").show();
+                }
+            });
+        }
+        else {
+            $(".tile-container").show();
+        }
+    }
 });

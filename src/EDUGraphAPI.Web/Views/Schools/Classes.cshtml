@@ -15,33 +15,25 @@
             <div class="secondnav">
                 <a href="/schools"> All Schools</a> > @Model.School.Name
             </div>
-            <div class="a-heading">
-                Classes
-            </div>
+            <div class="a-heading">Classes</div>
         </div>
         <div class="toptiles">
-            <div class="section-school-name">
-                @Model.School.Name
-            </div>
+            <div class="section-school-name">@Model.School.Name</div>
             <div class="infocontainer">
-                <div class="infoheader">
-                    PRINCIPAL
-                </div>
+                <div class="infoheader">PRINCIPAL</div>
                 <div class="infobody" title="@Model.School.PrincipalName">
                     @Html.Raw(string.IsNullOrEmpty(Model.School.PrincipalName) ? "-" : Model.School.PrincipalName)
                 </div>
             </div>
             <div class="infocontainer">
-                <div class="infoheader">
-                    Grade level
-                </div>
+                <div class="infoheader">Grade levels</div>
                 <div class="infobody" title="@Model.School.LowestGrade - @Model.School.HighestGrade">
                     @Model.School.LowestGrade - @Model.School.HighestGrade
                 </div>
             </div>
         </div>
         <div>
-            <div class="col-md-6 usericon">
+            <div class="col-md-4 usericon">
                 <div class="icon"></div>
                 @if (Model.UserContext.IsStudent)
                 {
@@ -51,17 +43,15 @@
                 {
                     <div>Not Teaching</div>
                 }
-                        
-                   
                 <div class="icon my-class"></div><div>My Class</div>
             </div>
-            <div class="col-md-6 filterlink-container">
+            <div class="col-md-3 filterlink-container">
+                <div class="search-container "></div>
                 <span>FILTER:</span> <a id="filtermyclasses" class="filterlink selected" data-type="myclasses">My Classes</a> | <a id="filterclasses" class="filterlink " data-type="allclasses">All Classes</a>
             </div>
         </div>
         <br style="clear:both;" />
     </div>
-
     <div class="myclasses-container tiles-root-container">
         <div id="allclasses" class="tiles-secondary-container">
             <div class="section-tiles">
@@ -69,7 +59,7 @@
                     var sections = Model.Sections;
                     if (sections == null || sections.Value == null || sections.Value.Count() == 0)
                     {
-                        <div class="nodata"> There is no data available for this page at this time.</div>
+                        <div class="nodata"> No classes in this school.</div>
                     }
                     else
                     {
@@ -97,7 +87,14 @@
                     var mySections = Model.MySections;
                     if (mySections == null || mySections.Count() == 0)
                     {
-                        <div class="nodata"> There is no data available for this page at this time.</div>
+                        if (Model.UserContext.IsStudent)
+                        {
+                            <div class="nodata"> Not enrolled in any classes.</div>
+                        }
+                        else
+                        {
+                            <div class="nodata"> Not teaching any classes.</div>
+                        }
                     }
                     else
                     {
@@ -149,9 +146,7 @@
             <h6>@(teacher.DisplayName)</h6>
         }
         <h5>Term Name:</h5>
-        <h6>
-            @(section.TermName)
-        </h6>
+        <h6>@(section.TermName)</h6>
         <h5>Start/Finish Date:</h5>
         <h6>
             <span id="termdate">@(string.IsNullOrEmpty(section.TermStartDate) ? "" : Convert.ToDateTime(section.TermStartDate).ToString("yyyy-MM-ddTHH:mm:ss"))</span>

@@ -103,25 +103,24 @@
                                 <th colspan="5"></th>
                             </tr>
                         </thead>
-
-                    <tbody>
-                        @foreach (var doc in Model.DriveItems)
-                        {
-                            <tr class="tr-content">
-                                <td class="border-holder"></td>
-                                <td class="space-holder left"></td>
-                                <td>
-                                    <a target="_blank" href="@doc.WebUrl">@doc.Name</a>
-                                </td>
-                                <td>@(@doc.LastModifiedDateTime.HasValue ? @doc.LastModifiedDateTime.Value.ToString("yyyy-MM-ddTHH:mm:sszzz") : "")</td>
-                                <td>@doc.LastModifiedBy.User.DisplayName</td>
-                                <td class="space-holder right"></td>
-                            </tr>
-                        }
-                    </tbody>
-</table>
+                        <tbody>
+                            @foreach (var doc in Model.DriveItems)
+                            {
+                                <tr class="tr-content">
+                                    <td class="border-holder"></td>
+                                    <td class="space-holder left"></td>
+                                    <td>
+                                        <a target="_blank" href="@doc.WebUrl">@doc.Name</a>
+                                    </td>
+                                    <td>@(@doc.LastModifiedDateTime.HasValue ? @doc.LastModifiedDateTime.Value.ToString("yyyy-MM-ddTHH:mm:sszzz") : "")</td>
+                                    <td>@doc.LastModifiedBy.User.DisplayName</td>
+                                    <td class="space-holder right"></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 }
-                <span class="see-more"><a href="@Model.SeeMoreFilesUrl" target="_blank">See More</a></span>
+                <span class="see-more"><a href="@Model.SeeMoreFilesUrl" target="_blank">See All</a></span>
                 <br style="clear:both" />
             </div>
             <div id="conversations" class="tab-pane fade">
@@ -150,7 +149,7 @@
                         </tbody>
                     </table>
                 }
-                <span class="see-more"><a target="_blank" href="@Model.SeeMoreConversationsUrl">See More</a></span>
+                <span class="see-more"><a target="_blank" href="@Model.SeeMoreConversationsUrl">See All</a></span>
                 <br style="clear:both" />
             </div>
 
@@ -180,11 +179,11 @@
                             if (stu.Position != 0)
                             {
                                 containerClass = "white";
-                                if (Model.O365UserId == stu.O365UserId)
-                                {
-                                    containerClass = "green";
-                                    style = string.Format("background-color:{0}", Model.MyFavoriteColor);
-                                }
+                            }
+                            if (!string.IsNullOrEmpty(stu.FavoriteColor))
+                            {
+                                containerClass += " green";
+                                style = string.Format("background-color:{0}", stu.FavoriteColor);
                             }
                             <div class="deskcontainer @containerClass" style="@style" position="@stu.Position" userid="@stu.O365UserId">
                                 <div class="deskclose"><img src="/Images/close.png"></div>
@@ -228,5 +227,4 @@
     </div>
 </div>
 <input type="hidden" name="hidSectionid" id="hidSectionid" value="@Model.Section.ObjectId" />
-@*<div id="saveResult"><div>Seating map changes saved.</div></div>*@
 @Scripts.Render("~/bundles/classdetail")

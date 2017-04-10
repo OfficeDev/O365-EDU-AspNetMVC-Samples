@@ -206,7 +206,7 @@ function saveEditDesk() {
         success: function (responseData) {
             $(".desktile .deskcontainer.unsaved").removeClass("unsaved");
             $(".desktile .deskcontainer[prev-position]").removeAttr("prev-position");
-            $("#hidtiles .deskcontainer:not(.unsaved)").remove();
+            //$("#hidtiles .deskcontainer:not(.unsaved)").remove();
             $('<div id="saveResult"><div>Seating map changes saved.</div></div>')
             .insertBefore($('#dvleft'))
            .fadeIn("slow", function () { $(this).delay(3000).fadeOut("slow"); });

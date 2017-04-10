@@ -17,26 +17,17 @@
         {
             displayRole = "Student.";
         }
-
         var aadUserId = User.GetObjectIdentifier();
         string userPhoto = "";
         if (!string.IsNullOrEmpty(aadUserId))
         {
             userPhoto =string.Format( "<img src='/Photo/UserPhoto/{0}'/>",aadUserId);
         }
-
         @Html.AntiForgeryToken()
         <div class="userinfo">
             <a href="javascript:void(0);" id="userinfolink">Logged in as: @displayRole Hello @User.Identity.GetFullName() @Html.Raw(userPhoto)</a>
             <span class="caret" id="caret"></span>
         </div>
-
-        @*<ul class="nav navbar-nav navbar-right">
-            <li>
-                <a>@User.Identity.GetFullName()</a>
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>*@
         <div class="popupcontainer" id="userinfoContainer">
             <div class="popuserinfo">
                 <div class="subitem">
@@ -48,7 +39,6 @@
                 <div class="subitem">
                     <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
                 </div>
-
             </div>
         </div>
     }

@@ -22,7 +22,7 @@ namespace EDUGraphAPI.Web.Services
         private EducationServiceClient educationServiceClient;
         private ApplicationDbContext dbContext;
 
-        public SchoolsService(EducationServiceClient educationServiceClient,ApplicationDbContext dbContext)
+        public SchoolsService(EducationServiceClient educationServiceClient, ApplicationDbContext dbContext)
         {
             this.educationServiceClient = educationServiceClient;
             this.dbContext = dbContext;
@@ -55,7 +55,7 @@ namespace EDUGraphAPI.Web.Services
                 }
                 else
                 {
-                    if(string.IsNullOrEmpty(schools[i].Zip))
+                    if (string.IsNullOrEmpty(schools[i].Zip))
                         schools[i].Address = "-";
                 }
             }
@@ -156,8 +156,10 @@ namespace EDUGraphAPI.Web.Services
             var driveRootFolder = await group.Drive.Root.Request().GetAsync();
             foreach (var user in section.Students)
             {
-                var seat= dbContext.ClassroomSeatingArrangements.Where(c => c.O365UserId == user.O365UserId && c.ClassId==classId).FirstOrDefault();
+                var seat = dbContext.ClassroomSeatingArrangements.Where(c => c.O365UserId == user.O365UserId && c.ClassId == classId).FirstOrDefault();
                 user.Position = (seat == null ? 0 : seat.Position);
+                var userInDB = dbContext.Users.Where(c => c.O365UserId == user.O365UserId).FirstOrDefault();
+                user.FavoriteColor = userInDB == null ? "" : userInDB.FavoriteColor;
             }
             return new SectionDetailsViewModel
             {
@@ -169,7 +171,7 @@ namespace EDUGraphAPI.Web.Services
                 SeeMoreFilesUrl = driveRootFolder.WebUrl
             };
         }
-        
+
         /// <summary>
         /// Get my classes
         /// </summary>

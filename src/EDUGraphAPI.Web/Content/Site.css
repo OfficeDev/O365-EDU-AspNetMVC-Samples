@@ -108,6 +108,41 @@ textarea {
 
 .message-container p {margin: 0.25em 0;}
 
+/*search*/
+.search-container {float:left;}
+.search-container .txtsearch{float: left;
+    width: 200px;
+    height: 25px;
+    padding: 0 10px;
+    border: 1px solid #A9A9A9;
+    font-size:12px;font-weight:normal;
+    border-right: 0;}
+.search-container .btnsubmit{    background-color: transparent;
+    position: static;
+    border: 1px solid #A9A9A9;
+    border-left: none;
+    margin-left: -4px;
+    height: 25px;
+    width: 32px;
+    background-image: url(/Content/images/search.png);
+    background-size: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.shell-icon-search:before {
+    content:"";
+        display: block;
+    width: 1em;
+    height: 1em;
+    font-family: "shell-icons";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+}
+.shell-search button .shell-icon-search {
+    color: #7f7f7f;    font-size: 17px;
+}
 /* Filters */
 .filterlink-container{text-align:right; padding-top:10px; width:48%; float:right; font-family:'Helvetica Neue LT Std Bold'}
 .filterlink-container .filterlink{text-decoration:none;color:#4b67f8;cursor:pointer;}
@@ -206,8 +241,7 @@ textarea {
 .sections .tophero .usericon .icon.my-class{margin-left:12px; background:-prefix-linear-zgradient(top, #4E9F42, #B8E2B2); background:linear-gradient(to bottom, #4E9F42, #B8E2B2);}
 
 .section-tiles{padding:0 17.14px; background-color:white}
-.section-tiles .tile-container{margin-right:17.14px;float: left;margin-bottom: 5px;margin-top: 12px;position:relative;}
-.section-tiles .tile-container:nth-child(6n){margin-right:0;}
+.section-tiles .tile-container{margin-right:14px;float: left;margin-bottom: 5px;margin-top: 12px;position:relative;}
 .section-tiles .tile{display:inline-block;width:175px;height:175px;box-sizing:border-box;border:1px solid #C2C2C2;border-radius:5px;-moz-border-radius:5px;background: -prefix-linear-zgradient(top, #434345, #BBBBBB); background: linear-gradient(to bottom, #434345, #BBBBBB); color:#fff;}
 .mysectionlink .tile{border:1px solid #C2C2C2;border-radius:5px;-moz-border-radius:5px;background: -prefix-linear-zgradient(top, #4E9F42, #B8E2B2); background: linear-gradient(to bottom, #4E9F42, #B8E2B2); }
 .section-tiles .tile>h5{text-align: center;margin: 60px 5px 0 5px;font-size:14px;font-style: normal;font-variant: normal;text-overflow:ellipsis}
@@ -382,8 +416,8 @@ max-width: 140px;
 .teacher-student .usericon .stuicon{width:12px; height:12px; margin:5px 6px 0 0; background-color:#444444;}
 .teacher-student .usericon .teacicon{width:12px; height:12px; margin:5px 6px 0 12px; background-color:#4DA143;}
 .teacher-student .tiles-root-container{background-color:white; padding:12px 17.14px;}
-.teacher-student .tiles-root-container .element{margin:12px 17.14px 12px 0; float:left; width:175px; height:175px; border-radius:12px; background-color:gray;}
-.teacher-student .tiles-root-container .element:nth-child(6n){margin-right:0;}
+.teacher-student .tiles-secondary-container .content{padding-left:7px;}
+.teacher-student .tiles-root-container .element{margin:12px 13px 12px 0; float:left; width:175px; height:175px; border-radius:12px; background-color:gray;}
 .teacher-student .tiles-root-container .element .userimg{height:100px;text-align:center;position:relative;}
 .teacher-student .tiles-root-container .element .username{height:70px;color:white; text-align:center;padding-top:12px;}
 .teacher-student .tiles-root-container .element img{

@@ -301,6 +301,7 @@
     <Content Include="Content\Images\DefaultUserPhoto.jpg" />
     <Content Include="Content\Images\demo-helper-header-collapsed.png" />
     <Content Include="Content\Images\demo-helper-header-expanded.png" />
+    <Content Include="Content\Images\search.png" />
     <Content Include="Content\register.css" />
     <Content Include="Content\login.css" />
     <Content Include="favicon.ico" />

@@ -30,5 +30,7 @@ namespace Microsoft.Education.Data
 
         [JsonProperty("objectId")]
         public string O365UserId { get; set; }
+
+        public string FavoriteColor { get; set; }
     }
 }

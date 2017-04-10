@@ -101,10 +101,10 @@ Create a key to enable Bing Maps API features in the app:
 
    * Click **Required permissions**. Add the following permissions:
 
-     | API                            | Application Permissions | Delegated Permissions                    |
-     | ------------------------------ | ----------------------- | ---------------------------------------- |
-     | Microsoft Graph                |                         | Read all groups<br>Read directory data<br>Access directory as the signed in user<br>Sign users in |
-     | Windows Azure Active Directory | Read directory data     | Sign in and read user profile<br>Read and write directory data |
+     | API                            | Application Permissions       | Delegated Permissions                    |
+     | ------------------------------ | ----------------------------- | ---------------------------------------- |
+     | Microsoft Graph                | Read all users' full profiles | Read all groups<br>Read directory data<br>Access directory as the signed in user<br>Sign users in |
+     | Windows Azure Active Directory | Read directory data           | Sign in and read user profile<br>Read and write directory data |
 
      ![](/Images/aad-create-app-06.png)
 

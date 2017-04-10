@@ -13,6 +13,7 @@
     var isInASchool = controller.IgnoreCaseEquals("Schools")
         && action.IgnoreCaseIn("Users", "Classes", "MyClasses", "ClassDetails");
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,24 +57,22 @@
         </div>
     </div>
     <div class="containerbg">
-
-
         <div class="container body-content">
             @if (error.IsNotNullAndEmpty())
-        {
+            {
                 <div class="message-container bg-danger">
                     <p>@error</p>
                 </div>
-        }
+            }
             @if (message.IsNotNullAndEmpty())
-        {
+            {
                 <div class="message-container bg-success">
                     @foreach (var line in message.Split(new[] { "\r\n" }, StringSplitOptions.None))
                 {
                         <p>@line</p>
                 }
                 </div>
-        }
+            }
             @RenderBody()
             <footer></footer>
         </div>

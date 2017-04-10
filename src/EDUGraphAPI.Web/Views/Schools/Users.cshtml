@@ -8,20 +8,16 @@
 @{
     ViewBag.Title = "Teachers & Students";
 }
+
 <div class="row schools teacher-student">
     <div class="tophero">
         <div class="col-md-8">
             <div class="secondnav">
-                <a href="/schools">All Schools</a> > @Model.School.Name
-            </div>
-            <div class="a-heading">
-                Teachers & Students
-            </div>
+                <a href="/schools">All Schools</a> > @Model.School.Name</div>
+            <div class="a-heading">Teachers & Students</div>
         </div>
         <div class="toptiles">
-            <div class="section-school-name">
-                @Model.School.Name
-            </div>
+            <div class="section-school-name">@Model.School.Name</div>
             <div class="infocontainer">
                 <div class="infoheader">PRINCIPAL</div>
                 <div class="infobody" title="@Model.School.PrincipalName">
@@ -29,7 +25,7 @@
                 </div>
             </div>
             <div class="infocontainer">
-                <div class="infoheader">Grade level</div>
+                <div class="infoheader">Grade levels</div>
                 <div class="infobody" title="@Model.School.LowestGrade - @Model.School.HighestGrade">
                     @Model.School.LowestGrade - @Model.School.HighestGrade
                 </div>
@@ -37,25 +33,23 @@
         </div>
         <div>
             <div class="col-md-6 usericon">
-               <div class="stuicon"></div><div>Student</div>
-               <div class="teacicon"></div><div>Teacher</div>
+                <div class="stuicon"></div><div>Student</div>
+                <div class="teacicon"></div><div>Teacher</div>
             </div>
             <div class="col-md-6 filterlink-container">
-                <span>FILTER:</span> <a id="filterteacher" class="filterlink" data-type="teachers"> Teachers</a> | <a id="filterstudnet" class="filterlink" data-type="students">Student</a> | <a id="filterall" class="filterlink selected" data-type="users">All</a>
+                <div class="search-container ">
+                    <input type="text" placeholder="Search" class="txtsearch" />
+                    <button type="submit" id="btnsearch" title="Search" data-bi-dnt="" tabindex="40" class="btnsubmit"></button>
+                </div>
+                <span>FILTER:</span> <a id="filterteacher" class="filterlink" data-type="teachers">Teachers</a> | <a id="filterstudnet" class="filterlink" data-type="students">Students</a> | <a id="filterall" class="filterlink selected" data-type="users">All</a>
             </div>
         </div>
-        <br style="clear:both;"/>
+        <br style="clear:both;" />
     </div>
     <div class="users-container tiles-root-container">
-        <div id="users" class="tiles-secondary-container">
-            @Users(Model.Users)
-        </div>
-        <div id="students" class="tiles-secondary-container">
-            @Users(Model.Students)
-        </div>
-        <div id="teachers" class="tiles-secondary-container">
-            @Users(Model.Teachers)
-        </div>
+        <div id="users" class="tiles-secondary-container">@Users(Model.Users)</div>
+        <div id="students" class="tiles-secondary-container">@Users(Model.Students)</div>
+        <div id="teachers" class="tiles-secondary-container">@Users(Model.Teachers)</div>
     </div>
     <input id="school-objectid" type="hidden" value="@Model.School.ObjectId" />
 </div>
@@ -81,7 +75,7 @@
         </div>
         <div class="pagination @(string.IsNullOrEmpty(users.NextLink) ? "hideitem" : string.Empty)">
             <input id="nextlink" type="hidden" value="@users.NextLink" />
-            <input id="curpage" type="hidden" value="1"/>
+            <input id="curpage" type="hidden" value="1" />
             <span class="current prev">Previous</span>
             <span class="next">Next</span>
         </div>

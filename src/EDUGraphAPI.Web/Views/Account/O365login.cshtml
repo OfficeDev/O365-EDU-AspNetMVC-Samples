@@ -6,32 +6,26 @@
     ViewBag.Title = "Sign in";
 }
 @using Microsoft.Owin.Security
+
 <div class="loginbody logino365">
-
     <h3>Sign in</h3>
-
-    <div class="headertext">
-        @Html.Raw(TempData["username"])
-    </div>
-    <div class="bodytext">
-        @Html.Raw(TempData["email"])
-    </div>
-    <div class="bodytext">
-       Office 365 account
-    </div>
+    <div class="headertext">@Html.Raw(TempData["username"])</div>
+    <div class="bodytext">@Html.Raw(TempData["email"])</div>
+    <div class="bodytext">Office 365 account</div>
     <div class="formstyle">
-        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = string.Empty  })) {
+        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = string.Empty }))
+        {
             var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>
                     @foreach (AuthenticationDescription p in loginProviders)
-            {
+                    {
                         <button type="submit" class="btn btn-default btn-ms-login" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption"></button>
-            }
+                    }
                 </p>
             </div>
-    }
+        }
     </div>
     <div class="link">
         <a href="/account/login">Use a different account</a>

@@ -1,5 +1,5 @@
 ﻿//   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
-//   * See LICENSE in the project root for license information.   
+//   * See LICENSE in the project root for license information.
 [
   {
     "controller": "schools",
@@ -146,6 +146,20 @@
       {
         "title": "LoginViewModel",
         "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
+      }
+    ]
+  },
+  {
+    "controller": "account",
+    "action": "O365login",
+    "links": [
+      {
+        "title": "Controller",
+        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
+      },
+      {
+        "title": "View",
+        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/O365login.cshtml"
       }
     ]
   },
@@ -371,6 +385,21 @@
       }
     ]
   },
+  {
+    "controller": "admin",
+    "action": "consent",
+    "links": [
+      {
+        "title": "Controller",
+        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs"
+      },
+      {
+        "title": "View",
+        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Admin/Consent.cshtml"
+      }
+    ]
+  },
+
   {
     "controller": "link",
     "action": "index",
