@@ -2,7 +2,7 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Microsoft.Education.Data;
+using Microsoft.Education.Data.Legacy;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -12,7 +12,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Microsoft.Education
+namespace Microsoft.Education.Legacy
 {
     /// <summary>
     /// An instance of the EducationServiceClient class handles building requests, sending them to Office 365 Education API, and processing the responses.

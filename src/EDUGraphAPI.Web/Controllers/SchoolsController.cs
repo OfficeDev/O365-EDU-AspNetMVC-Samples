@@ -8,11 +8,11 @@ using EDUGraphAPI.Web.Infrastructure;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.Services;
 using EDUGraphAPI.Web.ViewModels;
-using Microsoft.Education.Data;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.Education.Data.Legacy;
 
 namespace EDUGraphAPI.Web.Controllers
 {

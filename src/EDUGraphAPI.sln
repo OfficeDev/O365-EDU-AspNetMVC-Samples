@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.Web", "EDUGraphAPI.Web\EDUGraphAPI.Web.csproj", "{C39A0AE0-8076-4AD4-A0C8-0108331E610C}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.SyncData", "EDU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.Common", "EDUGraphAPI.Common\EDUGraphAPI.Common.csproj", "{6F7DC16A-38AB-46CF-9F95-9E88E504856A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Education", "Microsoft.Education\Microsoft.Education.csproj", "{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Education.Legacy", "Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj", "{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,5 +37,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C2D7A0D-53EB-46D3-9876-D8E832C362A4}
+	EndGlobalSection
 EndGlobal

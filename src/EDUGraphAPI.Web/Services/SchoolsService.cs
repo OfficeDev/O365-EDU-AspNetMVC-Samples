@@ -5,8 +5,8 @@
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.ViewModels;
-using Microsoft.Education;
-using Microsoft.Education.Data;
+using Microsoft.Education.Legacy;
+using Microsoft.Education.Data.Legacy;
 using Microsoft.Graph;
 using System.Collections.Generic;
 using System.Linq;

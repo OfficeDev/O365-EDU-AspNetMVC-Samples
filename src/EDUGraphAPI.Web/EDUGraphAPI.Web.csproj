@@ -30,6 +30,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -497,9 +498,9 @@
       <Project>{6f7dc16a-38ab-46cf-9f95-9e88e504856a}</Project>
       <Name>EDUGraphAPI.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Education\Microsoft.Education.csproj">
+    <ProjectReference Include="..\Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj">
       <Project>{4cbcd397-9137-4b1f-87c3-8e44ded7b9ff}</Project>
-      <Name>Microsoft.Education</Name>
+      <Name>Microsoft.Education.Legacy</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -4,7 +4,7 @@
  */
 using Newtonsoft.Json;
 
-namespace Microsoft.Education.Data
+namespace Microsoft.Education.Data.Legacy
 {
     public class Teacher : SectionUser
     {

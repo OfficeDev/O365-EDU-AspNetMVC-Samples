@@ -6,8 +6,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Education.Legacy;
 
-namespace Microsoft.Education.Data
+namespace Microsoft.Education.Data.Legacy
 {
     public class Section
     {

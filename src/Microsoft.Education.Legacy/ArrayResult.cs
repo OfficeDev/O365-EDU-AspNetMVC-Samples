@@ -4,7 +4,7 @@
  */
 using Newtonsoft.Json;
 
-namespace Microsoft.Education
+namespace Microsoft.Education.Legacy
 {
     public class ArrayResult<T>
     {

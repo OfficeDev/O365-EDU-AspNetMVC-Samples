@@ -4,8 +4,8 @@
  */
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Education;
-using Microsoft.Education.Data;
+using Microsoft.Education.Legacy;
+using Microsoft.Education.Data.Legacy;
 using EDUGraphAPI.Web.Models;
 
 namespace EDUGraphAPI.Web.ViewModels

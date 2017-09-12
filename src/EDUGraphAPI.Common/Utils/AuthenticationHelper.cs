@@ -5,7 +5,7 @@
 using EDUGraphAPI.Infrastructure;
 using EDUGraphAPI.Models;
 using Microsoft.Azure.ActiveDirectory.GraphClient;
-using Microsoft.Education;
+using Microsoft.Education.Legacy;
 using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
