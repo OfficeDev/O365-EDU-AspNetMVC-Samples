@@ -12,7 +12,7 @@
         <div class="container">
             <div class="col-md-6 secondnav">
                 <a href="/schools"> All Schools</a>
-                > @Html.ActionLink(Model.School.Name, "Classes", null, new { schoolId = Model.School.ObjectId }, null)
+                > @Html.ActionLink(Model.School.Name, "Classes", null, new { schoolId = Model.School.Id }, null)
                 > @Model.Section.CourseName
             </div>
         </div>
@@ -104,22 +104,22 @@
                             </tr>
                         </thead>
 
-                    <tbody>
-                        @foreach (var doc in Model.DriveItems)
-                        {
-                            <tr class="tr-content">
-                                <td class="border-holder"></td>
-                                <td class="space-holder left"></td>
-                                <td>
-                                    <a target="_blank" href="@doc.WebUrl">@doc.Name</a>
-                                </td>
-                                <td>@(@doc.LastModifiedDateTime.HasValue ? @doc.LastModifiedDateTime.Value.ToString("yyyy-MM-ddTHH:mm:sszzz") : "")</td>
-                                <td>@doc.LastModifiedBy.User.DisplayName</td>
-                                <td class="space-holder right"></td>
-                            </tr>
-                        }
-                    </tbody>
-</table>
+                        <tbody>
+                            @foreach (var doc in Model.DriveItems)
+                            {
+                                <tr class="tr-content">
+                                    <td class="border-holder"></td>
+                                    <td class="space-holder left"></td>
+                                    <td>
+                                        <a target="_blank" href="@doc.WebUrl">@doc.Name</a>
+                                    </td>
+                                    <td>@(@doc.LastModifiedDateTime.HasValue ? @doc.LastModifiedDateTime.Value.ToString("yyyy-MM-ddTHH:mm:sszzz") : "")</td>
+                                    <td>@doc.LastModifiedBy.User.DisplayName</td>
+                                    <td class="space-holder right"></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 }
                 <span class="see-more"><a href="@Model.SeeMoreFilesUrl" target="_blank">See More</a></span>
                 <br style="clear:both" />
@@ -227,6 +227,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" name="hidSectionid" id="hidSectionid" value="@Model.Section.ObjectId" />
+<input type="hidden" name="hidSectionid" id="hidSectionid" value="@Model.Section.Id" />
 @*<div id="saveResult"><div>Seating map changes saved.</div></div>*@
 @Scripts.Render("~/bundles/classdetail")

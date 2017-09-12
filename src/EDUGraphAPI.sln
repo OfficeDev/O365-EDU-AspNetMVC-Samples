@@ -37,22 +37,5 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://canviz.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = EDUGraphAPI.Web\\EDUGraphAPI.Web.csproj
-		SccProjectName1 = EDUGraphAPI.Web
-		SccLocalPath1 = EDUGraphAPI.Web
-		SccProjectUniqueName2 = EDUGraphAPI.SyncData\\EDUGraphAPI.SyncData.csproj
-		SccProjectName2 = EDUGraphAPI.SyncData
-		SccLocalPath2 = EDUGraphAPI.SyncData
-		SccProjectUniqueName3 = EDUGraphAPI.Common\\EDUGraphAPI.Common.csproj
-		SccProjectName3 = EDUGraphAPI.Common
-		SccLocalPath3 = EDUGraphAPI.Common
-		SccProjectUniqueName4 = Microsoft.Education\\Microsoft.Education.csproj
-		SccProjectName4 = Microsoft.Education
-		SccLocalPath4 = Microsoft.Education
-	EndGlobalSection
+
 EndGlobal

@@ -67,7 +67,19 @@ else
         <p>Note: The App will take a while to effect.</p>
     </div>
     <hr />
-        <p>@Html.ActionLink("Return to home", "Index", "Home", null, new { @class = "btn btn-default" })</p>
+    <div>
+        @using (Html.BeginForm("ClearAdalCache", null, FormMethod.Post, null))
+        {
+            <p>In some cases, your supplier may make changes that require them to ask you to reset a login cache. Click the button below to reset the cache.</p>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <p class="form-group">
+                <input type="submit" value="Clear Login Cache" class="btn btn-default" />
+            </p>
+        }
+    </div>
+    <hr />
+   <p>@Html.ActionLink("Return to home", "Index", "Home", null, new { @class = "btn btn-default" })</p>
 }
 
 @section Scripts {

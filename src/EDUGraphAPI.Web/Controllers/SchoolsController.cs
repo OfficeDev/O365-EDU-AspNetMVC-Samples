@@ -21,6 +21,7 @@ namespace EDUGraphAPI.Web.Controllers
     {
         private ApplicationService applicationService;
         private ApplicationDbContext dbContext;
+        private int pageSize = 12;
 
         public SchoolsController(ApplicationService applicationService, ApplicationDbContext dbContext)
         {
@@ -45,22 +46,22 @@ namespace EDUGraphAPI.Web.Controllers
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Classes
+        // GET: /Schools/{Id of a school}/Classes
         public async Task<ActionResult> Classes(string schoolId)
         {
             var userContext = await applicationService.GetUserContextAsync();
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, 12);
+            var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, pageSize);
             return View(model);
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Classes/Next
+        // GET: /Schools/{Id of a school}/Classes/Next
         public async Task<JsonResult> ClassesNext(string schoolId, string nextLink)
         {
             var userContext = await applicationService.GetUserContextAsync();
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, 12, nextLink);
+            var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, pageSize, nextLink);
             var sections = new List<Section>(model.Sections.Value);
             sections.AddRange(model.MySections);
             foreach (var section in sections)
@@ -78,43 +79,44 @@ namespace EDUGraphAPI.Web.Controllers
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Users
+        // GET: /Schools/{Id of a school}/Users
         public async Task<ActionResult> Users(string schoolId)
         {
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSchoolUsersAsync(schoolId, 12);
+            var userContext = await applicationService.GetUserContextAsync();
+            var model = await schoolsService.GetSchoolUsersAsync(userContext,schoolId, pageSize);
             return View(model);
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Users/Next
+        // GET: /Schools/{Id of a school}/Users/Next
         public async Task<JsonResult> UsersNext(string schoolId, string nextLink)
         {
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSchoolUsersAsync(schoolId, 12, nextLink);
+            var model = await schoolsService.GetSchoolUsersAsync(schoolId, pageSize, nextLink);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Students/Next
+        // GET: /Schools/{Id of a school}/Students/Next
         public async Task<JsonResult> StudentsNext(string schoolId, string nextLink)
         {
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSchoolStudentsAsync(schoolId, 12, nextLink);
+            var model = await schoolsService.GetSchoolStudentsAsync(schoolId, pageSize, nextLink);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Teachers/Next
+        // GET: /Schools/{Id of a school}/Teachers/Next
         public async Task<JsonResult> TeachersNext(string schoolId, string nextLink)
         {
             var schoolsService = await GetSchoolsServiceAsync();
-            var model = await schoolsService.GetSchoolTeachersAsync(schoolId, 12, nextLink);
+            var model = await schoolsService.GetSchoolTeachersAsync(schoolId, pageSize, nextLink);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         //
-        // GET: /Schools/48D68C86-6EA6-4C25-AA33-223FC9A27959/Classes/6510F0FC-53B3-4D9B-9742-84C9C8FA2BE4
+        // GET: /Schools/{Id of a school}/Classes/6510F0FC-53B3-4D9B-9742-84C9C8FA2BE4
         public async Task<ActionResult> ClassDetails(string schoolId, string sectionId)
         {
             var userContext = await applicationService.GetUserContextAsync();

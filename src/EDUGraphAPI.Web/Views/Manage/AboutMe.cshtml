@@ -6,13 +6,11 @@
 @{
     ViewBag.Title = "About Me";
 }
-<div class="container ">
-<h2>                
-    About Me
-</h2>
 
+<div class="container ">
+    <h2>About Me</h2>
     <div class="margin-top-12 margin-btm-12 aboutme">
-        @{ 
+        @{
             var aadUserId = User.GetObjectIdentifier();
             string userPhoto = "";
             if (!string.IsNullOrEmpty(aadUserId))
@@ -23,15 +21,17 @@
         <b>Username:</b><br /> @User.Identity.GetFullName() @Html.Raw(userPhoto)
     </div>
     <div class="margin-top-12 margin-btm-12">
-        @{ 
+        @{
             string displayRole = "";
             if (User.IsInRole(Constants.Roles.Admin))
             {
                 displayRole = "Admin";
-            }else if (User.IsInRole(Constants.Roles.Faculty))
+            }
+            else if (User.IsInRole(Constants.Roles.Faculty))
             {
                 displayRole = "Teacher";
-            }else if (User.IsInRole(Constants.Roles.Student))
+            }
+            else if (User.IsInRole(Constants.Roles.Student))
             {
                 displayRole = "Student";
             }
@@ -40,20 +40,20 @@
     </div>
     @if (Model.ShowFavoriteColor)
     {
-    <div class="margin-btm-12">
-        <b>Favorite Color:</b> 
-        @using (Html.BeginForm("UpdateFavoriteColor", "Manage"))
-        {
-            @ColorsDropdown(Model.MyFavoriteColor, Model.FavoriteColors)
-            <input type="submit"  value="Save"/>
-            @Html.Raw(TempData["saveresult"])
-        }
-    </div>
+        <div class="margin-btm-12">
+            <b>Favorite Color:</b>
+            @using (Html.BeginForm("UpdateFavoriteColor", "Manage"))
+            {
+                @ColorsDropdown(Model.MyFavoriteColor, Model.FavoriteColors)
+                <input type="submit" value="Save" />
+                @Html.Raw(TempData["saveresult"])
+            }
+        </div>
     }
     <div class="margin-btm-12 ">
-        <b>Classes:</b> 
+        <b>Classes:</b>
         <br />
-        <div >
+        <div>
             @foreach (var item in Model.Groups)
             {
                 @item <br />

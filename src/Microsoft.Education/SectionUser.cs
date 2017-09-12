@@ -28,7 +28,8 @@ namespace Microsoft.Education.Data
 
         public int Position { get; set; }
 
-        [JsonProperty("objectId")]
+        [JsonProperty("id")]
         public string O365UserId { get; set; }
+        public string FavoriteColor { get; set; }
     }
 }

@@ -61,8 +61,8 @@ namespace EDUGraphAPI.Utils
         /// </summary>
         public static async Task<EducationServiceClient> GetEducationServiceClientAsync(Permissions permissions = Permissions.Delegated)
         {
-            var accessToken = await GetAccessTokenAsync(Constants.Resources.AADGraph, permissions);
-            var serviceRoot = new Uri(new Uri(Constants.Resources.AADGraph), ClaimsPrincipal.Current.GetTenantId());
+            var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
+            var serviceRoot = new Uri(new Uri(Constants.Resources.MSGraph), Constants.Resources.MSGraphVersion);
             return new EducationServiceClient(serviceRoot, () => Task.FromResult(accessToken));
         }
 
@@ -124,7 +124,7 @@ namespace EDUGraphAPI.Utils
             var signedInUserID = permissions == Permissions.Delegated ? userId : tenantID;
 
             var authority = string.Format("{0}{1}", Constants.AADInstance, tenantID);
-            var tokenCache = new ADALTokenCache(signedInUserID);
+            var tokenCache = new AdalTokenCache(signedInUserID);
             return new AuthenticationContext(authority, tokenCache);
         }
 

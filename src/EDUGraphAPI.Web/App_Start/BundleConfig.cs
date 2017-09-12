@@ -30,8 +30,6 @@ namespace EDUGraphAPI.Web
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                         "~/Scripts/site.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/schools").Include(
-                        "~/Scripts/schools.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/sections").Include(
                         "~/Scripts/moment.min.js",

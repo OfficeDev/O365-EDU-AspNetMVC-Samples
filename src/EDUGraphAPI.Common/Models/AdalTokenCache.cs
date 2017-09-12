@@ -10,13 +10,13 @@ using System.Web.Security;
 
 namespace EDUGraphAPI.Models
 {
-    public class ADALTokenCache : TokenCache
+    public class AdalTokenCache : TokenCache
     {
         private static readonly string MachinKeyProtectPurpose = "ADALCache";
 
         private string userId;
 
-        public ADALTokenCache(string signedInUserId)
+        public AdalTokenCache(string signedInUserId)
         {
             this.userId = signedInUserId;
             this.AfterAccess = AfterAccessNotification;
@@ -107,6 +107,17 @@ namespace EDUGraphAPI.Models
             {
                 var cacheEntries = db.UserTokenCacheList
                     .Where(c => c.webUserUniqueId == userId)
+                    .ToArray();
+                db.UserTokenCacheList.RemoveRange(cacheEntries);
+                db.SaveChanges();
+            }
+        }
+
+        public static void ClearUserTokenCache()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var cacheEntries = db.UserTokenCacheList
                     .ToArray();
                 db.UserTokenCacheList.RemoveRange(cacheEntries);
                 db.SaveChanges();

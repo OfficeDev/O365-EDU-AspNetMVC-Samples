@@ -45,24 +45,6 @@ EDUGraphAPI is based on ASP.NET MVC and [ASP.NET Identity](https://www.asp.net/i
     * Visual Studio 2015 (any edition), [Visual Studio 2015 Community](https://go.microsoft.com/fwlink/?LinkId=691978&clcid=0x409) is available for free.
     * Familiarity with C#, .NET Web applications, JavaScript programming and web services.
 
-**Optional configuration**:
-
-A feature in this sample demonstrates calling the Bing Maps API which requires a key to enable the Bing Maps feature. 
-
-Create a key to enable Bing Maps API features in the app:
-
-1. Open [https://www.bingmapsportal.com/](https://www.bingmapsportal.com/) in your web browser and sign in.
-
-2. Click  **My account** -> **My keys**.
-
-3. Create a **Basic** key, select **Public website** as the application type.
-
-4. Copy the **Key** and save it. 
-
-   ![](Images/bing-maps-key.png)
-
-   > **Note:** The key is used in the app configuration steps for debug and deploy.
-
 ## Register the application in Azure Active Directory
 
 1. Sign into the new azure portal: [https://portal.azure.com/](https://portal.azure.com/).
@@ -101,10 +83,10 @@ Create a key to enable Bing Maps API features in the app:
 
    * Click **Required permissions**. Add the following permissions:
 
-     | API                            | Application Permissions | Delegated Permissions                    |
-     | ------------------------------ | ----------------------- | ---------------------------------------- |
-     | Microsoft Graph                |                         | Read all groups<br>Read directory data<br>Access directory as the signed in user<br>Sign users in |
-     | Windows Azure Active Directory | Read directory data     | Sign in and read user profile<br>Read and write directory data |
+     | API                            | Application Permissions                  | Delegated Permissions                    |
+     | ------------------------------ | ---------------------------------------- | ---------------------------------------- |
+     | Microsoft Graph                | Read all users' full profiles<br> Read directory data | Read directory data<br>Access directory as the signed in user<br>Sign users in |
+     | Windows Azure Active Directory | Read directory data                      | Sign in and read user profile<br>Read and write directory data |
 
      ![](/Images/aad-create-app-06.png)
 
@@ -150,7 +132,6 @@ Debug the **EDUGraphAPI.Web**:
 
    ![](Images/web-app-config.png)
 
-   - **BingMapKey**: use the key of Bing Map you got earlier. This setting is optional.
    - **ida:ClientId**: use the Client Id of the app registration you created earlier.
    - **ida:ClientSecret**: use the Key value of the app registration you created earlier.
    - **SourceCodeRepositoryURL**: use the repository URL of your fork.
@@ -223,8 +204,6 @@ Debug the **EDUGraphAPI.Web**:
    * **Client Id**: use the Client Id of the app registration you created earlier.
 
    * **Client Secret**: use the Key value of the app registration you created earlier.
-
-   * **Bing Map Key**: use the key of Bing Map you got earlier. This setting is optional.
 
    * Check **I agree to the terms and conditions stated above**.
 
@@ -495,7 +474,9 @@ In the sample, the **Microsoft.Education** Class Library project was created to 
 // https://msdn.microsoft.com/office/office365/api/school-rest-operations#get-all-schools
 public async Task<School[]> GetSchoolsAsync()
 {
-    return await HttpGetArrayAsync<School>("administrativeUnits?api-version=beta");
+    var schools = await HttpGetArrayAsync<School>("administrativeUnits");
+    return schools.Where(c => c.EducationObjectType == "School").ToArray();
+
 }
 ~~~
 
@@ -503,7 +484,8 @@ public async Task<School[]> GetSchoolsAsync()
 // https://msdn.microsoft.com/office/office365/api/school-rest-operations#get-a-school
 public Task<School> GetSchoolAsync(string objectId)
 {
-    return HttpGetObjectAsync<School>($"administrativeUnits/{objectId}?api-version=beta");
+     return HttpGetObjectAsync<School>($"administrativeUnits/{objectId}");
+
 }
 ~~~
 
@@ -513,26 +495,26 @@ public Task<School> GetSchoolAsync(string objectId)
 // https://msdn.microsoft.com/office/office365/api/school-rest-operations#get-sections-within-a-school
 public Task<Section[]> GetAllSectionsAsync(string schoolId)
 {
-    var relativeUrl = $"/groups?api-version=beta&$expand=members&$filter=extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Section'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'";
-    return HttpGetArrayAsync<Section>(relativeUrl);
+            var relativeUrl = $"groups?$filter=extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Section'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'";
+            return HttpGetArrayAsync<Section>(relativeUrl, top, nextLink);
+
 }
 ~~~
 
 ```c#
 public async Task<Section[]> GetMySectionsAsync(string schoolId)
 {
-    var me = await HttpGetObjectAsync<SectionUser>("/me?api-version=1.5");
-    var sections = await GetAllSectionsAsync(schoolId);
+ 	var sections = await GetMySectionsAsync(true);
     return sections
-        .Where(i => i.Members.Any(j => j.Email == me.Email))
-        .ToArray();
+                .Where(i => i.SchoolId == schoolId)
+                .ToArray();
 }
 ```
 ```c#
 // https://msdn.microsoft.com/office/office365/api/section-rest-operations#get-a-section
 public async Task<Section> GetSectionAsync(string sectionId)
 {
-    return await HttpGetObjectAsync<Section>($"groups/{sectionId}?api-version=beta&$expand=members");
+    return await HttpGetObjectAsync<Section>($"groups/{sectionId}?$expand=members");
 }
 ```
 Below are some screenshots of the sample app that show the education data.
@@ -800,14 +782,14 @@ Debug the **EDUGraphAPI.SyncData**:
 
 3. Set **EDUGraphAPI.SyncData** as StartUp project, and press F5. 
 
-##Questions and comments
+## Questions and comments
 
 * If you have any trouble running this sample, please [log an issue](https://github.com/OfficeDev/O365-EDU-AspNetMVC-Samples/issues).
-* Questions about GraphAPI development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/MicrosoftGraph). Make sure that your questions or comments are tagged with [MicrosoftGraph]. 
+* Questions about GraphAPI development in general should be posted to [Stack Overflow](http://stackoverflow.com/questions/tagged/office-addins). Make sure that your questions or comments are tagged with [ms-graph-api]. 
 
-##Contributing
+## Contributing
 
-We encourage you to contribute to our samples. For guidelines on how to proceed, see [our contribution guide](/Contributing.md).
+We encourage you to contribute to our samples. For guidelines on how to proceed, see [our contribution guide](/CONTRIBUTING.md).
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 

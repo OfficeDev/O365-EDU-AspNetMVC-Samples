@@ -14,16 +14,39 @@ namespace EDUGraphAPI.Web.Models
 
         public DemoPage()
         {
-            this.Links = new HashSet<Link>();
+            this.Functions = new HashSet<Functions>();
         }
 
-        public ISet<Link> Links { get; set; }
+        public ISet<Functions> Functions { get; set; }
     }
 
-    public class Link
+    public class Functions
+    {
+        public Functions()
+        {
+            this.Files = new HashSet<Files>();
+        }
+        public string Title { get; set; }
+        public string Tab { get; set; }
+        public ISet<Files> Files { get; set; }
+    }
+
+    public class Files
+    {
+        public Files()
+        {
+            this.Methods = new HashSet<Method>();
+        }
+        public string Url { get; set; }
+
+
+
+        public ISet<Method> Methods { get; set; }
+    }
+
+    public class Method
     {
         public string Title { get; set; }
-
-        public string Url { get; set; }
+        public string Description { get; set; }
     }
 }

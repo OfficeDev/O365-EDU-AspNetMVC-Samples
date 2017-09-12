@@ -20,34 +20,34 @@
                 @if (!string.IsNullOrEmpty(Model.UserId))
                 {
 
-          
-                <div class="infocontainer">
 
-                    <div class="infoheader">
-                        @if (Model.IsStudent)
-                        {
-                            @Html.Raw("Student")
-                        }
-                        else
-                        {
-                            @Html.Raw("Teacher")
-                        }
-                        Id
+                    <div class="infocontainer">
+
+                        <div class="infoheader">
+                            @if (Model.IsStudent)
+                            {
+                                @Html.Raw("Student")
+                            }
+                            else
+                            {
+                                @Html.Raw("Teacher")
+                            }
+                            Id
+                        </div>
+                        <div class="infobody">
+                            @Model.UserId
+                        </div>
                     </div>
-                    <div class="infobody">
-                        @Model.UserId
-                    </div>
-                </div>
 
                 }
             </div>
 
-                <div class="container myschool">
-                    <div class="schoolenrolled">
-                        Current school(s) enrolled
-                    </div>
-                    <div class="greenicon"></div>
+            <div class="container myschool">
+                <div class="schoolenrolled">
+                    Current school(s) enrolled
                 </div>
+                <div class="greenicon"></div>
+            </div>
 
             <div style="clear:both;" />
         </div>
@@ -57,72 +57,61 @@
         }
         else
         {
-        <table class="table  table-green table-schools">
-            <tr class="table-green-header">
-                <th class="tdleft">
-                    School Name
-                </th>
-                <th>
-                    Principal
-                </th>
-                <th>
-                    Grade Levels
-                </th>
-                <th>
-                    Address
-                </th>
-                <th></th>
-            
-            </tr>
-            @foreach (var school in Model.Schools)
-            {
-                var style = "";
-                var bingIcon = "/images/icon-map_30x28px-BLU.png";
-                if (Model.MySchoolId == school.SchoolId)
+            <table class="table  table-green table-schools">
+                <tr class="table-green-header">
+                    <th class="tdleft">
+                        School Name
+                    </th>
+                    <th>
+                        Principal
+                    </th>
+                    <th>
+                        Grade Levels
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th></th>
+
+                </tr>
+                @foreach (var school in Model.Schools)
                 {
-                    style = "td-green";
-                    bingIcon = "/images/icon-map_30x28px-WHT.png";
+                    var style = "";
+                    if (Model.MySchoolId == school.SchoolId)
+                    {
+                        style = "td-green";
+                    }
+                    <tr class="tr-content @style">
+                        <td>@Html.Raw(string.IsNullOrEmpty(school.Name) ? "-" : school.Name) </td>
+                        <td>@Html.Raw(string.IsNullOrEmpty(school.PrincipalName) ? "-" : school.PrincipalName)</td>
+                        <td>@school.LowestGrade - @school.HighestGrade</td>
+                        <td>
+                            <div class="schooladdress">
+                                @school.Address
+
+                                @if (!string.IsNullOrEmpty(school.City))
+                        {
+                                    <br />
+                                    @Html.Raw(school.City + ",")
+
+                                }
+                                @school.State @school.Zip
+                            </div>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Classes", "Classes", null, new { schoolId = school.Id }, new { @class = "btnlink" })
+                            @Html.ActionLink("Teachers/students", "Users", null, new { schoolId = school.Id }, new { @class = "btnlink" })
+                        </td>
+                    </tr>
                 }
-            <tr class="tr-content @style">
-                <td >@Html.Raw(string.IsNullOrEmpty(school.Name)?"-": school.Name) </td>
-                <td>@Html.Raw(string.IsNullOrEmpty(school.PrincipalName) ? "-" : school.PrincipalName)</td>
-                <td>@school.LowestGrade - @school.HighestGrade</td>
-                <td>
-                    <div class="schooladdress">
-                        @school.Address
-                        
-                        @if (!string.IsNullOrEmpty(school.City))
-                        {
-                            <br />
-                            @Html.Raw(school.City + ",")
-                            
-                        }                        
-                        @school.State @school.Zip
-                    </div>
-                    <div class="schoolmap">
-                        @if (!string.IsNullOrEmpty(school.Latitude) && !string.IsNullOrEmpty(school.Longitude))
-                        {
-                            <a class="bingMapLink" lat="@school.Latitude" lon="@school.Longitude" href="javascript:void(0)"><img src="@bingIcon" /></a>
-                        }
-                    </div>
-                </td>   
-                <td>
-                    @Html.ActionLink("Classes", "Classes", null, new { schoolId = school.ObjectId }, new { @class = "btnlink" })
-                    @Html.ActionLink("Teachers/students", "Users", null, new { schoolId = school.ObjectId }, new { @class = "btnlink" })
-                </td>
-            </tr>
-            }
-        </table>
-}
+            </table>
+        }
     </div>
-    <div id='myMap' ></div>
-    <input type="hidden" name="BingMapKey" id="BingMapKey" value="@Model.BingMapKey" />
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol' async defer></script>
-    @Scripts.Render("~/bundles/schools")
+
 }
 else
 {
-    <br/>
+    <br />
     if (!Model.IsLocalAccount)
     {
         <p>
@@ -132,7 +121,7 @@ else
     else
     {
         <p>
-            You will need to link your O365 and local account together in order to use the functionality of this demo application. Please click on the browser 'Back' button to go back and link your existing O365 account.        
+            You will need to link your O365 and local account together in order to use the functionality of this demo application. Please click on the browser 'Back' button to go back and link your existing O365 account.
         </p>
     }
 

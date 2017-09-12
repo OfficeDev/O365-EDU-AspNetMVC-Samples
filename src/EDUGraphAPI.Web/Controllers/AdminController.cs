@@ -6,6 +6,7 @@ using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Infrastructure;
 using EDUGraphAPI.Web.Services;
 using EDUGraphAPI.Web.Services.GraphClients;
+using EDUGraphAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -111,6 +112,16 @@ namespace EDUGraphAPI.Web.Controllers
             }
 
             TempData["Message"] = "Admin unconsented successfully!";
+            return RedirectToAction("Index");
+        }
+
+
+        // POST: /Admin/ClearAdalCache
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> ClearAdalCache()
+        {
+            AdalTokenCache.ClearUserTokenCache();
+            TempData["Message"] = "Login cache cleared successfully!";
             return RedirectToAction("Index");
         }
 

@@ -10,7 +10,6 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
 @if (!Model.AreAccountsLinked)
 {
     <p>This page will enable you to link your Office 365 & Local Account together to successfully use the demo application.</p>
@@ -48,9 +47,7 @@
                     @:&nbsp; &nbsp;
                 }
                 @Html.ActionLink("Link with existing Local Account", "LoginLocal", null, new { @class = "btn btn-primary" }) &nbsp; &nbsp;
-
             </p>
-
         </div>
     }
 }

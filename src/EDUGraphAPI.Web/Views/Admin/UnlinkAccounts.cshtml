@@ -9,13 +9,10 @@
 }
 
 <h2>Unlink Accounts</h2>
-
 <h3>Are you sure you want to unlink the accounts?</h3>
 <div>
     <hr />
-    <dl class="dl-horizontal">
-    </dl>
-
+    <dl class="dl-horizontal"></dl>
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
         <p>Local Account: @Model.Email</p>

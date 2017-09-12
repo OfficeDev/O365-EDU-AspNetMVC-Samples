@@ -8,6 +8,15 @@ $(document).ready(function () {
     formatDateTime();
     loadImages();
     iniTableSort();
+    var tabname = '';
+    if ($(".nav-tabs li.active").length > 0) {
+        tabname = $(".nav-tabs li.active").find("a").attr("href");
+    }
+    showDemoHelper(tabname);
+    $('.nav-tabs li').click(function (e) {
+        tabname = $(this).find("a").attr("href");
+        showDemoHelper(tabname);
+    });
 });
 
 function iniTiles(){
@@ -206,7 +215,7 @@ function saveEditDesk() {
         success: function (responseData) {
             $(".desktile .deskcontainer.unsaved").removeClass("unsaved");
             $(".desktile .deskcontainer[prev-position]").removeAttr("prev-position");
-            $("#hidtiles .deskcontainer:not(.unsaved)").remove();
+            //$("#hidtiles .deskcontainer:not(.unsaved)").remove();
             $('<div id="saveResult"><div>Seating map changes saved.</div></div>')
             .insertBefore($('#dvleft'))
            .fadeIn("slow", function () { $(this).delay(3000).fadeOut("slow"); });

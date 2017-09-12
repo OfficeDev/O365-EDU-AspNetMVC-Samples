@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="infocontainer">
-                <div class="infoheader">Grade level</div>
+                <div class="infoheader">Grade levels</div>
                 <div class="infobody" title="@Model.School.LowestGrade - @Model.School.HighestGrade">
                     @Model.School.LowestGrade - @Model.School.HighestGrade
                 </div>
@@ -37,16 +37,29 @@
         </div>
         <div>
             <div class="col-md-6 usericon">
-               <div class="stuicon"></div><div>Student</div>
-               <div class="teacicon"></div><div>Teacher</div>
+                <div class="stuicon"></div><div>Student</div>
+                <div class="teacicon"></div><div>Teacher</div>
             </div>
             <div class="col-md-6 filterlink-container">
-                <span>FILTER:</span> <a id="filterteacher" class="filterlink" data-type="teachers"> Teachers</a> | <a id="filterstudnet" class="filterlink" data-type="students">Student</a> | <a id="filterall" class="filterlink selected" data-type="users">All</a>
+                <span>FILTER:</span> 
+                @if (Model.UserContext.IsFaculty)
+                {
+                    <a id="studentsinmyclasses" class="filterlink" data-type="studentsinmyclasses"> Students in my classes</a><span> | </span>
+                }
+                 <a id="filterteacher" class="filterlink" data-type="teachers"> Teachers</a>
+                | <a id="filterstudent" class="filterlink" data-type="students">Students</a> 
+                | <a id="filterall" class="filterlink selected" data-type="users">All</a>
             </div>
         </div>
-        <br style="clear:both;"/>
+        <br style="clear:both;" />
     </div>
     <div class="users-container tiles-root-container">
+        @if (Model.UserContext.IsFaculty)
+        {
+            <div id="studentsinmyclasses" class="tiles-secondary-container">
+                @Users(Model.StudentsInMyClasses)
+            </div>
+        }
         <div id="users" class="tiles-secondary-container">
             @Users(Model.Users)
         </div>
@@ -57,17 +70,17 @@
             @Users(Model.Teachers)
         </div>
     </div>
-    <input id="school-objectid" type="hidden" value="@Model.School.ObjectId" />
+    <input id="school-objectid" type="hidden" value="@Model.School.Id" />
 </div>
 
 @helper Users(ArrayResult<SectionUser> users)
 {
-    if (users == null || users.Value == null || users.Value.Count() == 0)
-    {
+if (users == null || users.Value == null || users.Value.Count() == 0)
+{
         <div class="nodata"> There is no data available for this page at this time.</div>
-    }
-    else
-    {
+}
+else
+{
         <div class="content">
             @foreach (var user in users.Value)
             {
@@ -81,10 +94,10 @@
         </div>
         <div class="pagination @(string.IsNullOrEmpty(users.NextLink) ? "hideitem" : string.Empty)">
             <input id="nextlink" type="hidden" value="@users.NextLink" />
-            <input id="curpage" type="hidden" value="1"/>
+            <input id="curpage" type="hidden" value="1" />
             <span class="current prev">Previous</span>
             <span class="next">Next</span>
         </div>
-    }
+}
 }
 @Scripts.Render("~/bundles/users")

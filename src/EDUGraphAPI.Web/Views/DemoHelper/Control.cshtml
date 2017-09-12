@@ -5,20 +5,35 @@
 @model DemoPage
 
 <div class="demo-helper-control collapsed">
-    <div class="header">
-        DEMO HELPER
-    </div>
+    <div class="header">DEMO HELPER</div>
     <div class="header-right-shadow-mask"></div>
     <div class="body">
         <p class="desc">Code sample links for this page:</p>
         @if (Model != null)
         {
-            <ul>
-                @foreach (var link in Model.Links)
+            <ul class="functions">
+                @foreach (var function in Model.Functions)
                 {
                     <li>
-                        <p class="title">@link.Title</p>
-                        <p><a href="@link.Url" target="_blank">@link.Url</a></p>
+                        <p class="title">@function.Title</p>
+                        <p class="tab">@function.Tab</p>
+                        <ul class="files">
+                            @foreach(var file in function.Files)
+                            {
+                                <li>                                    
+                                    <p class="title"><a href="@file.Url" target="_blank">@file.Url</a></p>
+                                    <ul class="methods">
+                                        @foreach (var method in file.Methods)
+                                        { 
+                                            <li>
+                                                <p class="title">@method.Title</p>
+                                                <p class="desc">@method.Description</p>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
                     </li>
                 }
             </ul>

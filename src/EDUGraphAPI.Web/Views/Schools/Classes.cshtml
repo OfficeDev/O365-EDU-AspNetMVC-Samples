@@ -33,7 +33,7 @@
             </div>
             <div class="infocontainer">
                 <div class="infoheader">
-                    Grade level
+                    Grade levels
                 </div>
                 <div class="infobody" title="@Model.School.LowestGrade - @Model.School.HighestGrade">
                     @Model.School.LowestGrade - @Model.School.HighestGrade
@@ -51,8 +51,8 @@
                 {
                     <div>Not Teaching</div>
                 }
-                        
-                   
+
+
                 <div class="icon my-class"></div><div>My Class</div>
             </div>
             <div class="col-md-6 filterlink-container">
@@ -69,7 +69,7 @@
                     var sections = Model.Sections;
                     if (sections == null || sections.Value == null || sections.Value.Count() == 0)
                     {
-                        <div class="nodata"> There is no data available for this page at this time.</div>
+                        <div class="nodata">No classes in this school.</div> 
                     }
                     else
                     {
@@ -84,7 +84,7 @@
                         </div>
                         <div class="seemore @(string.IsNullOrEmpty(sections.NextLink) ? "hideitem" : string.Empty)" id="see-more">
                             <input id="nextlink" type="hidden" value="@sections.NextLink" />
-                            <input id="schoolid" type="hidden" value="@Model.School.ObjectId" />
+                            <input id="schoolid" type="hidden" value="@Model.School.Id" />
                             <span>See More</span>
                         </div>
                     }
@@ -97,7 +97,14 @@
                     var mySections = Model.MySections;
                     if (mySections == null || mySections.Count() == 0)
                     {
-                        <div class="nodata"> There is no data available for this page at this time.</div>
+                        if (Model.UserContext.IsStudent)
+                        {
+                            <div class="nodata"> Not enrolled in any classes.</div>
+                        }
+                        else
+                        {
+                            <div class="nodata"> Not teaching any classes.</div>
+                        }
                     }
                     else
                     {
@@ -119,22 +126,22 @@
 
 @helper Tile(Section section, bool isMine)
 {
-    if (isMine)
-    {
-        <a class="mysectionlink" href="@Url.Action("ClassDetails", new { schoolId = Model.School.ObjectId, sectionId = section.ObjectId })">
+if (isMine)
+{
+        <a class="mysectionlink" href="@Url.Action("ClassDetails", new { schoolId = Model.School.Id, sectionId = section.Id })">
             <div class="tile">
                 <h5>@(section.DisplayName)</h5>
                 <h2>@(section.CombinedCourseNumber)</h2>
             </div>
         </a>
-    }
-    else
-    {
+}
+else
+{
         <div class="tile">
             <h5>@(section.DisplayName)</h5>
             <h2>@(section.CombinedCourseNumber)</h2>
         </div>
-    }
+}
 }
 @helper TileDetail(Section section)
 {

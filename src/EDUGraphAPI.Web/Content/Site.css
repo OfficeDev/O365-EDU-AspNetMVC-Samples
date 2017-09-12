@@ -108,6 +108,41 @@ textarea {
 
 .message-container p {margin: 0.25em 0;}
 
+/*search*/
+.search-container {float:left;}
+.search-container .txtsearch{float: left;
+    width: 200px;
+    height: 25px;
+    padding: 0 10px;
+    border: 1px solid #A9A9A9;
+    font-size:12px;font-weight:normal;
+    border-right: 0;}
+.search-container .btnsubmit{    background-color: transparent;
+    position: static;
+    border: 1px solid #A9A9A9;
+    border-left: none;
+    margin-left: -4px;
+    height: 25px;
+    width: 32px;
+    background-image: url(/Content/images/search.png);
+    background-size: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.shell-icon-search:before {
+    content:"";
+        display: block;
+    width: 1em;
+    height: 1em;
+    font-family: "shell-icons";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+}
+.shell-search button .shell-icon-search {
+    color: #7f7f7f;    font-size: 17px;
+}
 /* Filters */
 .filterlink-container{text-align:right; padding-top:10px; width:48%; float:right; font-family:'Helvetica Neue LT Std Bold'}
 .filterlink-container .filterlink{text-decoration:none;color:#4b67f8;cursor:pointer;}
@@ -144,8 +179,6 @@ textarea {
 .myschool .greenicon{width:12px;height:12px;float:right;margin:5px 6px 0 0;background-color:#277F79;}
 .sectionschoolname{font-size:24px;color:#666565;padding-left: 0;}
 .tophero{background-color:#f8f8f8;padding-left:0px;}
-#myMap{position:absolute;}
-.bingMapLink{margin-left:12px;}
 .schooladdress{width:auto;float:left;}
 .schoolmap{float:left;}
 .toptiles{
@@ -206,8 +239,7 @@ textarea {
 .sections .tophero .usericon .icon.my-class{margin-left:12px; background:-prefix-linear-zgradient(top, #4E9F42, #B8E2B2); background:linear-gradient(to bottom, #4E9F42, #B8E2B2);}
 
 .section-tiles{padding:0 17.14px; background-color:white}
-.section-tiles .tile-container{margin-right:17.14px;float: left;margin-bottom: 5px;margin-top: 12px;position:relative;}
-.section-tiles .tile-container:nth-child(6n){margin-right:0;}
+.section-tiles .tile-container{margin-right:14px;float: left;margin-bottom: 5px;margin-top: 12px;position:relative;}
 .section-tiles .tile{display:inline-block;width:175px;height:175px;box-sizing:border-box;border:1px solid #C2C2C2;border-radius:5px;-moz-border-radius:5px;background: -prefix-linear-zgradient(top, #434345, #BBBBBB); background: linear-gradient(to bottom, #434345, #BBBBBB); color:#fff;}
 .mysectionlink .tile{border:1px solid #C2C2C2;border-radius:5px;-moz-border-radius:5px;background: -prefix-linear-zgradient(top, #4E9F42, #B8E2B2); background: linear-gradient(to bottom, #4E9F42, #B8E2B2); }
 .section-tiles .tile>h5{text-align: center;margin: 60px 5px 0 5px;font-size:14px;font-style: normal;font-variant: normal;text-overflow:ellipsis}
@@ -382,8 +414,8 @@ max-width: 140px;
 .teacher-student .usericon .stuicon{width:12px; height:12px; margin:5px 6px 0 0; background-color:#444444;}
 .teacher-student .usericon .teacicon{width:12px; height:12px; margin:5px 6px 0 12px; background-color:#4DA143;}
 .teacher-student .tiles-root-container{background-color:white; padding:12px 17.14px;}
-.teacher-student .tiles-root-container .element{margin:12px 17.14px 12px 0; float:left; width:175px; height:175px; border-radius:12px; background-color:gray;}
-.teacher-student .tiles-root-container .element:nth-child(6n){margin-right:0;}
+.teacher-student .tiles-secondary-container .content{padding-left:7px;}
+.teacher-student .tiles-root-container .element{margin:12px 13px 12px 0; float:left; width:175px; height:175px; border-radius:12px; background-color:gray;}
 .teacher-student .tiles-root-container .element .userimg{height:100px;text-align:center;position:relative;}
 .teacher-student .tiles-root-container .element .username{height:70px;color:white; text-align:center;padding-top:12px;}
 .teacher-student .tiles-root-container .element img{
@@ -405,9 +437,10 @@ max-width: 140px;
 .teacher-student .tiles-root-container .student-bg{background-color:#444444}
 .teacher-student .tiles-root-container .teacher-bg{background-color:#4DA143;}
 .teacher-student .tiles-root-container .tiles-secondary-container{display:none}
-.teacher-student .users-container #users.tiles-secondary-container, .teacher-student .students-container #students.tiles-secondary-container, .teacher-student .teachers-container #teachers.tiles-secondary-container{display:block}
+.teacher-student .studentsinmyclasses-container #studentsinmyclasses.tiles-secondary-container,.teacher-student .users-container #users.tiles-secondary-container, .teacher-student .students-container #students.tiles-secondary-container, .teacher-student .teachers-container #teachers.tiles-secondary-container{display:block}
 
 /* Demo Helper Control */
+.demo-helper-control .collapse{display:block;}
 .demo-helper-control {
     position: absolute;
     right: 0;
@@ -453,7 +486,7 @@ max-width: 140px;
 .demo-helper-control .body {
     display: block;
     min-height: 95px;
-    padding: 7px 7px 0px 7px;
+    padding: 7px 7px 12px 7px;
     margin-left: 65px;
     font-size: 12px;
     background-color: white;
@@ -467,19 +500,34 @@ max-width: 140px;
 .demo-helper-control.collapsed .body {
     display: none;
 }
-
+.demo-helper-control p.tab{display:none;}
 .demo-helper-control .body .desc {
     font-family: 'Helvetica Neue LT Std Roman';
 }
 
-.demo-helper-control .body ul {
-    list-style-image: url(Images/black-square.png);
-    padding:2px 2px 2px 24px;
-    margin-bottom: 0px
+.demo-helper-control .body ul { 
+    margin-bottom: 0px;
+    list-style-type:none;padding-left: 21px;
 }
-.demo-helper-control .body ul li {
+.demo-helper-control .body > ul > li {
     margin: 4px 0 6px 0;
+   list-style-type:none;    
+ 
 }
+.demo-helper-control ul.files{margin-left: 18px;}
+.demo-helper-control .body > ul > li  ul p.title{margin-top:6px;}
+.demo-helper-control .body > ul > li  >p.link{margin:0 0 0 21px;}
+.demo-helper-control .body > ul > li.collapse p.title{background-image:url('/images/collapse-arrow.png');}
+.demo-helper-control .body > ul > li  >p.title{
+    cursor:pointer;
+    background-image:url('/images/expand-arrow.png');
+    background-repeat:no-repeat;
+    background-position: left 5px;
+    padding-left: 21px;  
+}
+.demo-helper-control .body > ul > li.collapse p, 
+.demo-helper-control .body > ul > li.collapse ul{display:none;}
+.demo-helper-control .body > ul > li.collapse p.title{display:block;}
 .demo-helper-control .body ul li a{
     font-family: 'Helvetica Neue LT Std Roman';
     color: #3366ff;

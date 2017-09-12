@@ -1,483 +1,805 @@
-﻿//   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
-//   * See LICENSE in the project root for license information.   
+﻿//   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+//   * See LICENSE in the project root for license information.
 [
   {
     "controller": "schools",
     "action": "index",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Schools/Index.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "SchoolsService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs"
-      },
-      {
-        "title": "SchoolsViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SchoolsViewModel.cs"
+        "title": "Get schools information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs",
+            "methods": [
+              {
+                "title": "Index",
+                "description": "Index action."
+              },
+              {
+                "title": "GetSchoolsServiceAsync",
+                "description": "Initialize school services."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserContextAsync",
+                "description": "Get current user from context."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs",
+            "methods": [
+              {
+                "title": "GetSchoolsViewModelAsync",
+                "description": "Get view model of schools page."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetStudentAsync",
+                "description": "Get the current logged in user and check if that user is a student."
+              },
+              {
+                "title": "GetTeacherAsync",
+                "description": "Get the current logged in user and check if that user is a teacher."
+              },
+              {
+                "title": "GetSchoolsAsync",
+                "description": "Get all schools that exist in the Azure Active Directory tenant. "
+              }
+            ]
+          }
+
+
+        ]
       }
+
     ]
   },
   {
     "controller": "schools",
     "action": "classes",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs"
+        "title": "Get classes information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs",
+            "methods": [
+              {
+                "title": "Classes",
+                "description": "Classes action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserContextAsync",
+                "description": "Get current user from context."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetSchoolAsync",
+                "description": "Get a school by using the id."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Schools/Classes.cshtml"
+        "title": "Get my classes information",
+        "tab": "filtermyclasses",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetMySectionsAsync",
+                "description": "Get my classes within a school."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "SchoolsService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs"
-      },
-      {
-        "title": "SectionsViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SectionsViewModel.cs"
+        "title": "Get all classes information",
+        "tab": "filterclasses",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetAllSectionsAsync",
+                "description": "Get classes within a school."
+              }
+            ]
+          }
+        ]
       }
-    ]
-  },
-  {
-    "controller": "schools",
-    "action": "myclasses",
-    "links": [
-      {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Schools/Classes.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "SchoolsService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs"
-      },
-      {
-        "title": "SectionsViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SectionsViewModel.cs"
-      }
+
+
     ]
   },
   {
     "controller": "schools",
     "action": "users",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs"
+        "title": "Get all students and teachers information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs",
+            "methods": [
+              {
+                "title": "Users",
+                "description": "Users action."
+              },
+              {
+                "title": "GetSchoolsServiceAsync",
+                "description": "Initialize school services."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs",
+            "methods": [
+              {
+                "title": "GetSchoolUsersAsync",
+                "description": "Get users, teachers and students of the specified school."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetSchoolAsync",
+                "description": "Get a school by using the id."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Schools/Users.cshtml"
+        "title": "Get all students and teachers information",
+        "tab": "filterall",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetMembersAsync",
+                "description": "Get users within a school."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "SchoolsService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs"
+        "title": "Get all students information",
+        "tab": "filterstudent",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetStudentsAsync",
+                "description": "Get students within a school."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "SchoolUsersViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SchoolUsersViewModel.cs"
+        "title": "Get all teachers information",
+        "tab": "filterteacher",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetTeachersAsync",
+                "description": "Get teachers within a school."
+              }
+            ]
+          }
+        ]
       }
+
     ]
+
   },
   {
     "controller": "schools",
     "action": "classdetails",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs"
+        "title": "Get school and class information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/SchoolsController.cs",
+            "methods": [
+              {
+                "title": "ClassDetails",
+                "description": "Page action."
+              },
+              {
+                "title": "GetSchoolsServiceAsync",
+                "description": "Initialize school services."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserContextAsync",
+                "description": "Get current user from context."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetSchoolAsync",
+                "description": "Get a school by using the id."
+              },
+              {
+                "title": "GetSectionAsync",
+                "description": "Get a class by using the id."
+              }
+            ]
+          }
+
+        ]
       },
       {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Schools/ClassDetails.cshtml"
+        "title": "Get students in this class",
+        "tab": "#students",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetSectionAsync",
+                "description": "Get a class by using the id, together with class numbers."
+              }
+            ]
+          }
+
+        ]
       },
       {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
+        "title": "Get all conversations of current class",
+        "tab": "#conversations",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Utils/AuthenticationHelper.cs",
+            "methods": [
+              {
+                "title": "GetGraphServiceClientAsync",
+                "description": "Get an instance of GraphServiceClient"
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Extensions/MSGraphExtension.cs",
+            "methods": [
+              {
+                "title": "GetAllAsync",
+                "description": "Get all conversations."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "SchoolsService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs"
+        "title": "Get documents from OneDrive of current class",
+        "tab": "#documents",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Utils/AuthenticationHelper.cs",
+            "methods": [
+              {
+                "title": "GetGraphServiceClientAsync",
+                "description": "Get an instance of GraphServiceClient"
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Extensions/MSGraphExtension.cs",
+            "methods": [
+              {
+                "title": "GetAllAsync",
+                "description": "Get all documents."
+              }
+            ]
+          }
+        ]
       },
       {
-        "title": "SectionDetailsViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SectionDetailsViewModel.cs"
-      },
-      {
-        "title": "SeatingViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/SeatingViewModel.cs"
+        "title": "Dispaly, edit and save students charts",
+        "tab": "#seatingchart",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Data/ApplicationDbContext.cs",
+            "methods": [
+              {
+                "title": "ClassroomSeatingArrangements",
+                "description": "Get SectionDetailsViewModel of the specified section."
+              },
+              {
+                "title": "SaveSeatingArrangements",
+                "description": "Save seating arrangements."
+              }
+            ]
+          }
+
+
+        ]
       }
     ]
   },
   {
     "controller": "account",
     "action": "login",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-      },
+        "title": "Login for local user or O365 user",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs",
+            "methods": [
+              {
+                "title": "Login",
+                "description": "Login action."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "controller": "account",
+    "action": "O365login",
+    "functions": [
       {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/Login.cshtml"
-      },
-      {
-        "title": "LoginViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
+        "title": "Let O365 user login if user cookies exists.",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs",
+            "methods": [
+              {
+                "title": "O365login",
+                "description": "Page action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/CookieService.cs",
+            "methods": [
+              {
+                "title": "GetCookiesOfUsername",
+                "description": "Get user name form cookie if it exists."
+              },
+              {
+                "title": "GetCookiesOfEmail",
+                "description": "Get user email form cookie if it exists."
+              }
+            ]
+          }
+
+        ]
       }
     ]
   },
   {
     "controller": "account",
     "action": "register",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/Register.cshtml"
-      },
-      {
-        "title": "EducationRegisterViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/EducationRegisterViewModel.cs"
+        "title": "User register",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs",
+            "methods": [
+              {
+                "title": "Register",
+                "description": "Register action."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
-  //{
-  //  "controller": "account",
-  //  "action": "verifycode",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/VerifyCode.cshtml"
-  //    },
-  //    {
-  //      "title": "VerifyCodeViewModel",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "confirmemail",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ConfirmEmail.cshtml"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "forgotpassword",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ForgotPassword.cshtml"
-  //    },
-  //    {
-  //      "title": "ForgotPasswordViewModel",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "forgotpasswordconfirmation",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ForgotPasswordConfirmation.cshtml"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "resetpassword",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ResetPassword.cshtml"
-  //    },
-  //    {
-  //      "title": "ResetPasswordViewModel",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "resetpasswordconfirmation",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ResetPasswordConfirmation.cshtml"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "sendcode",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/SendCode.cshtml"
-  //    },
-  //    {
-  //      "title": "SendCodeViewModel",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "externalloginconfirmation",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ExternalLoginConfirmation.cshtml"
-  //    },
-  //    {
-  //      "title": "ExternalLoginConfirmationViewModel",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-  //    }
-  //  ]
-  //},
-  //{
-  //  "controller": "account",
-  //  "action": "externalloginfailure",
-  //  "links": [
-  //    {
-  //      "title": "Controller",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AccountController.cs"
-  //    },
-  //    {
-  //      "title": "View",
-  //      "url": "/blob/master/src/EDUGraphAPI.Web/Views/Account/ExternalLoginFailure.cshtml"
-  //    }
-  //  ]
-  //},
+
   {
     "controller": "admin",
     "action": "index",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Admin/Index.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "AdminContext",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/AdminContext.cs"
+        "title": "Get admin's tenant and organization information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs",
+            "methods": [
+              {
+                "title": "Index",
+                "description": "Admin index page action."
+              },
+              {
+                "title": "ClearAdalCache",
+                "description": "Remove all user tokens from database."
+              },
+              {
+                "title": "AddAppRoleAssignments",
+                "description": "Enable users access action."
+              },
+              {
+                "title": "Consent",
+                "description": "Admin consent action."
+              },
+              {
+                "title": "Unconsent",
+                "description": "Admin unconsent action."
+              },
+
+              {
+                "title": "ProcessCode",
+                "description": "Handle consent result."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetAdminContextAsync",
+                "description": "Get admin's tenant and organization information."
+              },
+              {
+                "title": "GetCurrentTenantAsync",
+                "description": "Get current user's organization from database."
+              }
+
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Utils/AuthenticationHelper.cs",
+            "methods": [
+              {
+                "title": "GetActiveDirectoryClientAsync",
+                "description": "Get an instance of ActiveDirectoryClient."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "controller": "admin",
     "action": "linkedaccounts",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Admin/LinkedAccounts.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
+        "title": "Get linked accounts",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs",
+            "methods": [
+              {
+                "title": "LinkedAccounts",
+                "description": "Mange linked accounts action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetLinkedUsers",
+                "description": "Get linked users with the specified organization."
+              }
+            ]
+          }
+
+        ]
       }
     ]
   },
   {
     "controller": "admin",
     "action": "unlinkaccounts",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Admin/UnlinkAccounts.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
+        "title": "Unlink a user",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs",
+            "methods": [
+              {
+                "title": "UnlinkAccounts",
+                "description": "Unlink account action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserAsync",
+                "description": "Get user from database by id."
+              },
+              {
+                "title": "UnlinkAccountsAsync",
+                "description": "Unlink the specified the account."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
+    "controller": "admin",
+    "action": "consent",
+    "functions": [
+      {
+        "title": "Consent the app",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/AdminController.cs",
+            "methods": [
+              {
+                "title": "Consent",
+                "description": "Consent action."
+              },
+              {
+                "title": "ProcessCode",
+                "description": "Consent user action after successful login."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Utils/AuthenticationHelper.cs",
+            "methods": [
+              {
+                "title": "GetAuthenticationResultAsync",
+                "description": "Get an AuthenticationResult from the specified authorization code."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs",
+            "methods": [
+              {
+                "title": "GetTenantAsync",
+                "description": "Get tenant information from AAD."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "CreateOrUpdateOrganizationAsync",
+                "description": "Create (or update) an organization, and make it as AdminConsented."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  {
     "controller": "link",
     "action": "index",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Link/Index.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "UserContext",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/UserContext.cs"
-      },
-      {
-        "title": "AADGraphClient",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs"
-      },
-      {
-        "title": "MSGraphClient",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/MSGraphClient.cs"
+        "title": "Get user information and check link status",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs",
+            "methods": [
+              {
+                "title": "Index",
+                "description": "Index action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserContextAsync",
+                "description": "Get current user from context."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs",
+            "methods": [
+              {
+                "title": "GetCurrentUserAsync",
+                "description": "Get current user from AAD."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "controller": "link",
     "action": "loginlocal",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Link/LoginLocal.cshtml"
-      },
-      {
-        "title": "LoginViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/AccountViewModels.cs"
-      },
-      {
-        "title": "AADGraphClient",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs"
+        "title": "Local user login and link",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs",
+            "methods": [
+              {
+                "title": "LoginLocal",
+                "description": "Local user login and link action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs",
+            "methods": [
+              {
+                "title": "GetCurrentUserAsync",
+                "description": "Get current user from context."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "UpdateLocalUserAsync",
+                "description": "Update the local user with O365 user and tenant info."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "controller": "link",
     "action": "createlocalaccount",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Link/CreateLocalAccount.cshtml"
-      },
-      {
-        "title": "ApplicationService",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs"
-      },
-      {
-        "title": "EducationRegisterViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/EducationRegisterViewModel.cs"
-      },
-      {
-        "title": "AADGraphClient",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Services/GraphClients/AADGraphClient.cs"
+        "title": "Create local account",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs",
+            "methods": [
+              {
+                "title": "CreateLocalAccount",
+                "description": "Page action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Common/Utils/AuthenticationHelper.cs",
+            "methods": [
+              {
+                "title": "GetActiveDirectoryClientAsync",
+                "description": "Get AAD client and then get current user from AAD."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "UpdateLocalUserAsync",
+                "description": "Update the local user with O365 user and tenant info."
+              }
+            ]
+          }
+
+        ]
       }
     ]
   },
   {
     "controller": "link",
     "action": "logino365required",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Link/LoginO365Required.cshtml"
+        "title": "O365 user relogin if token is clear or expired",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/LinkController.cs",
+            "methods": [
+              {
+                "title": "LoginO365Required",
+                "description": "Page action."
+              }
+            ]
+          }
+
+        ]
       }
     ]
+
   },
   {
     "controller": "manage",
     "action": "aboutme",
-    "links": [
+    "functions": [
       {
-        "title": "Controller",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/ManageController.cs"
-      },
-      {
-        "title": "View",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Views/Manage/AboutMe.cshtml"
-      },
-      {
-        "title": "AboutMeViewModel",
-        "url": "/blob/master/src/EDUGraphAPI.Web/Models/AboutMeViewModel.cs"
+        "title": "Get current user information",
+        "tab": "",
+        "files": [
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Controllers/ManageController.cs",
+            "methods": [
+              {
+                "title": "AboutMe",
+                "description": "About me page action."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/ApplicationService.cs",
+            "methods": [
+              {
+                "title": "GetUserContextAsync",
+                "description": "Get current user information from context."
+              },
+              {
+                "title": "UpdateUserFavoriteColor",
+                "description": "Update current user's favorite color."
+              }
+            ]
+          },
+          {
+            "url": "/blob/master/src/EDUGraphAPI.Web/Services/SchoolsService.cs",
+            "methods": [
+              {
+                "title": "GetMyClassesAsync",
+                "description": "Get current user's classes."
+              }
+            ]
+          }
+        ]
       }
     ]
   }

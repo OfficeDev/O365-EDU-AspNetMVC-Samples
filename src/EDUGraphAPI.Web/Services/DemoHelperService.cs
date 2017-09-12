@@ -27,8 +27,13 @@ namespace EDUGraphAPI.Web.Services
             if (page != null)
             {
                 var sourceCodeRepositoryUrl = Constants.SourceCodeRepositoryUrl.TrimEnd('/');
-                foreach (var link in page.Links)
-                    link.Url = sourceCodeRepositoryUrl + link.Url;
+                foreach (var function in page.Functions)
+                {
+                    foreach (var file in function.Files)
+                    {
+                        file.Url = sourceCodeRepositoryUrl + file.Url;
+                    }
+                }
             }
             return page;
         }

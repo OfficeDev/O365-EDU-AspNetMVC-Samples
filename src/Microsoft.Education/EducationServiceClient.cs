@@ -19,8 +19,8 @@ namespace Microsoft.Education
     /// </summary>
     public class EducationServiceClient
     {
-        private string serviceRoot;
-        private Func<Task<string>> accessTokenGetter;
+        private readonly string serviceRoot;
+        private readonly Func<Task<string>> accessTokenGetter;
 
         public EducationServiceClient(Uri serviceRoot, Func<Task<string>> accessTokenGetter)
         {
@@ -36,7 +36,7 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<School[]> GetSchoolsAsync()
         {
-            var schools = await HttpGetArrayAsync<School>("administrativeUnits?api-version=beta");
+            var schools = await HttpGetArrayAsync<School>("administrativeUnits");
             return schools.Where(c => c.EducationObjectType == "School").ToArray();
         }
 
@@ -48,7 +48,7 @@ namespace Microsoft.Education
         /// <returns></returns>
         public Task<School> GetSchoolAsync(string objectId)
         {
-            return HttpGetObjectAsync<School>($"administrativeUnits/{objectId}?api-version=beta");
+            return HttpGetObjectAsync<School>($"administrativeUnits/{objectId}");
         }
 
         #endregion
@@ -60,9 +60,9 @@ namespace Microsoft.Education
         /// </summary>
         /// <param name="schoolId">The ID of the school in the School Information System (SIS).</param>
         /// <returns></returns>
-        public Task<ArrayResult<Section> > GetAllSectionsAsync(string schoolId, int top, string nextLink)
+        public Task<ArrayResult<Section>> GetAllSectionsAsync(string schoolId, int top, string nextLink)
         {
-            var relativeUrl = $"groups?api-version=beta&$filter=extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Section'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'";
+            var relativeUrl = $"groups?$filter=extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Section'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'";
             return HttpGetArrayAsync<Section>(relativeUrl, top, nextLink);
         }
 
@@ -72,10 +72,9 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<Section[]> GetMySectionsAsync(bool loadMembers = false)
         {
-            var relativeUrl = $"me/memberOf?api-version=1.5";
+            var relativeUrl = $"me/memberOf/$/microsoft.graph.group";
             var memberOf = await HttpGetArrayAsync<Section>(relativeUrl);
             var sections = memberOf
-                .Where(i => i.ObjectType == "Group")
                 .Where(i => i.EducationObjectType == "Section")
                 .ToArray();
             if (loadMembers == false) return sections;
@@ -87,7 +86,7 @@ namespace Microsoft.Education
             {
                 var task = Task.Run(async () =>
                 {
-                    var s = await GetSectionAsync(section.ObjectId);
+                    var s = await GetSectionAsync(section.Id);
                     sectionBag.Add(s);
                 });
                 tasks.Add(task);
@@ -117,7 +116,7 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<Section> GetSectionAsync(string sectionId)
         {
-            return await HttpGetObjectAsync<Section>($"groups/{sectionId}?api-version=beta&$expand=members");
+            return await HttpGetObjectAsync<Section>($"groups/{sectionId}?$expand=members");
         }
 
         #endregion
@@ -130,17 +129,17 @@ namespace Microsoft.Education
         /// <returns></returns>
         public Task<Student> GetStudentAsync()
         {
-            return HttpGetObjectAsync<Student>("me?api-version=1.5");
+            return HttpGetObjectAsync<Student>("me");
         }
 
         /// <summary>
-        /// You can get the current logged in user and check if that user is a student.
+        /// You can get the current logged in user and check if that user is a teacher.
         /// Reference URL: https://msdn.microsoft.com/office/office365/api/student-rest-operations#get-current-user.
         /// </summary>
         /// <returns></returns>
         public Task<Teacher> GetTeacherAsync()
         {
-            return HttpGetObjectAsync<Teacher>("me?api-version=1.5");
+            return HttpGetObjectAsync<Teacher>("me");
         }
 
         /// <summary>
@@ -149,9 +148,9 @@ namespace Microsoft.Education
         /// </summary>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        public async Task<ArrayResult<SectionUser> > GetMembersAsync(string objectId, int top, string nextLink)
+        public async Task<ArrayResult<SectionUser>> GetMembersAsync(string objectId, int top, string nextLink)
         {
-            return await HttpGetArrayAsync<SectionUser>($"administrativeUnits/{objectId}/members?api-version=beta", top, nextLink);
+            return await HttpGetArrayAsync<SectionUser>($"administrativeUnits/{objectId}/members", top, nextLink);
         }
 
         /// <summary>
@@ -162,7 +161,7 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<ArrayResult<SectionUser>> GetStudentsAsync(string schoolId, int top, string nextLink)
         {
-            return await HttpGetArrayAsync<SectionUser>($"users?api-version=1.5&$filter=extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Student'", top, nextLink);
+            return await HttpGetArrayAsync<SectionUser>($"users?$filter=extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Student'", top, nextLink);
         }
 
         /// <summary>
@@ -173,7 +172,7 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<ArrayResult<SectionUser>> GetTeachersAsync(string schoolId, int top, string nextLink)
         {
-            return await HttpGetArrayAsync<SectionUser>($"users?api-version=1.5&$filter=extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Teacher'", top, nextLink);
+            return await HttpGetArrayAsync<SectionUser>($"users?$filter=extension_fe2174665583431c953114ff7268b7b3_Education_SyncSource_SchoolId%20eq%20'{schoolId}'%20and%20extension_fe2174665583431c953114ff7268b7b3_Education_ObjectType%20eq%20'Teacher'", top, nextLink);
         }
 
         #endregion
@@ -216,7 +215,7 @@ namespace Microsoft.Education
             return result.ToArray();
         }
 
-        private async Task<ArrayResult<T> > HttpGetArrayAsync<T>(string relativeUrl, int top, string nextLink)
+        private async Task<ArrayResult<T>> HttpGetArrayAsync<T>(string relativeUrl, int top, string nextLink)
         {
             var str = relativeUrl.IndexOf('?') >= 0 ? "&" : "?";
             relativeUrl += $"{str}$top={top}";

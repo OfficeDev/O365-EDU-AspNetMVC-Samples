@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Create new local account";
 }
+
 <h4>Link to your local account - @ViewBag.Title</h4>
 <hr />
 <section id="createLocalAccount">
@@ -19,7 +20,6 @@
                     @ColorsDropdown(Model.FavoriteColors)
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create and Link" class="btn btn-primary" />
@@ -27,6 +27,7 @@
             </div>
     }
 </section>
+
 @helper ColorsDropdown(List<ColorEntity> favoriteColors)
 {
     <select name="FavoriteColor" id="FavoriteColor" class="form-control">

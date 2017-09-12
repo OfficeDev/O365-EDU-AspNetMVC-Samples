@@ -6,6 +6,9 @@ $(document).ready(function () {
     loadImages();
 
     $(".teacher-student .filterlink-container .filterlink").click(function () {
+        tabname = $(this).attr("id");
+        showDemoHelper(tabname);
+        search(true);
         var element = $(this);
         element.addClass("selected").siblings("a").removeClass("selected");
         var filterType = element.data("type");
@@ -14,6 +17,7 @@ $(document).ready(function () {
     });
 
     $(".teacher-student .tiles-root-container .pagination .prev, .teacher-student .tiles-root-container .pagination .next").click(function () {
+        search(true);
         var element = $(this);
         if (element.hasClass("current") || element.hasClass("disabled")) {
             return;
@@ -64,7 +68,7 @@ $(document).ready(function () {
                     if (!(value instanceof Array) || value.length == 0) {
                         return;
                     }
-
+                    
                     $.each(value, function (i, user) {
                         var userHtml = '<div class="element ' + (user.ObjectType == "Teacher" ? "teacher-bg" : "student-bg") + '">' +
                                            '<div class="userimg">' +
@@ -107,4 +111,54 @@ $(document).ready(function () {
         prevElement.toggleClass("current", start === 0);
         curPageElement.val(targetPageNum);
     }
+
+    $("#btnsearch").click(function () {
+        search();
+    });
+
+    $('.txtsearch').on('keypress', function (e) {
+        if (e.which === 13) {
+            search();
+        }
+    });
+    function search(isReset) {
+        var queryString;
+        if (isReset) {
+            queryString = "";
+            $(".txtsearch").val("");
+        } else {
+            queryString = $(".txtsearch").val();
+        }
+        var currentFilter = $(".filterlink-container .selected").text().trim().toLocaleLowerCase();
+        var selector = "users";
+        switch (currentFilter)
+        {
+            case "teachers":
+                selector = "teachers";
+                break;
+            case "students":
+                selector = "students";
+                break;
+            default:
+                selector = "users";
+                break;
+        }
+        if (queryString) {
+            $("#"+selector + " .username").each(function () {
+                if ($(this).text().search(new RegExp(queryString, "i")) < 0) {
+                    $(this).closest(".element").hide();
+                } else {
+                    $(this).closest(".element").show();
+                }
+            });
+        }
+        else {
+            $("#"+selector + " .element").show();
+        }
+    }
+    var tabname = '';
+    if ($(".filterlink-container a.selected").length > 0) {
+        tabname = $(".filterlink-container a.selected").attr("id");
+    }
+    showDemoHelper(tabname);
 });

@@ -50,13 +50,6 @@
       "metadata": {
         "description": ""
       }
-    },
-    "bingMapKey": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": ""
-      }
     }
   },
   "variables": {
@@ -120,8 +113,7 @@
             "CertPath": "EduGraphAPI App Only Cert.pfx",
             "CertPassword": "J48W23RQeZv85vj",
             "SourceCodeRepositoryUrl": "[parameters('SourceCodeRepositoryUrl')]",
-            "project": "src/EDUGraphAPI.Web/EDUGraphAPI.Web.csproj",
-            "BingMapKey": "[parameters('bingMapKey')]"
+            "project": "src/EDUGraphAPI.Web/EDUGraphAPI.Web.csproj"
           }
         },
         {
