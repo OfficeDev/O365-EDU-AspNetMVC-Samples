@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.Common", "EDUGr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Education.Legacy", "Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj", "{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Education", "Microsoft.Education\Microsoft.Education.csproj", "{612EE43F-70FB-46A6-A176-4BBA05FD8D45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
