@@ -112,9 +112,7 @@
     <Compile Include="Data\UserTokenCache.cs" />
     <Compile Include="DifferentialQuery\Delta.cs" />
     <Compile Include="DifferentialQuery\DifferentialQueryService.cs" />
-    <Compile Include="DifferentialQuery\DeltaResultParser.cs" />
     <Compile Include="DifferentialQuery\DeltaResult.cs" />
-    <Compile Include="DifferentialQuery\DynamicProxyGenerator.cs" />
     <Compile Include="DifferentialQuery\IDeltaEntity.cs" />
     <Compile Include="Extensions\AuthenticationResultExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />

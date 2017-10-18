@@ -21,7 +21,6 @@ namespace EDUGraphAPI.DataSync
     public class UserSyncService
     {
         private static readonly string UsersQuery = "users";
-        private static readonly string APIVersion = "1.5";
 
         private TextWriter log;
         private ApplicationDbContext dbContext;
@@ -53,7 +52,7 @@ namespace EDUGraphAPI.DataSync
                 .ToArrayAsync();
             if (!consentedOrganizations.Any())
             {
-                await WriteLogAsync($"No consented organization found. This synch was canceled.");
+                await WriteLogAsync($"No consented organization found. This sync was canceled.");
                 return;
             }
 
@@ -62,7 +61,7 @@ namespace EDUGraphAPI.DataSync
                 try
                 {
                     await SyncOrganizationUsersAsync(org);
-                    dbContext.SaveChanges();
+                    await dbContext.SaveChangesAsync();
                     await WriteLogAsync($"All the changes were saved.");
                 }
                 catch (Exception ex)
@@ -83,7 +82,7 @@ namespace EDUGraphAPI.DataSync
                 await WriteLogAsync("First time executing differential query; all items will return.");
             var differentialQueryService = new DifferentialQueryService(() => getTenantAccessTokenAsync(org.TenantId));
 
-            var result = await differentialQueryService.QueryAsync<User>(dataSyncRecord.DeltaLink, APIVersion);
+            var result = await differentialQueryService.QueryAsync<User>(dataSyncRecord.DeltaLink);
             await WriteLogAsync($"Get {result.Items.Length} users.");
 
             foreach (var differentialUser in result.Items)
@@ -102,7 +101,7 @@ namespace EDUGraphAPI.DataSync
 
             if (record == null)
             {
-                var url = string.Format("{0}/{1}/{2}?deltaLink=", Constants.Resources.AADGraph, tenantId, query);
+                var url = $"{Constants.Resources.MSGraph}/{Constants.Resources.MSGraphVersion}/{query}/delta";
                 record = new DataSyncRecord
                 {
                     Query = query,
@@ -117,15 +116,15 @@ namespace EDUGraphAPI.DataSync
         private async Task UpdateUserAsync(Delta<User> differentialUser)
         {
             var user = await dbContext.Users
-                .Where(i => i.O365UserId == differentialUser.Entity.ObjectId)
+                .Where(i => i.O365UserId == differentialUser.Entity.Id)
                 .FirstOrDefaultAsync();
             if (user == null)
             {
-                await WriteLogAsync("Skipping updating user {0} who does not exist in the local database.", differentialUser.Entity.ObjectId);
+                await WriteLogAsync("Skipping updating user {0} who does not exist in the local database.", differentialUser.Entity.Id);
                 return;
             }
 
-            if (!differentialUser.IsDeleted)
+            if (!differentialUser.IsRemoved)
             {
                 if (differentialUser.ModifiedPropertyNames.Any())
                 {
@@ -133,7 +132,7 @@ namespace EDUGraphAPI.DataSync
                     await WriteLogAsync("Updated user {0}. Changed properties: {1}", user.O365Email, string.Join(", ", differentialUser.ModifiedPropertyNames));
                 }
                 else
-                    await WriteLogAsync("Skipped updating user {0}, because the properties that changed are not included in the local database.", differentialUser.Entity.ObjectId);
+                    await WriteLogAsync("Skipped updating user {0}, because the properties that changed are not included in the local database.", differentialUser.Entity.Id);
             }
             else
             {

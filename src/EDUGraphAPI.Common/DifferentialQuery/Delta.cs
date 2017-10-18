@@ -3,10 +3,11 @@
  *   * See LICENSE in the project root for license information.  
  */
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EDUGraphAPI.DifferentialQuery
 {
-    public class Delta<TEntity> where TEntity : class
+    public class Delta<TEntity> : IDeltaEntity where TEntity : class
     {
         public Delta(TEntity entity)
         {
@@ -15,16 +16,11 @@ namespace EDUGraphAPI.DifferentialQuery
 
         public TEntity Entity { get; private set; }
 
-        public bool IsDeleted => (Entity as IDeltaEntity).IsDeleted;
+        [JsonProperty("@removed")]
+        public DeltaRemovedData Removed { get; set; }
 
-        public HashSet<string> ModifiedPropertyNames => (Entity as IDeltaEntity).ModifiedPropertyNames;
-    }
+        public HashSet<string> ModifiedPropertyNames { get; set; }
 
-    public class Delta
-    {
-        public static Delta<TEntity> Create<TEntity>(TEntity entity) where TEntity : class
-        {
-            return new Delta<TEntity>(entity);
-        }
+        public bool IsRemoved => this.Removed != null;
     }
 }

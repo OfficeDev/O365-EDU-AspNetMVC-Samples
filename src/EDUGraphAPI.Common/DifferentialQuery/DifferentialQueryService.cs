@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace EDUGraphAPI.DifferentialQuery
 {
@@ -21,7 +22,7 @@ namespace EDUGraphAPI.DifferentialQuery
             this.accessTokenGetter = accessTokenGetter;
         }
 
-        public async Task<DeltaResult<Delta<TEntity>>> QueryAsync<TEntity>(string url, string apiVersion) where TEntity : class
+        public async Task<DeltaResult<TEntity>> QueryAsync<TEntity>(string url) where TEntity : class
         {
             var items = new List<Delta<TEntity>>();
 
@@ -30,8 +31,8 @@ namespace EDUGraphAPI.DifferentialQuery
 
             while (true)
             {
-                var json = await HttpGetAsync(nextLink + "&api-version=" + apiVersion);
-                var result = DeltaResultParser.Parse<TEntity>(json);
+                var json = await HttpGetAsync(url);
+                var result = JsonConvert.DeserializeObject<DeltaResult<TEntity>>(json);
                 items.AddRange(result.Items);
 
                 deltaLink = result.DeltaLink;
@@ -40,7 +41,7 @@ namespace EDUGraphAPI.DifferentialQuery
                 if (nextLink.IsNullOrEmpty()) break;
             }
 
-            return new DeltaResult<Delta<TEntity>>
+            return new DeltaResult<TEntity>
             {
                 DeltaLink = deltaLink,
                 Items = items.ToArray()
@@ -52,7 +53,7 @@ namespace EDUGraphAPI.DifferentialQuery
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", await accessTokenGetter());
-                client.DefaultRequestHeaders.Add("ocp-aad-dq-include-only-changed-properties", "true");
+                // client.DefaultRequestHeaders.Add("ocp-aad-dq-include-only-changed-properties", "true");
 
                 var response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
