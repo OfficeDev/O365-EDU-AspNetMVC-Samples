@@ -6,6 +6,7 @@ using EDUGraphAPI.Data;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Security;
 
 namespace EDUGraphAPI.Models
@@ -113,14 +114,14 @@ namespace EDUGraphAPI.Models
             }
         }
 
-        public static void ClearUserTokenCache()
+        public static async Task ClearUserTokenCacheAsync()
         {
             using (var db = new ApplicationDbContext())
             {
                 var cacheEntries = db.UserTokenCacheList
                     .ToArray();
                 db.UserTokenCacheList.RemoveRange(cacheEntries);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
     }

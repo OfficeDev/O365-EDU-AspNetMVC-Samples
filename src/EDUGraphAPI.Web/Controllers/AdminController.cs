@@ -120,7 +120,7 @@ namespace EDUGraphAPI.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> ClearAdalCache()
         {
-            AdalTokenCache.ClearUserTokenCache();
+            await AdalTokenCache.ClearUserTokenCacheAsync();
             TempData["Message"] = "Login cache cleared successfully!";
             return RedirectToAction("Index");
         }
