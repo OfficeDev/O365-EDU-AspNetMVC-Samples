@@ -73,7 +73,7 @@ namespace EDUGraphAPI.Models
             using (var db = new ApplicationDbContext())
             {
                 var cache = GetUserTokenCache(db, userId);
-                return cache != null ? cache.cacheBits : null;
+                return cache?.cacheBits;
             }
         }
 
