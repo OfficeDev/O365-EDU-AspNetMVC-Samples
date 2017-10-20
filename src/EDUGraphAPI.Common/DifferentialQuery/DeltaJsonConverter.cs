@@ -13,7 +13,8 @@ namespace EDUGraphAPI.DifferentialQuery
 {
     public class DeltaJsonConverter<TEntity> : JsonConverter where TEntity : class, new()
     {
-        private static Dictionary<string, PropertyInfo> EntityPropertyLookup = null;
+        // ReSharper disable once StaticMemberInGenericType - should not be shared
+        private static Dictionary<string, PropertyInfo> EntityPropertyLookup;
 
         public override bool CanConvert(Type objectType)
         {
