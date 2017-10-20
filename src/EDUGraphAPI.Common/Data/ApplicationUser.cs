@@ -32,7 +32,7 @@ namespace EDUGraphAPI.Data
 
         public string Department { get; set; }
 
-        public string Mobile { get; set; }
+        public string MobilePhone { get; set; }
 
         public string FavoriteColor { get; set; }
 

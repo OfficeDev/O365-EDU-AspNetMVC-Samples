@@ -18,25 +18,5 @@ namespace EDUGraphAPI.DifferentialQuery
 
         [JsonProperty("value")]
         public Delta<TEntity>[] Items { get; set; }
-
-        //public DeltaResult<TTarget> Convert<TTarget>() where TTarget : class
-        //{
-        //    return new DeltaResult<TTarget>
-        //    {
-        //        DeltaLink = DeltaLink,
-        //        NextLink = NextLink,
-        //        Items = Items.OfType<TTarget>().ToArray()
-        //    };
-        //}
-
-        //public DeltaResult<TTarget> Convert<TTarget>(Func<TEntity, TTarget> selector) where TTarget : class
-        //{
-        //    return new DeltaResult<TTarget>
-        //    {
-        //        DeltaLink = DeltaLink,
-        //        NextLink = NextLink,
-        //        Items = Items.Select(selector).ToArray()
-        //    };
-        //}
     }
 }

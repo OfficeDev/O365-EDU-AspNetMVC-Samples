@@ -12,14 +12,4 @@ namespace EDUGraphAPI.DifferentialQuery
         [JsonProperty("reason")]
         string RemovedReason { get; set; }
     }
-
-    public interface IDeltaEntity
-    {
-        [JsonProperty("@removed")]
-        DeltaRemovedData Removed { get; set; }
-
-        HashSet<string> ModifiedPropertyNames { get; }
-
-        bool IsRemoved { get; }
-    }
 }

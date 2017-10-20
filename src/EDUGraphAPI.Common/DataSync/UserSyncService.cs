@@ -126,10 +126,11 @@ namespace EDUGraphAPI.DataSync
 
             if (!differentialUser.IsRemoved)
             {
-                if (differentialUser.ModifiedPropertyNames.Any())
+                if (differentialUser.ModifiedProperties.Any())
                 {
-                    SimpleMapper.Map(differentialUser.Entity, user, differentialUser.ModifiedPropertyNames);
-                    await WriteLogAsync("Updated user {0}. Changed properties: {1}", user.O365Email, string.Join(", ", differentialUser.ModifiedPropertyNames));
+                    var modifiedNames = differentialUser.ModifiedProperties.Select(p => p.Key).ToArray();
+                    SimpleMapper.Map(differentialUser.Entity, user, modifiedNames);
+                    await WriteLogAsync("Updated user {0}. Changed properties: {1}", user.O365Email, string.Join(", ", modifiedNames));
                 }
                 else
                     await WriteLogAsync("Skipped updating user {0}, because the properties that changed are not included in the local database.", differentialUser.Entity.Id);

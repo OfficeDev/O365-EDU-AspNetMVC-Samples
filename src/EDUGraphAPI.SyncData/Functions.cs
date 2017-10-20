@@ -27,7 +27,7 @@ namespace EDUGraphAPI.SyncData
         private static Task<string> GetTenantAccessTokenAsync(string tenantId)
         {
             return AuthenticationHelper.GetAppOnlyAccessTokenForDaemonAppAsync(
-                Constants.Resources.AADGraph, CertPath, CertPassword, tenantId);
+                Constants.Resources.MSGraph, CertPath, CertPassword, tenantId);
         }
     }
 }
