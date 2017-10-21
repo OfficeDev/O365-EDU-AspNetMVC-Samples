@@ -28,7 +28,8 @@ namespace EDUGraphAPI.DifferentialQuery
         [JsonProperty("@removed")]
         public DeltaRemovedData Removed { get; set; }
 
-        public Dictionary<string, JToken> ModifiedProperties { get; } = new Dictionary<string, JToken>();
+        public Dictionary<string, JToken> ModifiedProperties { get; set; } =
+            new Dictionary<string, JToken>(StringComparer.OrdinalIgnoreCase);
 
         public bool IsRemoved => this.Removed != null;
 

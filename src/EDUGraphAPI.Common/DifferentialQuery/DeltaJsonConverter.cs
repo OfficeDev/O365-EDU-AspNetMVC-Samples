@@ -53,20 +53,16 @@ namespace EDUGraphAPI.DifferentialQuery
                                 StringComparer.OrdinalIgnoreCase);
                 }
 
+                // Update the strongly-typed Entity with anything that is in the Json. and record that it was changed
+                // so it can be mapped to the database record later.
                 foreach (var entry in EntityPropertyLookup)
                 {
                     if (obj.TryGetValue(entry.Key, out theValue))
                     {
-                        obj.Remove(entry.Key);
                         entry.Value.SetValue(existingDelta.Entity,
                             theValue.ToObject(entry.Value.PropertyType, serializer));
+                        existingDelta.ModifiedProperties[entry.Value.Name] = theValue;
                     }
-                }
-
-                // Put what is left in the ModifiedProperties collection
-                foreach (JProperty theProperty in obj.Properties())
-                {
-                    existingDelta.ModifiedProperties.Add(theProperty.Name, theProperty.Value);
                 }
             }
 
