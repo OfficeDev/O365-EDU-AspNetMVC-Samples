@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Education.Data.Legacy;
+using Microsoft.Education.Legacy;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -144,7 +145,8 @@ namespace EDUGraphAPI.Web.Controllers
         
         private async Task<SchoolsService> GetSchoolsServiceAsync()
         {
-            var educationServiceClient = await AuthenticationHelper.GetEducationServiceClientAsync();
+            var educationServiceClient = EducationServiceClient.GetEducationServiceClient(
+                await AuthenticationHelper.GetAccessTokenAsync(Constants.Resources.MSGraph, Permissions.Delegated));
             return new SchoolsService(educationServiceClient, dbContext);
         }
     }

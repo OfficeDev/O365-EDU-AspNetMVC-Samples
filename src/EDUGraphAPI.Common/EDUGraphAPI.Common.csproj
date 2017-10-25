@@ -135,12 +135,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj">
-      <Project>{4cbcd397-9137-4b1f-87c3-8e44ded7b9ff}</Project>
-      <Name>Microsoft.Education.Legacy</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

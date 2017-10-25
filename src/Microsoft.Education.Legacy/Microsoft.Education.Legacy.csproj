@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayResult.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="EduConstants.cs" />
     <Compile Include="EducationServiceClient.cs" />
     <Compile Include="Extensions.cs" />

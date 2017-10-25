@@ -201,10 +201,10 @@ namespace Microsoft.Education.Legacy
             var array = JsonConvert.DeserializeObject<ArrayResult<T>>(responseString);
             List<T> result = new List<T>();
             result.AddRange(array.Value);
-            while (!string.IsNullOrEmpty(array.NextLink) && array.NextLink.IndexOf('?') >= 0)
+            while (!String.IsNullOrEmpty(array.NextLink) && array.NextLink.IndexOf('?') >= 0)
             {
                 var token = Regex.Match(array.NextLink, @"[$]skiptoken[=][^&]+", RegexOptions.Compiled).Value;
-                if (!string.IsNullOrEmpty(token))
+                if (!String.IsNullOrEmpty(token))
                 {
                     var str = relativeUrl.IndexOf('?') >= 0 ? "&" : "?";
                     responseString = await HttpGetAsync(relativeUrl + str + token);
@@ -219,10 +219,10 @@ namespace Microsoft.Education.Legacy
         {
             var str = relativeUrl.IndexOf('?') >= 0 ? "&" : "?";
             relativeUrl += $"{str}$top={top}";
-            if (!string.IsNullOrEmpty(nextLink) && nextLink.IndexOf('?') >= 0)
+            if (!String.IsNullOrEmpty(nextLink) && nextLink.IndexOf('?') >= 0)
             {
                 var token = Regex.Match(nextLink, @"[$]skiptoken[=][^&]+", RegexOptions.Compiled).Value;
-                if (!string.IsNullOrEmpty(token))
+                if (!String.IsNullOrEmpty(token))
                 {
                     relativeUrl += $"&{token}";
                 }
@@ -231,5 +231,14 @@ namespace Microsoft.Education.Legacy
             return JsonConvert.DeserializeObject<ArrayResult<T>>(responseString);
         }
         #endregion
+
+        /// <summary>
+        /// Get an instance of EducationServiceClient
+        /// </summary>
+        public static EducationServiceClient GetEducationServiceClient(string accessToken)
+        {
+            var serviceRoot = new Uri(new Uri(Constants.Resources.MSGraph), Constants.Resources.MSGraphVersion);
+            return new EducationServiceClient(serviceRoot, () => Task.FromResult(accessToken));
+        }
     }
 }

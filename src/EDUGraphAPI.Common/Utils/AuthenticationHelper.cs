@@ -5,7 +5,6 @@
 using EDUGraphAPI.Infrastructure;
 using EDUGraphAPI.Models;
 using Microsoft.Azure.ActiveDirectory.GraphClient;
-using Microsoft.Education.Legacy;
 using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
@@ -54,16 +53,6 @@ namespace EDUGraphAPI.Utils
             var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
             var serviceRoot = Constants.Resources.MSGraph + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
             return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(accessToken));
-        }
-
-        /// <summary>
-        /// Get an instance of EducationServiceClient
-        /// </summary>
-        public static async Task<EducationServiceClient> GetEducationServiceClientAsync(Permissions permissions = Permissions.Delegated)
-        {
-            var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
-            var serviceRoot = new Uri(new Uri(Constants.Resources.MSGraph), Constants.Resources.MSGraphVersion);
-            return new EducationServiceClient(serviceRoot, () => Task.FromResult(accessToken));
         }
 
         /// <summary>
