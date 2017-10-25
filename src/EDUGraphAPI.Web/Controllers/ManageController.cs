@@ -309,8 +309,7 @@ namespace EDUGraphAPI.Web.Controllers
         // GET: /Manage/AboutMe
         public async Task<ActionResult> AboutMe(bool? showSaveMessage)
         {
-            var model = new AboutMeViewModel();
-            model.FavoriteColors = Constants.FavoriteColors;
+            var model = new AboutMeViewModel {FavoriteColors = Constants.FavoriteColors};
 
             var userContext = await applicationService.GetUserContextAsync();
             if (userContext.User == null)
