@@ -13,19 +13,6 @@ namespace EDUGraphAPI
 {
     public static class AADGraphExtensions
     {
-        public static async Task<IUser[]> ExecuteAllAsync(this IUserCollection collection)
-        {
-            var pagedCollection = await collection.ExecuteAsync();
-            return await ExecuteAllAsync(pagedCollection);
-        }
-
-        public static async Task<IDirectoryObject[]> ExecuteAllAsync(this IDirectoryObjectCollection collection)
-        {
-            var pagedCollection = await collection.ExecuteAsync();
-            return await ExecuteAllAsync(pagedCollection);
-        }
-        
-
         public static async Task<T[]> ExecuteAllAsync<T>(this IPagedCollection<T> collection)
         {
             var list = new List<T>();
@@ -56,12 +43,6 @@ namespace EDUGraphAPI
                 else break;
             }
             return false;
-        }
-
-        public static async Task<T> ExecuteFirstOrDefaultAsync<T>(this IReadOnlyQueryableSet<T> set)
-        {
-            var items = await set.Take(1).ExecuteAsync();
-            return items.CurrentPage.FirstOrDefault();
         }
     }
 }
