@@ -123,26 +123,6 @@ namespace Microsoft.Education
         #endregion
 
         #region student and teacher
-        /// <summary>
-        /// Get the current logged in user and check if that user has student data.
-        /// </summary>
-        /// <returns>Tuple with user and flag.</returns>
-        public async Task<(EducationUser, bool)> GetStudentAsync()
-        {
-            EducationUser user = await HttpGetObjectAsync<EducationUser>("education/me");
-            return (user, user.Student != null);
-
-        }
-
-        /// <summary>
-        /// Get the current logged in user and check if that user has teacher data.
-        /// </summary>
-        /// <returns>Tuple with user and flag.</returns> 
-        public async Task<(EducationUser, bool)> GetTeacherAsync()
-        {
-            EducationUser user = await HttpGetObjectAsync<EducationUser>("education/me");
-            return (user, user.Teacher != null);
-        }
 
         /// <summary>
         /// Get the current logged in user.
