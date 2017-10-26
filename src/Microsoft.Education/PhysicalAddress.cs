@@ -17,6 +17,9 @@ namespace Microsoft.Education
         [JsonProperty("street")]
         public string Street { get; set; }
 
+        [JsonProperty("state")]
+        public string State { get; set; }
+
         [JsonProperty("city")]
         public string City { get; set; }
 

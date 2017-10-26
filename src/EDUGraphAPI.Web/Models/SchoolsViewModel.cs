@@ -2,7 +2,7 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Microsoft.Education.Data.Legacy;
+using Microsoft.Education;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,15 +10,15 @@ namespace EDUGraphAPI.Web.ViewModels
 {
     public class SchoolsViewModel
     {
-        public SchoolsViewModel(IEnumerable<School> schools)
+        public SchoolsViewModel(IEnumerable<EducationSchool> schools)
         {
             Schools = schools.ToList();
         }
 
         public SchoolsViewModel()
-            : this(Enumerable.Empty<School>()) { }
+            : this(Enumerable.Empty<EducationSchool>()) { }
 
-        public List<School> Schools { get; set; }
+        public List<EducationSchool> Schools { get; set; }
 
         public bool IsStudent { get; set; }
 

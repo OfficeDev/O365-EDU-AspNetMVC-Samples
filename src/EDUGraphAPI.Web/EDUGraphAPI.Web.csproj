@@ -498,9 +498,9 @@
       <Project>{6f7dc16a-38ab-46cf-9f95-9e88e504856a}</Project>
       <Name>EDUGraphAPI.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj">
-      <Project>{4cbcd397-9137-4b1f-87c3-8e44ded7b9ff}</Project>
-      <Name>Microsoft.Education.Legacy</Name>
+    <ProjectReference Include="..\Microsoft.Education\Microsoft.Education.csproj">
+      <Project>{612ee43f-70fb-46a6-a176-4bba05fd8d45}</Project>
+      <Name>Microsoft.Education</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

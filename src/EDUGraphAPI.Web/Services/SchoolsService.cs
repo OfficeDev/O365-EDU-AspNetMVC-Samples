@@ -5,13 +5,12 @@
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.ViewModels;
-using Microsoft.Education.Legacy;
-using Microsoft.Education.Data.Legacy;
 using Microsoft.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Education;
 
 namespace EDUGraphAPI.Web.Services
 {
@@ -34,38 +33,37 @@ namespace EDUGraphAPI.Web.Services
         /// </summary>
         public async Task<SchoolsViewModel> GetSchoolsViewModelAsync(UserContext userContext)
         {
-            var currentUser = userContext.IsStudent
-                ? await educationServiceClient.GetStudentAsync() as SectionUser
-                : await educationServiceClient.GetTeacherAsync() as SectionUser;
-
+            EducationUser currentUser = await educationServiceClient.GetJoinableUserAsync();
+            
             var schools = (await educationServiceClient.GetSchoolsAsync())
                 .OrderBy(i => i.Name)
                 .ToArray();
             for (var i = 0; i < schools.Count(); i++)
             {
-                var address = string.Format("{0}/{1}/{2}", schools[i].State, HttpUtility.HtmlEncode(schools[i].City), HttpUtility.HtmlEncode(schools[i].Address));
-                if (string.IsNullOrEmpty(schools[i].Address) && string.IsNullOrEmpty(schools[i].Zip))
+                var address =
+                    $"{schools[i].Address.State}/{HttpUtility.HtmlEncode(schools[i].Address.City)}/{HttpUtility.HtmlEncode(schools[i].Address.Street)}";
+                if (string.IsNullOrEmpty(schools[i].Address.Street) && string.IsNullOrEmpty(schools[i].Address.PostalCode))
                 {
-                    schools[i].Address = "-";
+                    schools[i].Address.Street = "-";
                 }
             }
 
-            var mySchools = schools
-                .Where(i => i.SchoolNumber == currentUser.SchoolId)
-                .ToArray();
+            var mySchools = currentUser.Schools.ToArray();
 
             var myFirstSchool = mySchools.FirstOrDefault();
-            var grade = userContext.IsStudent ? currentUser.EducationGrade : myFirstSchool?.EducationGrade;
+
+            // Specific grade for students will be coming in later releases of the API.
+            var grade = myFirstSchool?.EducationGrade;
 
             var sortedSchools = mySchools
                 .Union(schools.Except(mySchools));
             return new SchoolsViewModel(sortedSchools)
             {
                 IsStudent = userContext.IsStudent,
-                UserId = currentUser.UserId,
+                UserId = currentUser.ExternalId ?? "",
                 EducationGrade = grade,
                 UserDisplayName = currentUser.DisplayName,
-                MySchoolId = currentUser.SchoolId
+                MySchoolId = myFirstSchool?.ExternalId ?? ""
             };
         }
 
@@ -75,9 +73,11 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId, int top)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var mySections = await educationServiceClient.GetMySectionsAsync(school.SchoolNumber);
-            mySections = mySections.OrderBy(c => c.CombinedCourseNumber).ToArray();
-            var allSections = await educationServiceClient.GetAllSectionsAsync(school.SchoolNumber, top, null);
+            var mySections = await educationServiceClient.GetMyClassesAsync(school.SchoolNumber);
+
+            // Courses not currently represented.
+            mySections = mySections.OrderBy(c => c.ClassNumber).ToArray();
+            var allSections = await educationServiceClient.GetAllClassesAsync(school.SchoolNumber, null);
             return new SectionsViewModel(userContext, school, allSections, mySections);
         }
 
@@ -87,8 +87,8 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId, int top, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var mySections = await educationServiceClient.GetMySectionsAsync(school.SchoolNumber);
-            var allSections = await educationServiceClient.GetAllSectionsAsync(school.SchoolNumber, top, nextLink);
+            var mySections = await educationServiceClient.GetMyClassesAsync(school.SchoolNumber);
+            var allSections = await educationServiceClient.GetAllClassesAsync(school.SchoolNumber, nextLink);
 
             return new SectionsViewModel(userContext.UserO365Email, school, allSections, mySections);
         }
@@ -96,25 +96,25 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get users, teachers and students of the specified school
         /// </summary>
-        public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(UserContext userContext, string objectId, int top)
+        public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(UserContext userContext, string objectId)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var users = await educationServiceClient.GetMembersAsync(objectId, top, null);
-            var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, top, null);
-            var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, top, null);
-            ArrayResult<SectionUser> studentsInMyClasses = null;
+            var users = await educationServiceClient.GetSchoolUsersAsync(objectId, null);
+            var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, null);
+            var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, null);
+            ArrayResult<EducationUser> studentsInMyClasses = null;
             if (userContext.IsFaculty)
             {
-                var mySections = await educationServiceClient.GetMySectionsAsync(true);
-                studentsInMyClasses = new ArrayResult<SectionUser>();
-                List<SectionUser> studentsList = new List<SectionUser>();
+                var mySections = await educationServiceClient.GetMyClassesAsync(true);
+                studentsInMyClasses = new ArrayResult<EducationUser>();
+                List<EducationUser> studentsList = new List<EducationUser>();
                 foreach (var item in mySections)
                 {
-                    if (item.SchoolId == school.SchoolId)
+                    if (item.ExternalId == school.ExternalId)
                     {
                         foreach (var user in item.Members)
                         {
-                            if (user.ObjectType == "Student" && studentsList.Where(c => c.O365UserId == user.O365UserId).Count() == 0)
+                            if (user.PrimaryRole == EducationRole.Student && !studentsList.Any(s => s.Id == user.Id))
                             {
                                 studentsList.Add(user);
                             }
@@ -133,7 +133,7 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(string objectId, int top, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var users = await educationServiceClient.GetMembersAsync(objectId, top, nextLink);
+            var users = await educationServiceClient.GetSchoolUsersAsync(objectId, nextLink);
             return new SchoolUsersViewModel(school, users, null, null);
         }
 
@@ -143,7 +143,7 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SchoolUsersViewModel> GetSchoolStudentsAsync(string objectId, int top, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, top, nextLink);
+            var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, nextLink);
             return new SchoolUsersViewModel(school, null, students, null);
         }
 
@@ -153,7 +153,7 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SchoolUsersViewModel> GetSchoolTeachersAsync(string objectId, int top, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
-            var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, top, nextLink);
+            var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, nextLink);
             return new SchoolUsersViewModel(school, null, null, teachers);
         }
 
@@ -163,21 +163,22 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SectionDetailsViewModel> GetSectionDetailsViewModelAsync(string schoolId, string classId, IGroupRequestBuilder group)
         {
             var school = await educationServiceClient.GetSchoolAsync(schoolId);
-            var section = await educationServiceClient.GetSectionAsync(classId);
+            var @class = await educationServiceClient.GetClassAsync(classId);
             var driveRootFolder = await group.Drive.Root.Request().GetAsync();
-            foreach (var user in section.Students)
+            foreach (var user in @class.Students)
             {
-                var seat = dbContext.ClassroomSeatingArrangements.Where(c => c.O365UserId == user.O365UserId && c.ClassId == classId).FirstOrDefault();
+                var seat = dbContext.ClassroomSeatingArrangements.FirstOrDefault(c =>
+                    c.O365UserId == user.Id && c.ClassId == classId);
                 user.Position = seat?.Position ?? 0;
-                var userInDB = dbContext.Users.Where(c => c.O365UserId == user.O365UserId).FirstOrDefault();
+                var userInDB = dbContext.Users.Where(c => c.O365UserId == user.Id).FirstOrDefault();
                 user.FavoriteColor = userInDB == null ? "" : userInDB.FavoriteColor;
             }
             return new SectionDetailsViewModel
             {
                 School = school,
-                Section = section,
+                Class = @class,
                 Conversations = await group.Conversations.Request().GetAllAsync(),
-                SeeMoreConversationsUrl = string.Format(Constants.O365GroupConversationsUrl, section.Email),
+                SeeMoreConversationsUrl = string.Format(Constants.O365GroupConversationsUrl, @class.MailNickname),
                 DriveItems = await group.Drive.Root.Children.Request().GetAllAsync(),
                 SeeMoreFilesUrl = driveRootFolder.WebUrl
             };
@@ -188,9 +189,9 @@ namespace EDUGraphAPI.Web.Services
         /// </summary>
         public async Task<string[]> GetMyClassesAsync()
         {
-            var myClasses = await educationServiceClient.GetMySectionsAsync();
+            var myClasses = await educationServiceClient.GetMyClassesAsync();
             return myClasses
-                .Select(i => i.SectionName)
+                .Select(i => i.ExternalName)
                 .ToArray();
         }
     }

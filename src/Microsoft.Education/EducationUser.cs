@@ -40,12 +40,24 @@ namespace Microsoft.Education
         [JsonProperty("createdBy")]
         public IdentitySet CreatedBy { get; set; }
 
+        #region Local DB stored properties
         public string FavoriteColor { get; set; }
 
-        public IEnumerable<EducationClass> Classes { get; set; }
+        public int Position { get; set; }
+        #endregion
 
-        public IEnumerable<EducationSchool> Schools { get; set; }
+        public IList<EducationClass> Classes { get; set; }
 
-        public string ExternalId => this.PrimaryRole == EducationRole.Student ? this.Student.ExternalId : this.Teacher.ExternalId;
+        public IList<EducationSchool> Schools { get; set; }
+
+        public string ExternalId => 
+            this.PrimaryRole == EducationRole.Teacher && this.Teacher != null
+            ? this.Teacher.ExternalId
+            : (this.PrimaryRole == EducationRole.Student && this.Student != null
+                ? this.Student.ExternalId
+                : (this.Teacher != null
+                    ? this.Teacher.ExternalId
+                    : (this.Student != null ? this.Student.ExternalId 
+                        : null)));
     }
 }

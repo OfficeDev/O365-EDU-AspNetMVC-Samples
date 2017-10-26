@@ -46,12 +46,15 @@ namespace Microsoft.Education
         [JsonProperty("createdBy")]
         public IdentitySet CreatedBy { get; set; }
 
-        public List<EducationUser> Members { get; set; }
+        [JsonProperty("term")]
+        public EducationTerm Term { get; set; }
+
+        public IList<EducationUser> Members { get; set; }
 
         public IEnumerable<EducationUser> Students => Members.Where(m => m.PrimaryRole == EducationRole.Student );
 
-        public IEnumerable<EducationUser> Teachers { get; set; }
+        public IList<EducationUser> Teachers { get; set; }
 
-        public IEnumerable<EducationSchool> Schools { get; set; }
+        public IList<EducationSchool> Schools { get; set; }
     }
 }

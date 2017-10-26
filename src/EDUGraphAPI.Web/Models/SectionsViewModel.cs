@@ -4,40 +4,43 @@
  */
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Education.Legacy;
-using Microsoft.Education.Data.Legacy;
+using Microsoft.Education;
 using EDUGraphAPI.Web.Models;
 
 namespace EDUGraphAPI.Web.ViewModels
 {
     public class SectionsViewModel
     {
-        public SectionsViewModel(string userEmail, School School, ArrayResult<Section> sections, IEnumerable<Section> mySections)
+        public SectionsViewModel(string userEmail, EducationSchool school, ArrayResult<EducationClass> classes, IEnumerable<EducationClass> myClasses)
         {
             this.UserEmail = userEmail;
-            this.School = School;
-            this.Sections = sections;
-            this.MySections = mySections.ToList();
+            this.School = school;
+            this.Classes = classes;
+            this.MyClasses = myClasses.ToList();
         }
 
-        public SectionsViewModel(UserContext userContext, School School, ArrayResult<Section> sections, IEnumerable<Section> mySections)
+        public SectionsViewModel(UserContext userContext, EducationSchool school, ArrayResult<EducationClass> classes, IEnumerable<EducationClass> myClasses)
         {
             this.UserEmail = userContext.UserO365Email;
-            this.School = School;
-            this.Sections = sections;
-            this.MySections = mySections.ToList();
+            this.School = school;
+            this.Classes = classes;
+            this.MyClasses = myClasses.ToList();
             this.UserContext = userContext;
         }
 
         public string UserEmail { get; set; }
-        public School School { get; set; }
-        public ArrayResult<Section> Sections { get; set; }
-        public List<Section> MySections { get; set; }
+
+        public EducationSchool School { get; set; }
+
+        public ArrayResult<EducationClass> Classes { get; set; }
+
+        public List<EducationClass> MyClasses { get; set; }
 
         public UserContext UserContext { get; set; }
-        public bool IsMy(Section section)
+
+        public bool IsMy(EducationClass @class)
         {
-            return MySections != null && MySections.Any(c => c.Email == section.Email);
+            return MyClasses != null && MyClasses.Any(c => c.Id == @class.Id);
         }
     }
 }

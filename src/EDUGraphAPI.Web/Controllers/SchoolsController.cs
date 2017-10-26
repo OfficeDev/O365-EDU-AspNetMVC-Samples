@@ -12,8 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.Education.Data.Legacy;
-using Microsoft.Education.Legacy;
+using Microsoft.Education;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -63,19 +62,8 @@ namespace EDUGraphAPI.Web.Controllers
             var userContext = await applicationService.GetUserContextAsync();
             var schoolsService = await GetSchoolsServiceAsync();
             var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, pageSize, nextLink);
-            var sections = new List<Section>(model.Sections.Value);
-            sections.AddRange(model.MySections);
-            foreach (var section in sections)
-            {
-                if (!string.IsNullOrEmpty(section.TermStartDate))
-                {
-                    section.TermStartDate = Convert.ToDateTime(section.TermStartDate).ToString("yyyy-MM-ddTHH:mm:ss");
-                }
-                if (!string.IsNullOrEmpty(section.TermEndDate))
-                {
-                    section.TermEndDate = Convert.ToDateTime(section.TermEndDate).ToString("yyyy-MM-ddTHH:mm:ss");
-                }
-            }
+            var classes = new List<EducationClass>(model.Classes.Value);
+            classes.AddRange(model.MyClasses);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
@@ -85,7 +73,7 @@ namespace EDUGraphAPI.Web.Controllers
         {
             var schoolsService = await GetSchoolsServiceAsync();
             var userContext = await applicationService.GetUserContextAsync();
-            var model = await schoolsService.GetSchoolUsersAsync(userContext,schoolId, pageSize);
+            var model = await schoolsService.GetSchoolUsersAsync(userContext,schoolId);
             return View(model);
         }
 

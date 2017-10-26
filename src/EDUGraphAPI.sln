@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.Web", "EDUGraphAPI.Web\EDUGraphAPI.Web.csproj", "{C39A0AE0-8076-4AD4-A0C8-0108331E610C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.SyncData", "EDUGraphAPI.SyncData\EDUGraphAPI.SyncData.csproj", "{3FCF8627-0BF9-4467-B9ED-96483AA90F56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDUGraphAPI.Common", "EDUGraphAPI.Common\EDUGraphAPI.Common.csproj", "{6F7DC16A-38AB-46CF-9F95-9E88E504856A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Education.Legacy", "Microsoft.Education.Legacy\Microsoft.Education.Legacy.csproj", "{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Education", "Microsoft.Education\Microsoft.Education.csproj", "{612EE43F-70FB-46A6-A176-4BBA05FD8D45}"
 EndProject
@@ -31,10 +29,6 @@ Global
 		{6F7DC16A-38AB-46CF-9F95-9E88E504856A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F7DC16A-38AB-46CF-9F95-9E88E504856A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F7DC16A-38AB-46CF-9F95-9E88E504856A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CBCD397-9137-4B1F-87C3-8E44DED7B9FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{612EE43F-70FB-46A6-A176-4BBA05FD8D45}.Release|Any CPU.ActiveCfg = Release|Any CPU

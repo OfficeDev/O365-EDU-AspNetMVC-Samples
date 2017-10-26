@@ -2,16 +2,17 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Microsoft.Education.Data.Legacy;
+
+using Microsoft.Education;
 using Microsoft.Graph;
 
 namespace EDUGraphAPI.Web.ViewModels
 {
     public class SectionDetailsViewModel
     {
-        public School School { get; set; }
+        public EducationSchool School { get; set; }
 
-        public Section Section { get; set; }
+        public EducationClass Class { get; set; }
         
         public Conversation[] Conversations { get; set; }
 

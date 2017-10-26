@@ -184,7 +184,7 @@
             "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
             "methods": [
               {
-                "title": "GetMembersAsync",
+                "title": "GetSchoolUsersAsync",
                 "description": "Get users within a school."
               }
             ]

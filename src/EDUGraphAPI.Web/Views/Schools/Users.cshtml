@@ -73,7 +73,7 @@
     <input id="school-objectid" type="hidden" value="@Model.School.Id" />
 </div>
 
-@helper Users(ArrayResult<SectionUser> users)
+@helper Users(ArrayResult<EducationUser> users)
 {
 if (users == null || users.Value == null || users.Value.Count() == 0)
 {
