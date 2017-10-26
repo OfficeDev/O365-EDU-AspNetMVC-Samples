@@ -16,7 +16,7 @@ namespace Microsoft.Education
         {
             public const string AADGraph = "https://graph.windows.net";
             public const string MSGraph = "https://graph.microsoft.com";
-            public const string MSGraphVersion = "beta";
+            public const string MSGraphVersion = "testEduApi";
         }
     }
 }

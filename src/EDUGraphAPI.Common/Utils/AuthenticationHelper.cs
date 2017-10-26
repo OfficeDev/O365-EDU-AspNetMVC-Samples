@@ -51,17 +51,8 @@ namespace EDUGraphAPI.Utils
         public static async Task<GraphServiceClient> GetGraphServiceClientAsync(Permissions permissions = Permissions.Delegated)
         {
             var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
-            var serviceRoot = Constants.Resources.MSGraph + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
+            var serviceRoot = Constants.Resources.MSGraph + "/" + Constants.Resources.MSGraphVersion;
             return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(accessToken));
-        }
-
-        /// <summary>
-        /// Get an instance of ActiveDirectoryClient from the specified AuthenticationResult
-        /// </summary>
-        public static ActiveDirectoryClient GetActiveDirectoryClient(AuthenticationResult result)
-        {
-            var serviceRoot = new Uri(new Uri(Constants.Resources.AADGraph), result.TenantId);
-            return new ActiveDirectoryClient(serviceRoot, () => Task.FromResult(result.AccessToken));
         }
 
         /// <summary>
@@ -69,7 +60,7 @@ namespace EDUGraphAPI.Utils
         /// </summary>
         public static GraphServiceClient GetGraphServiceClient(AuthenticationResult result)
         {
-            var serviceRoot = Constants.Resources.MSGraph + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
+            var serviceRoot = Constants.Resources.MSGraph + "/" + Constants.Resources.MSGraphVersion;
             return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(result.AccessToken));
         }
 
@@ -97,10 +88,13 @@ namespace EDUGraphAPI.Utils
                 return await context.AcquireTokenSilentAsync(resource, clientCredential, userIdentifier);
             }
             else if (permissions == Permissions.Application)
+            {
                 return await context.AcquireTokenAsync(resource, clientCredential);
-
+            }
             else
+            {
                 throw new NotImplementedException();
+            }
         }
 
         /// <summary>

@@ -40,9 +40,8 @@ namespace EDUGraphAPI.Web.Services
                 .ToArray();
             for (var i = 0; i < schools.Count(); i++)
             {
-                var address =
-                    $"{schools[i].Address.State}/{HttpUtility.HtmlEncode(schools[i].Address.City)}/{HttpUtility.HtmlEncode(schools[i].Address.Street)}";
-                if (string.IsNullOrEmpty(schools[i].Address.Street) && string.IsNullOrEmpty(schools[i].Address.PostalCode))
+                if (schools[i].Address != null && string.IsNullOrEmpty(schools[i].Address.Street) &&
+                    string.IsNullOrEmpty(schools[i].Address.PostalCode))
                 {
                     schools[i].Address.Street = "-";
                 }

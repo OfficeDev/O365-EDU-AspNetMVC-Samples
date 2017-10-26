@@ -31,7 +31,7 @@ $(document).ready(function () {
         var prevElement = isBackward ? element : element.siblings(".prev");
         var nextLinkElement = element.siblings("#nextlink");
         var nextLink = nextLinkElement.val();
-        var hasNextLink = typeof (nextLink) == "string" && nextLink.length > 0;
+        var hasNextLink = typeof (nextLink) === "string" && nextLink.length > 0;
         if (isBackward) {
             nextElement = element.siblings(".next");
             prevElement = element;
@@ -65,14 +65,14 @@ $(document).ready(function () {
 
                     var users = data[action];
                     var value = users.Value;
-                    if (!(value instanceof Array) || value.length == 0) {
+                    if (!(value instanceof Array) || value.length === 0) {
                         return;
                     }
                     
                     $.each(value, function (i, user) {
-                        var userHtml = '<div class="element ' + (user.ObjectType == "Teacher" ? "teacher-bg" : "student-bg") + '">' +
+                        var userHtml = '<div class="element ' + (user.PrimaryRole === "teacher" ? "teacher-bg" : "student-bg") + '">' +
                                            '<div class="userimg">' +
-                                               '<img src="/images/header-default.jpg" realheader="' + '/Photo/UserPhoto/' + user.O365UserId + '" />' +
+                                               '<img src="/images/header-default.jpg" realheader="' + '/Photo/UserPhoto/' + user.Id + '" />' +
                                            '</div>' +
                                            '<div class="username">' + user.DisplayName + '</div>' +
                                        '</div>';
@@ -81,7 +81,7 @@ $(document).ready(function () {
 
                     var newNextLink = users.NextLink;
                     nextLinkElement.val(newNextLink);
-                    hasNextLink = typeof (newNextLink) == "string" && newNextLink.length > 0;
+                    hasNextLink = typeof (newNextLink) === "string" && newNextLink.length > 0;
                     showPage(false, targetPageNum, hasNextLink, prevElement, nextElement, curPageElement, content);
                 },
                 complete: function (XMLHttpRequest, textStatus, errorThrown) {

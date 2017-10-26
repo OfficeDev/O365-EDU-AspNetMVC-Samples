@@ -59,7 +59,7 @@ namespace EDUGraphAPI.Web.Controllers
             //create an OAuth2 request, using the web app as the client.
             //this will trigger a consent flow that will provision the app in the target tenant
             var url = Request.Url.GetLeftPart(UriPartial.Authority) + "/Admin/ProcessCode";
-            var authorizationUrl = AuthorizationHelper.GetUrl(url, stateMarker, Constants.Resources.AADGraph, AuthorizationHelper.Prompt.AdminConsent);
+            var authorizationUrl = AuthorizationHelper.GetUrl(url, stateMarker, Constants.Resources.MSGraph, AuthorizationHelper.Prompt.AdminConsent);
 
             // send the admin to consent
             return new RedirectResult(authorizationUrl);
@@ -79,8 +79,8 @@ namespace EDUGraphAPI.Web.Controllers
 
             // Get the tenant
             var authResult = await AuthenticationHelper.GetAuthenticationResultAsync(code);
-            var activeDirectoryClient = authResult.CreateActiveDirectoryClient();
-            var graphClient = new AADGraphClient(activeDirectoryClient);
+            var graphServiceClient = authResult.CreateGraphServiceClient();
+            var graphClient = new MSGraphClient(graphServiceClient);
             var tenant = await graphClient.GetTenantAsync(authResult.TenantId);
 
             // Create (or update) an organization, and make it as AdminConsented

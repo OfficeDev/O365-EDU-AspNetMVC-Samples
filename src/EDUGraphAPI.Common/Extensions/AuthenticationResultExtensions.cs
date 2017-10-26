@@ -11,11 +11,6 @@ namespace EDUGraphAPI
 {
     public static class AuthenticationResultExtensions
     {
-        public static ActiveDirectoryClient CreateActiveDirectoryClient(this AuthenticationResult authenticationResult)
-        {
-            return AuthenticationHelper.GetActiveDirectoryClient(authenticationResult);
-        }
-
         public static GraphServiceClient CreateGraphServiceClient(this AuthenticationResult authenticationResult)
         {
             return AuthenticationHelper.GetGraphServiceClient(authenticationResult);

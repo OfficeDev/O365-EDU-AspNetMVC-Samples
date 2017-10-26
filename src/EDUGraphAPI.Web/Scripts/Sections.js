@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
         var result = false;
         $.each(sections, function (i, s) {
-            if (section.Email == s.Email) {
+            if (section.MailNickname === s.MailNickname) {
                 return result = true;
             }
         });
@@ -75,39 +75,37 @@ $(document).ready(function () {
 
                 var tiles = element.parent().prev(".content");
                 var newTiles = $();
-                $.each(data.Sections.Value, function (i, s) {
-                    var isMine = hasSection(s, data.MySections);
+                $.each(data.Classes.Value, function (i, s) {
+                    var isMine = hasSection(s, data.MyClasses);
                     var newTile = $('<div class="tile-container"></div>');
                     var tileContainer = newTile;
                     if (isMine) {
-                        tileContainer = $('<a class="mysectionlink" href="/Schools/' + schoolId + '/Classes/' + s.ObjectId + '"></a>').appendTo(newTile);
+                        tileContainer = $('<a class="mysectionlink" href="/Schools/' + schoolId + '/Classes/' + s.Id + '"></a>').appendTo(newTile);
                     }
                     var tile = $('<div class="tile"><h5>' + s.DisplayName + '</h5><h2>' + s.CombinedCourseNumber + '</h2></div>');
                     tile.appendTo(tileContainer);
                     var tileDetail = $('<div class="detail" style="display: none;">' +
                                             '<h5>Course Id:</h5>' +
-                                            '<h6>' + s.CourseId + '</h6>' +
+                                            '<h6>' + s.ClassNumber + '</h6>' +
                                             '<h5>Description:</h5>' +
-                                            '<h6>' + s.CourseDescription + '</h6>' +
+                                            '<h6>' + s.Description + '</h6>' +
                                             '<h5>Teachers:</h5>' +
-                                            ((s.Members instanceof Array) ?
-                                            s.Members.reduce(function (accu, cur) {
-                                                if (cur.ObjectType == 'Teacher') {
+                                            ((s.Teachers instanceof Array) ?
+                                                s.Teachers.reduce(function (accu, cur) {
+                                                if (true) {
                                                     accu += '<h6>' + cur.DisplayName + '</h6>';
                                                 }
                                                 return accu;
                                             }, '') : '') +
 
                                             '<h5>Term Name:</h5>' +
-                                            '<h6>' + s.TermName + '</h6>' +
+                                            '<h6>' + s.Term.DisplayName + '</h6>' +
                                             '<h5>Start/Finish Date:</h5>' +
-                                            ((s.TermStartDate || s.TermEndDate) ?
-                                            ('<h6><span id="termdate">' + s.TermStartDate + '</span>' +
+                                            ((s.Term.StartDate || s.Term.EndDate) ?
+                                            ('<h6><span id="termdate">' + s.Term.StartDate + '</span>' +
                                             '<span> - </span>' +
-                                            '<span id="termdate">' + s.TermEndDate + '</span>' +
+                                            '<span id="termdate">' + s.Term.EndDate + '</span>' +
                                             '</h6>') : '') +
-                                            '<h5>Period:</h5>' +
-                                            '<h6>' + s.Period + '</h6>' +
                                         '</div>');
                     tileDetail.appendTo(newTile);
                     newTiles = newTiles.add(newTile);
@@ -115,7 +113,7 @@ $(document).ready(function () {
                 newTiles.appendTo(tiles).hide().fadeIn("slow");
                 bindShowDetail(newTiles);
 
-                var newNextLink = data.Sections.NextLink;
+                var newNextLink = data.Classes.NextLink;
                 nextLinkElement.val(newNextLink);
                 if (typeof (newNextLink) != "string" || newNextLink.length == 0) {
                     element.addClass("nomore");

@@ -77,7 +77,7 @@
                 @foreach (var school in Model.Schools)
                 {
                     var style = "";
-                    if (Model.MySchoolId == school.SchoolId)
+                    if (Model.MySchoolId == school.ExternalId)
                     {
                         style = "td-green";
                     }
@@ -87,15 +87,15 @@
                         <td>@school.LowestGrade - @school.HighestGrade</td>
                         <td>
                             <div class="schooladdress">
-                                @school.Address
+                                @school.Address?.Street ?? "No Street"
 
-                                @if (!string.IsNullOrEmpty(school.City))
+                                @if (!string.IsNullOrEmpty(school.Address?.City))
                         {
                                     <br />
-                                    @Html.Raw(school.City + ",")
+                                    @Html.Raw(school.Address?.City + ",")
 
                                 }
-                                @school.State @school.Zip
+                                @school.Address?.State ?? "No State" @school.Address?.PostalCode ?? "No postal code"
                             </div>
                         </td>
                         <td>

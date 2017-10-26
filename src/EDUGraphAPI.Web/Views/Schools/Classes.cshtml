@@ -3,7 +3,6 @@
     *   * See LICENSE in the project root for license information.
 *@
 @using Microsoft.Education
-@using Microsoft.Education.Data
 @model SectionsViewModel
 @{
     ViewBag.Title = "CLASSES";
@@ -66,8 +65,8 @@
         <div id="allclasses" class="tiles-secondary-container">
             <div class="section-tiles">
                 @{
-                    var sections = Model.Sections;
-                    if (sections == null || sections.Value == null || sections.Value.Count() == 0)
+                    var sections = Model.Classes;
+                    if (sections?.Value == null || !sections.Value.Any())
                     {
                         <div class="nodata">No classes in this school.</div> 
                     }
@@ -94,7 +93,7 @@
         <div id="myclasses" class="tiles-secondary-container">
             <div class="section-tiles">
                 @{
-                    var mySections = Model.MySections;
+                    var mySections = Model.MyClasses;
                     if (mySections == null || mySections.Count() == 0)
                     {
                         if (Model.UserContext.IsStudent)
@@ -131,7 +130,7 @@ if (isMine)
         <a class="mysectionlink" href="@Url.Action("ClassDetails", new { schoolId = Model.School.Id, sectionId = section.Id })">
             <div class="tile">
                 <h5>@(section.DisplayName)</h5>
-                <h2>@(section.CombinedCourseNumber)</h2>
+                <h2>@(section.ClassNumber)</h2>
             </div>
         </a>
 }
@@ -139,17 +138,15 @@ else
 {
         <div class="tile">
             <h5>@(section.DisplayName)</h5>
-            <h2>@(section.CombinedCourseNumber)</h2>
+            <h2>@(section.ClassNumber)</h2>
         </div>
 }
 }
 @helper TileDetail(EducationClass section)
 {
     <div class="detail">
-        <h5>Course Id:</h5>
-        <h6>@(section.CourseId)</h6>
-        <h5>Description:</h5>
-        <h6>@(section.CourseDescription)</h6>
+        <h5>Class Number:</h5>
+        <h6>@(section.ClassNumber)</h6>
         <h5>Teachers:</h5>
         @foreach (var teacher in section.Teachers)
         {
@@ -157,13 +154,13 @@ else
         }
         <h5>Term Name:</h5>
         <h6>
-            @(section.TermName)
+            @(section.Term?.DisplayName)
         </h6>
         <h5>Start/Finish Date:</h5>
         <h6>
-            <span id="termdate">@(string.IsNullOrEmpty(section.TermStartDate) ? "" : Convert.ToDateTime(section.TermStartDate).ToString("yyyy-MM-ddTHH:mm:ss"))</span>
+            <span id="termdate">@(section.Term == null ? "" : section.Term.StartDate.ToString("yyyy-MM-ddTHH:mm:ss"))</span>
             <span> - </span>
-            <span id="termdate">@(string.IsNullOrEmpty(section.TermEndDate) ? "" : Convert.ToDateTime(section.TermEndDate).ToString("yyyy-MM-ddTHH:mm:ss"))</span>
+            <span id="termdate">@(section.Term == null ? "" : section.Term.EndDate.ToString("yyyy-MM-ddTHH:mm:ss"))</span>
         </h6>
         <h5>Period:</h5>
         <h6>@(section.Period)</h6>

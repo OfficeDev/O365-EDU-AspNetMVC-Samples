@@ -48,8 +48,8 @@ namespace EDUGraphAPI.Web.Controllers
             var userContext = await applicationService.GetUserContextAsync();
             if (userContext.IsO365Account && !userContext.AreAccountsLinked)
             {
-                var activeDirectoryClient = await AuthenticationHelper.GetActiveDirectoryClientAsync();
-                var graphClient = new AADGraphClient(activeDirectoryClient);
+                var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
+                var graphClient = new MSGraphClient(graphServiceClient);
                 var user = await graphClient.GetCurrentUserAsync();
                 var email = user.Mail ?? user.UserPrincipalName;
 
@@ -115,8 +115,8 @@ namespace EDUGraphAPI.Web.Controllers
         // GET: /Link/LoginLocal
         public async Task<ActionResult> LoginLocal(LoginViewModel model)
         {
-            var activeDirectoryClient = await AuthenticationHelper.GetActiveDirectoryClientAsync();
-            IGraphClient graphClient = new AADGraphClient(activeDirectoryClient);
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
+            IGraphClient graphClient = new MSGraphClient(graphServiceClient);
             var user = await graphClient.GetCurrentUserAsync();
             var localUser = userManager.FindByEmail(user.Mail);
             if (localUser == null)
@@ -168,9 +168,9 @@ namespace EDUGraphAPI.Web.Controllers
             }
 
             var tenantId = User.GetTenantId();
-            var activeDirectoryClient = await AuthenticationHelper.GetActiveDirectoryClientAsync();
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
 
-            IGraphClient graphClient = new AADGraphClient(activeDirectoryClient);
+            IGraphClient graphClient = new MSGraphClient(graphServiceClient);
             var user = await graphClient.GetCurrentUserAsync();
             var tenant = await graphClient.GetTenantAsync(tenantId);
 
@@ -186,8 +186,9 @@ namespace EDUGraphAPI.Web.Controllers
         // GET: /Link/CreateLocalAccount
         public async Task<ActionResult> CreateLocalAccount()
         {
-            var client = await AuthenticationHelper.GetActiveDirectoryClientAsync();
-            var aadUser = await client.Me.ExecuteAsync();
+            var client = await AuthenticationHelper.GetGraphServiceClientAsync();
+
+            var aadUser = await client.Me.Request().GetAsync();
 
             var viewModel = new EducationRegisterViewModel
             {
@@ -206,15 +207,14 @@ namespace EDUGraphAPI.Web.Controllers
         public async Task<ActionResult> CreateLocalAccountPost(EducationRegisterViewModel model)
         {
             var tenantId = User.GetTenantId();
-            var activeDirectoryClient = await AuthenticationHelper.GetActiveDirectoryClientAsync();
+            var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
 
-            IGraphClient graphClient = new AADGraphClient(activeDirectoryClient);
+            IGraphClient graphClient = new MSGraphClient(graphServiceClient);
             var user = await graphClient.GetCurrentUserAsync();
             var tenant = await graphClient.GetTenantAsync(tenantId);
 
             model.Email = user.Mail ?? user.UserPrincipalName;
             model.FavoriteColors = Constants.FavoriteColors;
-            //if (!ModelState.IsValid) return View(model);
 
             // Create a new local user
             var localUser = new ApplicationUser

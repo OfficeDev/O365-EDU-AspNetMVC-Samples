@@ -3,7 +3,6 @@
     *   * See LICENSE in the project root for license information.
 *@
 @using Microsoft.Education
-@using Microsoft.Education.Data
 @model SchoolUsersViewModel
 @{
     ViewBag.Title = "Teachers & Students";
@@ -75,7 +74,7 @@
 
 @helper Users(ArrayResult<EducationUser> users)
 {
-if (users == null || users.Value == null || users.Value.Count() == 0)
+if (users?.Value == null || !users.Value.Any())
 {
         <div class="nodata"> There is no data available for this page at this time.</div>
 }
@@ -84,9 +83,9 @@ else
         <div class="content">
             @foreach (var user in users.Value)
             {
-                <div class="element @(user.ObjectType == "Teacher" ? "teacher-bg" : "student-bg")">
+                <div class="element @(user.PrimaryRole == EducationRole.Teacher ? "teacher-bg" : "student-bg")">
                     <div class="userimg">
-                        <img src="/images/header-default.jpg" realheader="@Url.Action("UserPhoto", "Photo", new { id = user.O365UserId })" />
+                        <img src="/images/header-default.jpg" realheader="@Url.Action("UserPhoto", "Photo", new { id = user.Id })" />
                     </div>
                     <div class="username">@user.DisplayName</div>
                 </div>

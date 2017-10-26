@@ -64,11 +64,11 @@ namespace EDUGraphAPI.Web
                             var redirectUri = new Uri(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Path));
                             var credential = new ClientCredential(Constants.AADClientId, Constants.AADClientSecret);
                             var authContext = AuthenticationHelper.GetAuthenticationContext(identity, Permissions.Delegated);
-                            var authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(context.Code, redirectUri, credential, Constants.Resources.AADGraph);
+                            var authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(context.Code, redirectUri, credential, Constants.Resources.MSGraph);
 
                             // Get user's roles and add them to claims
-                            var activeDirectoryClient = authResult.CreateActiveDirectoryClient();
-                            var graphClient = new AADGraphClient(activeDirectoryClient);
+                            var graphServiceClient = authResult.CreateGraphServiceClient();
+                            var graphClient = new MSGraphClient(graphServiceClient);
                             var user = await graphClient.GetCurrentUserAsync();
                             foreach (var role in user.Roles)
                                 identity.AddClaim(ClaimTypes.Role, role);

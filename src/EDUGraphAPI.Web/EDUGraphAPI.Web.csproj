@@ -283,7 +283,6 @@
     </Compile>
     <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\DemoHelperService.cs" />
-    <Compile Include="Services\GraphClients\AADGraphClient.cs" />
     <Compile Include="Services\GraphClients\IGraphClient.cs" />
     <Compile Include="Services\GraphClients\MSGraphClient.cs" />
     <Compile Include="Services\SchoolsService.cs" />
@@ -467,7 +466,6 @@
     <Content Include="Views\Link\LoginO365Required.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\NoAccess.cshtml" />
-    <Content Include="Services\GraphClients\GraphClients.cd" />
     <Content Include="Views\Manage\AboutMe.cshtml" />
     <Content Include="Views\Schools\Users.cshtml" />
     <Content Include="Views\DemoHelper\Control.cshtml" />
