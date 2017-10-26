@@ -94,7 +94,7 @@
             <div class="section-tiles">
                 @{
                     var mySections = Model.MyClasses;
-                    if (mySections == null || mySections.Count() == 0)
+                    if (mySections == null || !mySections.Any())
                     {
                         if (Model.UserContext.IsStudent)
                         {

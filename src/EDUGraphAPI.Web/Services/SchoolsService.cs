@@ -69,13 +69,13 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get SectionsViewModel of the specified school
         /// </summary>
-        public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId, int top)
+        public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
             var mySections = await educationServiceClient.GetMyClassesAsync(school.SchoolNumber);
 
             // Courses not currently represented.
-            mySections = mySections.OrderBy(c => c.ClassNumber).ToArray();
+            mySections = mySections.OrderBy(c => c.DisplayName).ToArray();
             var allSections = await educationServiceClient.GetAllClassesAsync(school.SchoolNumber, null);
             return new SectionsViewModel(userContext, school, allSections, mySections);
         }
@@ -83,7 +83,7 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get SectionsViewModel of the specified school
         /// </summary>
-        public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId, int top, string nextLink)
+        public async Task<SectionsViewModel> GetSectionsViewModelAsync(UserContext userContext, string objectId, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
             var mySections = await educationServiceClient.GetMyClassesAsync(school.SchoolNumber);
@@ -98,6 +98,12 @@ namespace EDUGraphAPI.Web.Services
         public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(UserContext userContext, string objectId)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
+
+            // TBD - Canviz 
+            // These three calls will fail, as individual users are no longer empowered to
+            // get the users in a school or the total set of users.
+
+            // Need to rebuild this UI to be based on the users in the class instead and drill down via class.
             var users = await educationServiceClient.GetSchoolUsersAsync(objectId, null);
             var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, null);
             var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, null);
@@ -129,7 +135,7 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get users of the specified school
         /// </summary>
-        public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(string objectId, int top, string nextLink)
+        public async Task<SchoolUsersViewModel> GetSchoolUsersAsync(string objectId, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
             var users = await educationServiceClient.GetSchoolUsersAsync(objectId, nextLink);
@@ -139,7 +145,7 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get students of the specified school
         /// </summary>
-        public async Task<SchoolUsersViewModel> GetSchoolStudentsAsync(string objectId, int top, string nextLink)
+        public async Task<SchoolUsersViewModel> GetSchoolStudentsAsync(string objectId, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
             var students = await educationServiceClient.GetStudentsAsync(school.SchoolNumber, nextLink);
@@ -149,7 +155,7 @@ namespace EDUGraphAPI.Web.Services
         /// <summary>
         /// Get teachers of the specified school
         /// </summary>
-        public async Task<SchoolUsersViewModel> GetSchoolTeachersAsync(string objectId, int top, string nextLink)
+        public async Task<SchoolUsersViewModel> GetSchoolTeachersAsync(string objectId, string nextLink)
         {
             var school = await educationServiceClient.GetSchoolAsync(objectId);
             var teachers = await educationServiceClient.GetTeachersAsync(school.SchoolNumber, nextLink);

@@ -87,7 +87,7 @@
                         <td>@school.LowestGrade - @school.HighestGrade</td>
                         <td>
                             <div class="schooladdress">
-                                @school.Address?.Street ?? "No Street"
+                                @(school.Address?.Street ?? "No Street")
 
                                 @if (!string.IsNullOrEmpty(school.Address?.City))
                         {
@@ -95,7 +95,7 @@
                                     @Html.Raw(school.Address?.City + ",")
 
                                 }
-                                @school.Address?.State ?? "No State" @school.Address?.PostalCode ?? "No postal code"
+                                @(school.Address?.State ?? "No State") @(school.Address?.PostalCode ?? "No postal code")
                             </div>
                         </td>
                         <td>

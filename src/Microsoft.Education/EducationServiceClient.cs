@@ -61,35 +61,46 @@ namespace Microsoft.Education
         /// <returns></returns>
         public async Task<ArrayResult<EducationClass>> GetAllClassesAsync(string schoolId, string nextLink)
         {
-            var relativeUrl = $"education/classes?$expand=schools";
-            var interim = await HttpGetArrayAsync<EducationClass>(relativeUrl, nextLink);
-            interim = new ArrayResult<EducationClass>
+            if (string.IsNullOrEmpty(schoolId))
             {
-                Value = interim.Value.Where(c =>
-                                   c.Schools.Any(
-                                       s => s.ExternalId.Equals(schoolId, StringComparison.OrdinalIgnoreCase)))
-                               .ToArray(),
-                NextLink = interim.NextLink
-            };
-            foreach (EducationClass theClass in interim.Value)
-            {
-                theClass.Schools.Clear();
+                return new ArrayResult<EducationClass>
+                {
+                    Value = new EducationClass[] { },
+                     NextLink = nextLink
+                };
             }
-            return interim;
+            else
+            {
+                var relativeUrl = $"education/classes?$expand=schools";
+                var interim = await HttpGetArrayAsync<EducationClass>(relativeUrl, nextLink);
+                interim = new ArrayResult<EducationClass>
+                {
+                    Value = interim.Value.Where(c =>
+                                       c.Schools.Any(
+                                           s => schoolId.Equals(schoolId, StringComparison.OrdinalIgnoreCase)))
+                                   .ToArray(),
+                    NextLink = interim.NextLink
+                };
+                foreach (EducationClass theClass in interim.Value)
+                {
+                    theClass.Schools.Clear();
+                }
+                return interim;
+            }
         }
 
         /// <summary>
         /// Get my classes
         /// </summary>
         /// <returns>The set of classes</returns>
-        public async Task<EducationClass[]> GetMyClassesAsync(bool loadMembers = false)
+        public async Task<EducationClass[]> GetMyClassesAsync(bool loadMembers = false, string expandField = "members")
         {
             var relativeUrl = $"education/me/classes";
-            
+
             // Important to do this in one round trip, not in a sequence of calls.
             if (loadMembers)
             {
-                relativeUrl += "?$expand=members";
+                relativeUrl += "?$expand=" + expandField;
             }
 
             var memberOf = await HttpGetArrayAsync<EducationClass>(relativeUrl);
@@ -104,10 +115,28 @@ namespace Microsoft.Education
         /// <returns>The set of classes</returns>
         public async Task<EducationClass[]> GetMyClassesAsync(string schoolId)
         {
-            var sections = await GetMyClassesAsync(true);
-            return sections
-                .Where(s => s.ExternalId.Equals(schoolId, StringComparison.OrdinalIgnoreCase))
-                .ToArray();
+            if (string.IsNullOrEmpty(schoolId))
+            {
+                return new EducationClass[] { };
+            }
+            else
+            {
+                // First get classes with members
+                var classesWithMembers = await GetMyClassesAsync(true);
+
+                // Then get classes with schools - we can't get both at the same time today.
+                var classesWithSchools = await GetMyClassesAsync(true, "schools");
+
+                int i = 0;
+                return classesWithMembers
+                    .Where(c =>
+                    {
+                        return c.Id.Equals(classesWithSchools[i].Id, StringComparison.Ordinal) &&
+                            classesWithSchools[i++]
+                            .Schools.Any(s => schoolId.Equals(s.ExternalId, StringComparison.OrdinalIgnoreCase));
+                    })
+                    .ToArray();
+            }
         }
 
         /// <summary>
