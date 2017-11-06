@@ -1,0 +1,43 @@
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+body {
+    background-color: #f0f2f4;
+}
+
+#navbar {
+    background-color: #5558af;
+    color: white;
+    height: 5em;
+    line-height: 5em;
+}
+
+#logo {
+    text-align: center;
+    color: #757575;
+}
+
+#logo img {
+    height: 128px;
+    width: 128px;
+}
+
+.btn-teams {
+    background-color: #5558af;
+    color: white;
+    width: 5em;
+}
+
+.datepicker {
+    padding: 0px;
+}
+
+#thumbnail {
+    width: 120px;
+    height: 120px;
+}
+
+.thumbnail.right-caption > img {
+    float: left;
+}

@@ -1,0 +1,34 @@
+﻿<!--
+    Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+    See LICENSE in the project root for license information.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style type="text/css">
+        body{margin:20px;}
+    </style>
+</head>
+<body>
+    <h2>Admin Consent</h2>
+    <hr />
+    <label>
+        To use this application in this tenancy you must first provide Admin Consent.
+        <br/>
+        Please click the button below to proceed.
+     </label>
+    <br />
+    <div>
+        <input type="button" value="Consent" id="btnConsent" name="btnConsent"/>
+    </div>
+    <br />
+    <a href="https://msdn.microsoft.com/en-us/skype/trusted-application-api/docs/tenantadminconsent">How to consent</a>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/scripts/constant.js"></script>
+    <script type="text/javascript" src="/scripts/consent.js"></script>
+</body>
+</html>
