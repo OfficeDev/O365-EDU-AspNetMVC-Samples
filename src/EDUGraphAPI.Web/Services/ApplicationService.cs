@@ -273,7 +273,41 @@ namespace EDUGraphAPI.Web.Services
             }
             return await dbContext.SaveChangesAsync();
         }
+        /// <summary>
+        /// Get all users from DB
+        /// </summary>
+        public async Task<ApplicationUser[]> GetAllUsers(Expression<Func<ApplicationUser, bool>> predicate = null)
+        {
+            return await dbContext.Users
+                .ToArrayAsync();
+        }
+        public async Task DeleteLocalUser(string id)
+        {
+            try
+            {
+                var user = await GetUserAsync(id);
 
+                // Remove token caches
+                var caches = await dbContext.UserTokenCacheList
+                    .Where(i => i.webUserUniqueId == user.O365UserId)
+                    .ToArrayAsync();
+                dbContext.UserTokenCacheList.RemoveRange(caches);
+                await dbContext.SaveChangesAsync();
+
+                var rolesToRemove = (await userManager.GetRolesAsync(user.Id))
+                    .Union(new[] { Constants.Roles.Admin, Constants.Roles.Faculty, Constants.Roles.Student })
+                    .ToArray();
+                await userManager.RemoveFromRolesAsync(user.Id, rolesToRemove);
+                dbContext.Users.Remove(user);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
         private string GetUserId()
         {
             var userId = httpContext.User.Identity.GetUserId();

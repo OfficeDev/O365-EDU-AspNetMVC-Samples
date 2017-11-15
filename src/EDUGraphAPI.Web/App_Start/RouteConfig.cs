@@ -31,6 +31,27 @@ namespace EDUGraphAPI.Web
                 defaults: new { controller = "Schools", action = "Users" }
             );
 
+            //routes.MapRoute(
+            //    name: "Assignments",
+            //    url: "Classes/{classId}/Assignments",
+            //    defaults: new { controller = "Schools", action = "GetClassAssignments" }
+            //);
+            routes.MapRoute(
+                name: "GetAssignmentResources",
+                url: "Classes/{sectionId}/Assignments/{assignmentId}/Resources",
+                defaults: new { controller = "Schools", action = "GetAssignmentResources" }
+            );
+            routes.MapRoute(
+                name: "GetAssignmentSubmissions",
+                url: "Classes/{sectionId}/Assignments/{assignmentId}/Submissions",
+                defaults: new { controller = "Schools", action = "GetAssignmentSubmissions" }
+            );
+            routes.MapRoute(
+                name: "GetAssignmentResourcesSubmission",
+                url: "Classes/{sectionId}/Assignments/{assignmentId}/ResourcesSubmission",
+                defaults: new { controller = "Schools", action = "GetAssignmentResourcesSubmission" }
+            );
+
             routes.MapRoute(
                 name: "UsersNext",
                 url: "Schools/{schoolId}/Users/Next",

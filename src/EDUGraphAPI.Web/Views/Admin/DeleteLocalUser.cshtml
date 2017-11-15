@@ -1,0 +1,30 @@
+﻿@*
+    *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+    *   * See LICENSE in the project root for license information.
+*@
+@model ApplicationUser
+
+@{
+    ViewBag.Title = "Delete Accounts";
+}
+
+<h2>delete Accounts</h2>
+<h3>Are you sure you want to delete the accounts?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <p>Local Account: @Model.Email</p>
+        <p>Office 365 Account: @Model.O365Email</p>
+        <p>FirstName: @Model.FirstName</p>
+        <p>LastName: @Model.LastName</p>
+        
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete Local User" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Users")
+        </div>
+        <br/>
+    }
+</div>

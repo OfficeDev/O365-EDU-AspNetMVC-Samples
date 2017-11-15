@@ -7,6 +7,8 @@
     ViewBag.Title = "Class Details";
     var teachersList = Model.Class.Teachers.ToList();
 }
+@Styles.Render("~/Content/classdetail")
+
 <div class="row schools class-details">
     <div class="tophero">
         <div class="container">
@@ -32,21 +34,56 @@
                 <span id="termedate">@(Model.Class?.Term?.EndDate.ToString("yyyy-MM-ddTHH:mm:ss") ?? "")</span>
             </div>
             <div class="col-md-6">
+                <span>Teacher:</span>
                 @for (var i = 0; i < teachersList.Count(); i++)
                 {
-                    <span>Teacher:</span> @teachersList[i].DisplayName
+                    var name = teachersList[i].DisplayName;
                     if (i < teachersList.Count() - 1)
                     {
-                        <br />
+                        name = name + ", ";
                     }
+                    <span class="coteacher-name">@name</span>
+                }
+                @if (!Model.IsStudent)
+                {
+                    <a id="addateacher" href="javascript:void(0)">Add a teacher</a>
                 }
             </div>
+
+            @if (!Model.IsStudent)
+            {
+                <div class="schoolteachers">
+                    <div class="close"><img src="/Images/close.png"></div>
+                    <div class="title">Select a teacher</div>
+                    <div class="list">
+                        @if (Model.SchoolTeachers.Count() == 0)
+                        {
+                            <div > There is no data available at this time.</div>
+                        }
+                        else
+                        {
+                            <ul>
+                                @foreach (var teacher in Model.SchoolTeachers)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("AddCoTeacher", new { schoolId = Model.School.Id, sectionId = Model.Section.Id, userId = teacher.O365UserId })">
+                                            <img src="/images/header-default.jpg" realheader="@Url.Action("UserPhoto", "Photo", new { id = teacher.O365UserId })" /> @teacher.DisplayName
+                                        </a>
+                                    </li>
+                                }
+                            </ul>                        
+                        }
+
+                    </div>
+                </div>
+            }
         </div>
         <div style="clear:both;"></div>
     </div>
     <div class="students">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#students"><span>Students</span></a></li>
+            <li><a data-toggle="tab" href="#assignments" id="assignmentslink"><span>Assignments</span></a></li>
             <li><a data-toggle="tab" href="#documents" id="classdoclink"><span>Class Documents</span></a></li>
             <li><a data-toggle="tab" href="#conversations"><span>Conversations</span></a></li>
             <li><a data-toggle="tab" href="#seatingchart"><span>SEATING CHART</span></a></li>
@@ -77,6 +114,252 @@
                     </table>
                 }
             </div>
+            <div id="assignments" class="tab-pane fade">
+                @if (!Model.IsStudent)
+                {
+                  <div class="addassignment"><a href="javascript:void(0)"> + New</a></div>
+                }
+                <div id="assignmentslist">
+                @if (Model.Assignments == null ||  Model.Assignments.Count() == 0)
+                {
+                    <div class="nodata"> There is no data available for this page at this time.</div>
+                }
+                else
+                {
+                    <table class="table  table-green table-student ">
+                        <thead>
+                            <tr class="table-green-header">
+                                <th class="header">Name</th>
+                                <th class="header">Due Date</th>
+                                <th class="header">Status</th>
+                                <th class="header">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (var assignment in Model.Assignments)
+                           {
+                            <tr class="tr-content">
+                                <td>@assignment.DisplayName</td>
+                                <td>@(string.IsNullOrEmpty(assignment.DueDateTime) ? "": Convert.ToDateTime(assignment.DueDateTime).ToString("M/dd/yyyy"))</td>
+                                <td>@assignment.Status</td>
+                                <td>
+
+                                <a class="detaillink" 
+                                   data-status="@assignment.Status" 
+                                   data-id="@assignment.Id" 
+                                   data-dueDate="@assignment.DueDateTime" 
+                                   data-title="@assignment.DisplayName" 
+                                   data-allowlate="@Convert.ToString(assignment.AllowLateSubmissions)" 
+                                   href="javascript:void(0)">Details</a>
+                                @if (!Model.IsStudent && assignment.Status != "draft")
+                                {
+                                    <span>|</span>
+                                    <a href="javascript:void(0)" class="submissionslink"  data-status="@assignment.Status" data-id="@assignment.Id" data-dueDate="@(string.IsNullOrEmpty(assignment.DueDateTime) ? "": Convert.ToDateTime(assignment.DueDateTime).ToString("M/dd/yyyy"))" data-title="@assignment.DisplayName" > Submissions</a>
+                                }
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                    }
+                </div>
+                <div class="modal fade"id="new-assignment" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="alert alert-danger assignment-alert">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                <span></span>
+                            </div>
+
+                            <div class="modal-body">
+                                @using (Html.BeginForm("NewAssignment", "Schools", FormMethod.Post, new { enctype = "multipart/form-data", id = "new-assignment-form" }))
+                                {
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                                    <input id="FilesToBeUploaded" name="FilesToBeUploaded" type="hidden" value="">
+                                    <input id="classId" name="classId" type="hidden" value="@Model.Section.Id" />
+                                    <input id="status" name="status" type="hidden" />
+                                    <input type="hidden" name="schoolId" id="schoolId" value="@Model.School.Id" />
+
+                                    <fieldset>
+                                        <label>Name</label>
+                                        <input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all">
+                                        <br />
+                                        <label>Due Date</label>
+                                        <input type="text" id="duedate" name="duedate" value="" class="text ui-widget-content ui-corner-all">
+                                        <select class="ui-widget-content ui-corner-all" id="duetime" name="duetime">
+                                            <option>12:00 AM</option>
+                                            <option>12:30 AM</option>
+                                            <option>1:00 AM</option>
+                                            <option>1:30 AM</option>
+                                            <option>2:00 AM</option>
+                                            <option>2:30 AM</option>
+                                            <option>3:00 AM</option>
+                                            <option>3:30 AM</option>
+                                            <option>4:00 AM</option>
+                                            <option>4:30 AM</option>
+                                            <option>5:00 AM</option>
+                                            <option>5:30 AM</option>
+                                            <option>6:00 AM</option>
+                                            <option>6:30 AM</option>
+                                            <option>7:00 AM</option>
+                                            <option>7:30 AM</option>
+                                            <option>8:00 AM</option>
+                                            <option>8:30 AM</option>
+                                            <option>9:00 AM</option>
+                                            <option>9:30 AM</option>
+                                            <option>10:00 AM</option>
+                                            <option>10:30 AM</option>
+                                            <option>11:00 AM</option>
+                                            <option>11:30 AM</option>
+                                            <option>12:00 PM</option>
+                                            <option>12:30 PM</option>
+                                            <option>1:00 PM</option>
+                                            <option>1:30 PM</option>
+                                            <option>2:00 PM</option>
+                                            <option>2:30 PM</option>
+                                            <option>3:00 PM</option>
+                                            <option>3:30 PM</option>
+                                            <option>4:00 PM</option>
+                                            <option>4:30 PM</option>
+                                            <option>5:00 PM</option>
+                                            <option>5:30 PM</option>
+                                            <option>6:00 PM</option>
+                                            <option>6:30 PM</option>
+                                            <option>7:00 PM</option>
+                                            <option>7:30 PM</option>
+                                            <option>8:00 PM</option>
+                                            <option>8:30 PM</option>
+                                            <option>9:00 PM</option>
+                                            <option>9:30 PM</option>
+                                            <option>10:00 PM</option>
+                                            <option>10:30 PM</option>
+                                            <option>11:00 PM</option>
+                                            <option>11:30 PM</option>
+                                            <option>11:59 PM</option>
+                                        </select>
+                                        <br />
+                                        <div class="uploadcontainer">
+                                            <label>Resources</label>
+                                            <div id="uploaders">
+                                                <input type="file" id="fileToUpload" name="fileUpload" />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <span id="spnFile" style="color: #FF0000"></span>
+                                        <div class="control-section" style="padding: 0px;">
+                                            <div id="selectedFiles"></div>
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary btn-save">Save As Draft</button>
+                                <button type="button" class="btn btn-primary btn-publish">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade assignment-detail-modal" id="assignment-detail-form" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="alert alert-danger assignment-alert">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                <span></span>
+                            </div>
+                            @if (!Model.IsStudent)
+                            {
+                                using (Html.BeginForm("UpdateAssignment", "Schools", FormMethod.Post, new { enctype = "multipart/form-data", id = "assignment-detail-form-teacher" }))
+                                {
+                                    <input name="schoolId" type="hidden" value="@Model.School.Id" />
+                                    <input name="classId" type="hidden" value="@Model.Section.Id" />
+                                    <input name="assignmentId" type="hidden" />
+                                    <input name="assignmentStatus" type="hidden" />
+
+                                    <div class="modal-body">
+                                        <div><h5 class="assignment-title"></h5></div>
+                                        <div><h5 class="due-date"></h5></div>
+                                        
+                                        <div class="row resource-upload">
+                                            <h5 class="resources-title col-md-8"></h5>
+                                            <button type="button" class="btn btn-primary btn-new">+ New</button>
+                                            <input type="file" id="newResourceFileCtrl" name="newResource" class="hidden">
+                                        </div>
+                                        <ul class="resource-list"></ul>
+                                    </div>
+                                }
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary btn-save">Save</button>
+                                    <button type="button" class="btn btn-primary btn-publish">Assign</button>
+                                    <button type="button" class="btn btn-primary btn-update">Update</button>
+                                </div>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("NewAssignmentSubmissionResource", "Schools", FormMethod.Post, new { enctype = "multipart/form-data", id = "assignment-detail-form-student" }))
+                                {
+                                    <input name="schoolId" type="hidden" value="@Model.School.Id" />
+                                    <input name="classId" type="hidden" value="@Model.Section.Id" />
+                                    <input name="assignmentId" type="hidden" />
+                                    <input name="submissionId" type="hidden" />
+
+                                    <div class="modal-body">
+                                        <div><h5 class="assignment-title"></h5></div>
+                                        <div><h5 class="due-date"></h5></div>
+                                        <div><h5 class="allow-late"></h5></div>
+                                        <div class="row">
+                                            <h5 class="resources-title col-md-8"></h5>
+                                        </div>
+                                        <ul class="resource-list"></ul>
+                                        <div class="row resource-upload">
+                                            <h5 class="handin-title col-md-8"></h5>
+                                            <button type="button" class="btn btn-primary btn-upload">Upload</button>
+                                            <input type="file" id="newResourceFileCtrl" name="newResource" class="hidden">
+                                        </div>
+                                        <ul class="handin-list"></ul>
+                                    </div>
+                                }
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary btn-submit">Submit</button>
+                                </div>
+                           }
+                        </div>
+                   </div>
+                </div>
+                <div class="modal fade assignment-detail-modal" id="assignment-submissions-form" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div><h3>Assignment Submissions</h3></div>
+                                <div><h5 class="assignment-title"></h5></div>
+                                <div><h5 class="due-date"></h5></div>
+                                <div class="row">
+                                    <table class="table resource-list" id="assignment-submissions-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Submitted by</th>
+                                                <th>Submitted On</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary btn-update" data-dismiss="modal">Return to Assignments</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         
+             </div>
             <div id="documents" class="tab-pane fade">
                 @if (Model.DriveItems == null || !Model.DriveItems.Any())
                 {
@@ -171,14 +454,14 @@
                         @foreach (var stu in Model.Class.Students)
                         {
                             var containerClass = "unsaved";
-                            var style = "";
+                            var style = string.Format("background-color:{0}", stu.FavoriteColor);
                             if (stu.Position != 0)
                             {
                                 containerClass = "white";
                                 if (Model.O365UserId == stu.Id)
                                 {
                                     containerClass = "green";
-                                    style = string.Format("background-color:{0}", Model.MyFavoriteColor);
+
                                 }
                             }
                             <div class="deskcontainer @containerClass" style="@style" position="@stu.Position" userid="@stu.Id">
@@ -222,6 +505,9 @@
         </div>
     </div>
 </div>
+
 <input type="hidden" name="hidSectionid" id="hidSectionid" value="@Model.Class.Id" />
+<input type="hidden" name="hideIsStudent" id="hideIsStudent" value="@Convert.ToString(Model.IsStudent)" />
+
 @*<div id="saveResult"><div>Seating map changes saved.</div></div>*@
 @Scripts.Render("~/bundles/classdetail")

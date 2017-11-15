@@ -208,5 +208,28 @@ namespace EDUGraphAPI.Web.Controllers
                 : "User access was enabled for all users.";
             return RedirectToAction("Index");
         }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> Users()
+        {
+            var users = await applicationService.GetAllUsers();
+            return View(users);
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> DeleteLocalUser(string id)
+        {
+            var user = await applicationService.GetUserAsync(id);
+            return View(user);
+        }
+
+        //
+        // POST: /Admin/UnlinkAccounts
+        [AllowAnonymous]
+        [HttpPost, ValidateAntiForgeryToken, ActionName("DeleteLocalUser")]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            await applicationService.DeleteLocalUser(id);
+            return RedirectToAction("Users");
+        }
     }
 }

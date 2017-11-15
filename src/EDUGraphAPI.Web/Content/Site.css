@@ -176,7 +176,7 @@ textarea {
 .infocontainer:nth-child(2) .infobody{font-size:12px;}
 .myschool{padding: 12px 0 12px 0;float:left;}
 .myschool .schoolenrolled{float:right; font-size:14px;padding-right:15px;}
-.myschool .greenicon{width:12px;height:12px;float:right;margin:5px 6px 0 0;background-color:#277F79;}
+.myschool .greenicon{width:12px;height:12px;float:right;margin:5px 6px 0 0;background-color:#4e9f42;}
 .sectionschoolname{font-size:24px;color:#666565;padding-left: 0;}
 .tophero{background-color:#f8f8f8;padding-left:0px;}
 .schooladdress{width:auto;float:left;}
@@ -203,7 +203,7 @@ textarea {
 .table-green .table-green-header th{text-transform:uppercase; padding:10px 0 10px 6px; border-top:0; border-bottom:1px solid white;}
 .table-green .tr-content td{padding-top:10px;padding-bottom:10px; vertical-align: inherit; border-bottom:1px solid white;}
 .table-green > tbody > tr > td{border-top:1px solid white;}
-.table-green .td-green, .table-green .td-green a{font-family:'Helvetica Neue LT Std Bold'; background-color:#277F79; color:white;}
+.table-green .td-green, .table-green .td-green a{font-family:'Helvetica Neue LT Std Bold'; background-color:#4e9f42; color:white;}
 .table-green  a.btnlink{
     color:black;text-transform: uppercase;
     font-family:'Helvetica Neue LT Std Bold';
@@ -264,18 +264,61 @@ textarea {
 /*section detail*/
 .b-title{font-size:24px;color:#666565;}
 .class-details .b-title{font-family:'Helvetica Neue LT Std Th'}
+.coursedetail {position: relative;}
 .coursedetail .col-md-6{padding:12px 0 6px 0;}
-.coursedetail .col-md-6 span:not(#termdate):not(#termdate-separator){font-family:'Helvetica Neue LT Std Bold'}
+.coursedetail .col-md-6 span:not(#termdate):not(#termdate-separator):not(.coteacher-name){font-family:'Helvetica Neue LT Std Bold'}
 .coursedetail .col-md-6:last-child{padding:12px 0 6px 0;}
 .coursedetail .col-md-6:last-child > b{color:#F7F7F7;}
 .coursedetail .col-md-6:last-child > b:first-child{color:#333;}
+.coursedetail .schoolteachers{
+    display: none;
+    position: absolute;
+    background: #fff;
+    color: #000;
+    min-width: 360px;
+    min-height: 230px;
+    max-height: 500px;
+    padding: 8px 20px 30px 20px;
+    z-index: 10;
+    border: solid #C2C2C2 1px;
+    box-shadow: 1px 2px 1px 2px #c2c2c2;
+    left: 33%;
+    top: -30px;
+}
+.coursedetail .schoolteachers .title{
+    font-size: 18px;
+}
+.coursedetail .schoolteachers .list{
+    margin-top: 12px;
+    max-height: 330px;
+    overflow: auto;
+}
+
+.coursedetail .schoolteachers ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.coursedetail .schoolteachers li{
+    display: block;
+    padding: 10px 8px;
+}
+
+.schoolteachers li:nth-child(2n+1) {
+    background-color: #f8f8f8;
+}
+#addateacher{
+    display:block;
+}
+
 .students .col-md-6:nth-child(1){padding-left:0;padding-right:8px;}
 .students .col-md-6:nth-child(2){padding-left:8px;padding-right:0;}
 .students .b-title{padding-left:6px;}
 
 .students{margin-top:20px;}
-.students > ul > li{width:22%;margin-right:20px;text-align: center;}
+.students > ul > li{width:18%;margin-right:10px;text-align: center;}
 .students > ul > li:first-child{margin-left:20px;}
+.students > ul > li.active{width:19%;}
 .students > ul > li>a{font-family:'Helvetica Neue LT Std Th'; color:#ABABAB; height:56px; font-size:18px; text-transform:uppercase; background-color:#fff; border-radius:0 0 0 0; padding-top:15px;}
 .students > ul > li.active > a,.students > ul > li.active > a:hover,.students > ul > li.active > a:focus {font-family:'Helvetica Neue LT Std Bold'; background-color:#127605; color:white;}
 .students .table-green .table-green-header{border-bottom:1px solid #127605;background-color:#127605;}
@@ -306,7 +349,43 @@ textarea {
 .students #studoc.table-green tbody tr.tr-content.selected td.border-holder, .students #stuconv.table-green tbody tr.tr-content.selected td.border-holder{background-color:#127605}
 .students #documents .see-more, .students #conversations .see-more{float:right; margin-right:16px; padding:2px 10px; background:-prefix-linear-zgradient(top, #137A05, #28BB14); background:linear-gradient(to bottom, #137A05, #28BB14);}
 .students #documents .see-more a, .students #conversations .see-more a{color:#ffffff; font-size:12px; font-family:'Helvetica Neue LT Std Bold'; text-decoration:none}
-
+.students #assignments >div {width: 100%;float: left;}
+.students #assignmentslist th.header{width:23%;}
+.students .addassignment a{    color: white;
+    background-color: #127605;
+    height: 40px;
+    width: 120px;
+    float: right;
+    margin: 12px;
+    line-height: 40px;
+    font-weight: normal;
+    text-align: center;}
+.students .hideform{display:none;padding:20px;}
+.students button.ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-close{    
+    background-image: url(/images/ui-icons_777777_256x240.png) !important;
+    background-position: -96px -128px !important;
+    background-color: white !important;
+    border-bottom-right-radius: 3px !important;
+    border-bottom-left-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+    border-top-left-radius: 3px !important;}
+#new-assignment-form label{width:100px !important;}
+#selectedFiles > div{    text-align: left;
+    float: left;
+    width: 100%;
+    padding-left: 100px;}
+#uploaders{    width: 400px;display:inline-block;}
+#new-assignment-form  fieldset > *{margin:6px 0 6px 0;}
+#assignment-submissions-form button{float:left;}
+#assignment-submissions-form tbody td{text-align:left;}
+#assignment-submissions-form .files, #assignments .resource-list li, #assignments .handin-list li {padding-left:20px;background-color:#f5f5f5;}
+ #assignments .resource-list li, #assignments .handin-list li {padding-left:15px;}
+  .modal-dialog {
+    margin: 200px auto !important;
+  }
+  .uploadcontainer{    display: flex;
+    margin-top: 12px !important;}
+  .uploadcontainer #uploaders{padding-left:5px;}
 /*User info popup window*/
 .navbar-right a{color:white;text-decoration:none;}
 .userinfo .caret{color:white;font-size:20px;}
@@ -330,6 +409,7 @@ textarea {
 .mygroups div{float:left;margin-left:6px;}
 .margin-btm-12{margin-bottom:12px;}
 .margin-top-12{margin-top:12px;}
+.margin-left-12{margin-left:12px;}
 
 #skipLinkAccount{width:90px;}
 .tab-content div.tab-pane{border:2px solid #127605;background-color:white;position:relative;}
@@ -342,7 +422,7 @@ textarea {
 #seatingchart .greenicon{width:14px;height:14px;background:#237e17;float:left;margin:3px 6px 0 0;}
 .assignseat{margin:12px 0;}
 #lstproducts{padding-left:0;}
-#lstproducts img, .deskicon img, #studentsTable img, .userinfo img, .aboutme img{
+#lstproducts img, .deskicon img, #studentsTable img, .userinfo img, .aboutme img, .schoolteachers img{
 border-radius: 30px;
 -webkit-border-radius: 30px;
 -moz-border-radius: 30px;
@@ -404,7 +484,36 @@ max-width: 140px;
     color: white;
     border: 1px solid white;
 }
-
+/*assignment detail*/
+.assignment-detail-modal .row {
+    padding: 0px 15px;
+    text-align: right;
+}
+.assignment-detail-modal .row > .resources-title, .assignment-detail-modal .row > button, .assignment-detail-modal .row > .handin-title{
+    display: inline-block;
+}
+.assignment-detail-modal .row > button{
+    right: 0px;
+}
+.assignment-detail-modal .row > .resources-title,
+.assignment-detail-modal .row > .handin-title{
+    text-align: left;
+    padding-left: 0;
+}
+.assignment-detail-modal ul{
+    list-style: none;
+    margin: 10px -15px 10px -15px;
+    padding: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+.assignment-detail-modal ul>li
+{
+    border-top: 1px solid #e5e5e5;
+    padding: 5px 15px;
+}
+.assignment-detail-modal .modal-footer{
+    border-top:none;
+}
 
 
 /*Teachers & Students page*/

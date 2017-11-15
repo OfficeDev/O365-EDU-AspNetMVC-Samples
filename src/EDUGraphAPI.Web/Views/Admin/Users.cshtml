@@ -1,0 +1,35 @@
+﻿@*
+    *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+    *   * See LICENSE in the project root for license information.
+*@
+@model IEnumerable<EDUGraphAPI.Data.ApplicationUser>
+
+@{
+    ViewBag.Title = "Manage users";
+}
+
+<h2>Manage users</h2>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Local Account</th>
+        <th>Office 365 Account</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+            <td>@Html.DisplayFor(modelItem => item.O365Email)</td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteLocalUser", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    @if (Model.IsNullOrEmpty())
+    {
+        <tr>
+            <td class="empty-result" colspan="3">No accounts</td>
+        </tr>
+    }
+</table>
+@*<p>@Html.ActionLink("Return", "Index", null, null, new { @class = "btn btn-default" })</p>*@

@@ -17,6 +17,12 @@ $(document).ready(function () {
         tabname = $(this).find("a").attr("href");
         showDemoHelper(tabname);
     });
+    $('.schoolteachers .close').click(function (e) {
+       $(this).parent().hide();
+    });
+    $('#addateacher').click(function (e) {
+        $('.schoolteachers').show();
+    });
 });
 
 function iniTiles(){
@@ -50,7 +56,7 @@ function iniControl() {
 
     var tabToActivate = $.urlParam("tab");
     if (tabToActivate) {
-        $('.nav-tabs li:eq(' + tabToActivate + ') a').tab('show');
+        $('.nav-tabs a[href="#' + tabToActivate + '"]').tab('show');
     }
 
     function exitEdit() {
@@ -249,6 +255,7 @@ function cancelEditDesk() {
 function getSeatingArrangements(O365UserId, Position) {
     return { O365UserId: O365UserId, Position: Position };
 }
+
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);

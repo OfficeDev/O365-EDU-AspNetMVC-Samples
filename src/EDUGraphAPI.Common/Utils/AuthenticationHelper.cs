@@ -56,6 +56,40 @@ namespace EDUGraphAPI.Utils
         }
 
         /// <summary>
+        /// Get an instance of EducationServiceClient
+        /// </summary>
+        public static async Task<EducationServiceClient> GetEducationServiceClientAsync(Permissions permissions = Permissions.Delegated)
+        {
+            var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
+            var serviceRoot = new Uri(new Uri(Constants.Resources.MSGraph), Constants.Resources.MSGraphVersion);
+            return new EducationServiceClient(serviceRoot, () => Task.FromResult(accessToken));
+        }
+
+        public static async Task<EducationServiceClient> GetAssignmentServiceClientAsync(Permissions permissions = Permissions.Delegated)
+        {
+            var accessToken = await GetAccessTokenAsync(Constants.Resources.Assignment, permissions);
+            var serviceRoot = new Uri(new Uri(Constants.Resources.Assignment), Constants.Resources.AssignmentVersion);
+            return new EducationServiceClient(serviceRoot, () => Task.FromResult(accessToken));
+        }
+
+        public static async Task<GraphServiceClient> GetGraphAssignmentServiceClientAsync(Permissions permissions = Permissions.Delegated)
+        {
+            var accessToken = await GetAccessTokenAsync(Constants.Resources.Assignment, permissions);
+            var serviceRoot = Constants.Resources.Assignment + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
+            return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(accessToken));
+        }
+
+        /// <summary>
+        /// Get an instance of ActiveDirectoryClient from the specified AuthenticationResult
+        /// </summary>
+        public static ActiveDirectoryClient GetActiveDirectoryClient(AuthenticationResult result)
+        {
+            var serviceRoot = new Uri(new Uri(Constants.Resources.AADGraph), result.TenantId);
+            return new ActiveDirectoryClient(serviceRoot, () => Task.FromResult(result.AccessToken));
+        }
+
+        /// <summary>
+
         /// Get an instance of GraphServiceClient from the specified AuthenticationResult
         /// </summary>
         public static GraphServiceClient GetGraphServiceClient(AuthenticationResult result)

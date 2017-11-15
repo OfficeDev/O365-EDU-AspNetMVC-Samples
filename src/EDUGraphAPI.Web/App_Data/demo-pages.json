@@ -177,6 +177,21 @@
         ]
       },
       {
+        "title": "Get all students in my classes",
+        "tab": "studentsinmyclasses",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetMySectionsAsync",
+                "description": "Get all my classes with students."
+              }
+            ]
+          }
+        ]
+      },
+      {
         "title": "Get all students and teachers information",
         "tab": "filterall",
         "files": [
@@ -241,6 +256,10 @@
                 "description": "Page action."
               },
               {
+                "title": "AddCoTeacher",
+                "description": "Add a co-teacher to a class."
+              },
+              {
                 "title": "GetSchoolsServiceAsync",
                 "description": "Initialize school services."
               }
@@ -281,6 +300,58 @@
               {
                 "title": "GetSectionAsync",
                 "description": "Get a class by using the id, together with class numbers."
+              }
+            ]
+          }
+
+        ]
+      },
+      {
+        "title": "Get students in this class",
+        "tab": "#assignments",
+        "files": [
+          {
+            "url": "/blob/master/src/Microsoft.Education/EducationServiceClient.cs",
+            "methods": [
+              {
+                "title": "GetAssignmentsByClassIdAsync",
+                "description": "Get a class's assignments."
+              },
+              {
+                "title": "CreateAssignmentAsync",
+                "description": "Create an assignment for a class."
+              },
+              {
+                "title": "AddAssignmentResourcesAsync",
+                "description": "Add resource to an assignment."
+              },
+              {
+                "title": "PublishAssignmentAsync",
+                "description": "Publish an assignment. Set its status from draft to published."
+              },
+              {
+                "title": "AddSubmissionResourceAsync",
+                "description": "Add resources to an assignment submission."
+              },
+              {
+                "title": "GetAssignmentAsync",
+                "description": "Get an assignment."
+              },
+              {
+                "title": "GetAssignmentResourcesAsync",
+                "description": "Get resources of an assignment."
+              },
+              {
+                "title": "GetAssignmentSubmissionsAsync",
+                "description": "Get submissions of an assignment."
+              },
+              {
+                "title": "GetAssignmentSubmissionsByUserAsync",
+                "description": "Get a student's assignment submissions."
+              },
+              {
+                "title": "GetSubmissionResourcesAsync",
+                "description": "Get a submission's resources."
               }
             ]
           }
@@ -336,7 +407,7 @@
         ]
       },
       {
-        "title": "Dispaly, edit and save students charts",
+        "title": "Display, edit and save students charts",
         "tab": "#seatingchart",
         "files": [
           {

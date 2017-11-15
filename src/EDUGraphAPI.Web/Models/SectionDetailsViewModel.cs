@@ -3,8 +3,13 @@
  *   * See LICENSE in the project root for license information.  
  */
 
+
 using Microsoft.Education;
+using System.Collections.Generic;
+using Microsoft.Education.Data;
 using Microsoft.Graph;
+using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace EDUGraphAPI.Web.ViewModels
 {
@@ -24,5 +29,11 @@ namespace EDUGraphAPI.Web.ViewModels
         public bool IsStudent { get; set; }
         public string O365UserId { get; set; }
         public string MyFavoriteColor { get; set; }
+
+        public SectionUser[] SchoolTeachers { get; set; }
+
+        public Assignment[] Assignments { get; set; }
+
+
     }
 }

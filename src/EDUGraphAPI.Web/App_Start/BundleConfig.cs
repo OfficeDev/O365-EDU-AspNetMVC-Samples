@@ -37,8 +37,10 @@ namespace EDUGraphAPI.Web
 
             bundles.Add(new ScriptBundle("~/bundles/classdetail").Include(
                         "~/Scripts/jquery.tablesorter.min.js",
+                        "~/Scripts/jquery-ui.js",
                         "~/Scripts/moment.min.js",
-                        "~/Scripts/classdetail.js"
+                        "~/Scripts/classdetail.js",
+                        "~/Scripts/Assignments.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/users").Include(
@@ -53,6 +55,8 @@ namespace EDUGraphAPI.Web
 
             bundles.Add(new StyleBundle("~/Content/register").Include(
                         "~/Content/register.css"));
+            bundles.Add(new StyleBundle("~/Content/classdetail").Include(
+            "~/Content/jquery-ui.css"));
         }
     }
 }
