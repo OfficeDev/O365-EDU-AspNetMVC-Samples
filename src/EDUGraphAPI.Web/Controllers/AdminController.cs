@@ -1,17 +1,18 @@
-﻿/*   
- *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
- *   * See LICENSE in the project root for license information.  
+﻿/*
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ *   * See LICENSE in the project root for license information.
  */
-using EDUGraphAPI.Utils;
-using EDUGraphAPI.Web.Infrastructure;
-using EDUGraphAPI.Web.Services;
-using EDUGraphAPI.Web.Services.GraphClients;
-using EDUGraphAPI.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EDUGraphAPI.Models;
+using EDUGraphAPI.Utils;
+using EDUGraphAPI.Web.Infrastructure;
+using EDUGraphAPI.Web.Services;
+using EDUGraphAPI.Web.Services.GraphClients;
 using AAD = Microsoft.Azure.ActiveDirectory.GraphClient;
 
 namespace EDUGraphAPI.Web.Controllers
@@ -106,14 +107,10 @@ namespace EDUGraphAPI.Web.Controllers
                 {
                     await servicePrincipal.DeleteAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
-               
             }
-
-            
-
 
             var adminContext = await applicationService.GetAdminContextAsync();
             if (adminContext.Organization != null)
@@ -126,7 +123,6 @@ namespace EDUGraphAPI.Web.Controllers
             TempData["Message"] = "Admin unconsented successfully!";
             return RedirectToAction("Index");
         }
-
 
         // POST: /Admin/ClearAdalCache
         [HttpPost, ValidateAntiForgeryToken]
@@ -227,6 +223,7 @@ namespace EDUGraphAPI.Web.Controllers
             var users = await applicationService.GetAllUsers();
             return View(users);
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> DeleteLocalUser(string id)
         {

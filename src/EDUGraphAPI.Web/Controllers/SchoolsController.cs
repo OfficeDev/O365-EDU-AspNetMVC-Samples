@@ -1,23 +1,23 @@
-﻿/*   
- *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
- *   * See LICENSE in the project root for license information.  
+﻿/*
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ *   * See LICENSE in the project root for license information.
  */
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using EDUGraphAPI.Data;
+using EDUGraphAPI.Infrastructure;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Infrastructure;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.Services;
 using EDUGraphAPI.Web.ViewModels;
+using Microsoft.Education;
 using Microsoft.Education.Data;
 using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.Education;
-using EDUGraphAPI.Infrastructure;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -26,7 +26,6 @@ namespace EDUGraphAPI.Web.Controllers
     {
         private ApplicationService applicationService;
         private ApplicationDbContext dbContext;
-        private int pageSize = 12;
 
         public SchoolsController(ApplicationService applicationService, ApplicationDbContext dbContext)
         {
@@ -41,7 +40,7 @@ namespace EDUGraphAPI.Web.Controllers
             var userContext = await applicationService.GetUserContextAsync();
             if (!userContext.AreAccountsLinked)
             {
-                return View(new SchoolsViewModel() { AreAccountsLinked = false,IsLocalAccount = userContext.IsLocalAccount });
+                return View(new SchoolsViewModel() { AreAccountsLinked = false, IsLocalAccount = userContext.IsLocalAccount });
             }
             var schoolsService = await GetSchoolsServiceAsync();
             var model = await schoolsService.GetSchoolsViewModelAsync(userContext);
@@ -71,7 +70,6 @@ namespace EDUGraphAPI.Web.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-
         //
         // GET: /Schools/{Id of a school}/Classes/6510F0FC-53B3-4D9B-9742-84C9C8FA2BE4
         public async Task<ActionResult> ClassDetails(string schoolId, string sectionId)
@@ -91,7 +89,6 @@ namespace EDUGraphAPI.Web.Controllers
             return View(model);
         }
 
-
         public async Task<JsonResult> GetAssignmentResources(string sectionId, string assignmentId)
         {
             var assignmentServices = await GetAssignmentsServiceAsync();
@@ -104,7 +101,6 @@ namespace EDUGraphAPI.Web.Controllers
             var assignmentServices = await GetAssignmentsServiceAsync();
             var model = await assignmentServices.GetAssignmentSubmissions(sectionId, assignmentId);
             return Json(model, JsonRequestBehavior.AllowGet);
-
         }
 
         public async Task<JsonResult> GetAssignmentResourcesSubmission(string sectionId, string assignmentId)
@@ -113,12 +109,12 @@ namespace EDUGraphAPI.Web.Controllers
             var assignmentServices = await GetAssignmentsServiceAsync();
             var resources = await assignmentServices.GetAssignmentResourcesAsync(sectionId, assignmentId);
             var submissions = await assignmentServices.GetAssignmentSubmissionByUserAsync(sectionId, assignmentId, userContext.User.O365UserId);
-            object model = new { resources = resources, submission = submissions.Length >0 ? submissions[0]: null};
+            object model = new { resources = resources, submission = submissions.Length > 0 ? submissions[0] : null };
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewAssignment(string schoolId, string classId,string status, string name,string duedate, string duetime, string FilesToBeUploaded, List<HttpPostedFileBase> fileUpload)
+        public async Task<ActionResult> NewAssignment(string schoolId, string classId, string status, string name, string duedate, string duetime, string FilesToBeUploaded, List<HttpPostedFileBase> fileUpload)
         {
             Assignment assignment = new Assignment();
             assignment.AllowStudentsToAddResourcesToSubmission = true;
@@ -126,7 +122,7 @@ namespace EDUGraphAPI.Web.Controllers
             assignment.DisplayName = name;
             assignment.DueDateTime = Convert.ToDateTime(duedate + " " + duetime).ToString("yyyy'-'MM'-'ddTHH':'mm':'ss'Z'");
             assignment.AllowLateSubmissions = true;
-            assignment.Status = "draft"; 
+            assignment.Status = "draft";
 
             var assignmentServices = await GetAssignmentsServiceAsync();
             assignment = await assignmentServices.CreateAssignment(assignment);
@@ -142,14 +138,13 @@ namespace EDUGraphAPI.Web.Controllers
                 if (item != null)
                 {
                     DriveItem file = await UploadFile(classId, graphServiceClient, item, resourceFolder.ResourceFolderURL);
-                    string resourceUrl = string.Format("https://graph.microsoft.com/v1.0/drives/{0}/items/{1}",file.ParentReference.DriveId,file.Id);
+                    string resourceUrl = string.Format("https://graph.microsoft.com/v1.0/drives/{0}/items/{1}", file.ParentReference.DriveId, file.Id);
                     await assignmentServices.AddAssignmentResourcesAsync(classId, assignment.Id, file.Name, resourceUrl);
                 }
             }
 
-            return RedirectToAction("ClassDetails", new { schoolId = schoolId, sectionId = classId, tab= "assignments" });
+            return RedirectToAction("ClassDetails", new { schoolId = schoolId, sectionId = classId, tab = "assignments" });
         }
-
 
         [HttpPost]
         public async Task<ActionResult> NewAssignmentSubmissionResource(string schoolId, string classId, string assignmentId, string submissionId, List<HttpPostedFileBase> newResource)
@@ -179,12 +174,14 @@ namespace EDUGraphAPI.Web.Controllers
         {
             var assignmentServices = await GetAssignmentsServiceAsync();
             var assignment = await assignmentServices.GetAssignmentByIdAsync(classId, assignmentId);
-            if(assignment.Status.Equals("draft") && assignmentStatus.Equals("assigned")){
+            if (assignment.Status.Equals("draft") && assignmentStatus.Equals("assigned"))
+            {
                 assignment = await assignmentServices.PublishAssignmentAsync(classId, assignmentId);
             }
             var graphServiceClient = await AuthenticationHelper.GetGraphAssignmentServiceClientAsync();
             var resourceFolder = await assignmentServices.GetAssignmentResourceFolderURL(classId, assignmentId);
-            foreach (HttpPostedFileBase item in newResource){
+            foreach (HttpPostedFileBase item in newResource)
+            {
                 if (item != null)
                 {
                     DriveItem file = await UploadFile(classId, graphServiceClient, item, resourceFolder.ResourceFolderURL);
@@ -193,9 +190,7 @@ namespace EDUGraphAPI.Web.Controllers
                 }
             }
             return RedirectToAction("ClassDetails", new { schoolId = schoolId, sectionId = classId, tab = "assignments" });
-
         }
-
 
         private async Task<DriveItem> UploadFile(string classId, GraphServiceClient graphServiceClient, HttpPostedFileBase item, string resourceFolder)
         {
@@ -228,24 +223,26 @@ namespace EDUGraphAPI.Web.Controllers
             .PutAsync<DriveItem>(item.InputStream);
         }
 
-
         //
         //GET: /Schools/{Id of a school}/Classes/6510F0FC-53B3-4D9B-9742-84C9C8FA2BE4/UserId
         public async Task<ActionResult> AddCoTeacher(string schoolId, string sectionId, string userId)
         {
             var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
-            var directoryObj = new Microsoft.Graph.DirectoryObject{
+            var directoryObj = new Microsoft.Graph.DirectoryObject
+            {
                 Id = userId
             };
-            try{
+            try
+            {
                 await graphServiceClient.Groups[sectionId].Members.References.Request().AddAsync(directoryObj);
                 await graphServiceClient.Groups[sectionId].Owners.References.Request().AddAsync(directoryObj);
             }
-            catch(Microsoft.Graph.ServiceException ex){
-
+            catch (ServiceException)
+            {
             }
             return RedirectToAction("ClassDetails", new { schoolId = schoolId, sectionId = sectionId });
         }
+
         //
         // POST: /Schools/SaveSeatingArrangements
         [HttpPost]
@@ -254,7 +251,7 @@ namespace EDUGraphAPI.Web.Controllers
             await applicationService.SaveSeatingArrangements(seatingArrangements);
             return Json("");
         }
-        
+
         private async Task<SchoolsService> GetSchoolsServiceAsync()
         {
             var accessToken = await AuthenticationHelper.GetAccessTokenAsync(Constants.Resources.MSGraph, Permissions.Delegated);
@@ -280,9 +277,5 @@ namespace EDUGraphAPI.Web.Controllers
             }
             return result;
         }
-
-
-
-
     }
 }
