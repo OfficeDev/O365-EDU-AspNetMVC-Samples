@@ -1,19 +1,18 @@
-﻿/*   
- *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
- *   * See LICENSE in the project root for license information.  
+﻿/*
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ *   * See LICENSE in the project root for license information.
  */
+
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.ViewModels;
-using Microsoft.Graph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using Microsoft.Education;
 using Microsoft.Education.Data;
+using Microsoft.Graph;
 
 namespace EDUGraphAPI.Web.Services
 {
@@ -48,9 +47,9 @@ namespace EDUGraphAPI.Web.Services
             return result;
         }
 
-        public async Task<EducationAssignmentResource> AddAssignmentResourcesAsync(string classId, string assignmentId,string fileName, string resourceUrl)
+        public async Task<EducationAssignmentResource> AddAssignmentResourcesAsync(string classId, string assignmentId, string fileName, string resourceUrl)
         {
-            return await educationServiceClient.AddAssignmentResourcesAsync(classId, assignmentId,fileName,resourceUrl);
+            return await educationServiceClient.AddAssignmentResourcesAsync(classId, assignmentId, fileName, resourceUrl);
         }
 
         public async Task<Assignment> PublishAssignmentAsync(string classId, string assignmentId)
@@ -58,7 +57,7 @@ namespace EDUGraphAPI.Web.Services
             return await educationServiceClient.PublishAssignmentAsync(classId, assignmentId);
         }
 
-        public async Task<EducationAssignmentResource> AddSubmissionResourceAsync(string classId, string assignmentId,string submissionId, string fileName, string resourceUrl)
+        public async Task<EducationAssignmentResource> AddSubmissionResourceAsync(string classId, string assignmentId, string submissionId, string fileName, string resourceUrl)
         {
             return await educationServiceClient.AddSubmissionResourceAsync(classId, assignmentId, submissionId, fileName, resourceUrl);
         }
@@ -70,8 +69,8 @@ namespace EDUGraphAPI.Web.Services
         }
 
         public async Task<Assignment> GetAssignmentByIdAsync(string sectionId, string assignmentId)
-        { 
-             var result = await educationServiceClient.GetAssignmentAsync(sectionId, assignmentId);
+        {
+            var result = await educationServiceClient.GetAssignmentAsync(sectionId, assignmentId);
             return result;
         }
 
@@ -81,13 +80,12 @@ namespace EDUGraphAPI.Web.Services
             return result;
         }
 
-
         public async Task<Submission[]> GetAssignmentSubmissions(string sectionId, string assignmentId)
         {
             var result = await educationServiceClient.GetAssignmentSubmissionsAsync(sectionId, assignmentId);
             foreach (var item in result)
             {
-                if (null != item.SubmittedBy.User && !string.IsNullOrEmpty( item.SubmittedBy.User.Id ))
+                if (null != item.SubmittedBy.User && !string.IsNullOrEmpty(item.SubmittedBy.User.Id))
                 {
                     item.SubmittedBy.User.DisplayName = await GetUsername(item.SubmittedBy.User.Id);
                 }
@@ -104,17 +102,17 @@ namespace EDUGraphAPI.Web.Services
             return result;
         }
 
-        public async Task<Submission[]> GetAssignmentSubmissionByUserAsync(string sectionId, string assignmentId,string userId)
+        public async Task<Submission[]> GetAssignmentSubmissionByUserAsync(string sectionId, string assignmentId, string userId)
         {
             var result = await educationServiceClient.GetAssignmentSubmissionsByUserAsync(sectionId, assignmentId, userId);
             return result;
         }
-        private async Task<string>  GetUsername(string userId)
+
+        private async Task<string> GetUsername(string userId)
         {
             var client = await AuthenticationHelper.GetGraphServiceClientAsync(Permissions.Application);
             var user = await client.Users[userId].Request().GetAsync();
             return user.DisplayName;
-
         }
 
         /// <summary>
@@ -122,8 +120,8 @@ namespace EDUGraphAPI.Web.Services
         /// </summary>
         public async Task<SchoolsViewModel> GetSchoolsViewModelAsync(UserContext userContext)
         {
-            EducationUser currentUser = await educationServiceClient.GetJoinableUserAsync();
-            
+            var currentUser = await educationServiceClient.GetJoinableUserAsync();
+
             var schools = (await educationServiceClient.GetSchoolsAsync())
                 .OrderBy(i => i.Name)
                 .ToArray();
@@ -142,9 +140,9 @@ namespace EDUGraphAPI.Web.Services
 
             // Specific grade for students will be coming in later releases of the API.
             var grade = myFirstSchool?.EducationGrade;
-            
-            var sortedSchools = mySchools.Count()>0? (schools.Where(c => c.Id == mySchools.First().Id)
-                .Union(schools.Where(c => c.Id != mySchools.First().Id).ToList())):schools;
+
+            var sortedSchools = mySchools.Count() > 0 ? (schools.Where(c => c.Id == mySchools.First().Id)
+                .Union(schools.Where(c => c.Id != mySchools.First().Id).ToList())) : schools;
             return new SchoolsViewModel(sortedSchools)
             {
                 IsStudent = userContext.IsStudent,
@@ -172,7 +170,7 @@ namespace EDUGraphAPI.Web.Services
                 {
                     if (section.Id == mySection.Id)
                     {
-                        section.Teachers = mySection.Teachers;                        
+                        section.Teachers = mySection.Teachers;
                         section.Members = mySection.Members;
                     }
                 }
@@ -202,7 +200,6 @@ namespace EDUGraphAPI.Web.Services
             return new SectionsViewModel(userContext.UserO365Email, school, allSections, mySections);
         }
 
-
         /// <summary>
         /// Get SectionDetailsViewModel of the specified section
         /// </summary>
@@ -212,7 +209,6 @@ namespace EDUGraphAPI.Web.Services
             var @class = await educationServiceClient.GetClassAsync(classId);
             @class.Teachers = @class.Members.Where(c => c.PrimaryRole == EducationRole.Teacher).ToList();
             var driveRootFolder = await group.Drive.Root.Request().GetAsync();
-
 
             var schoolTeachers = await educationServiceClient.GetAllTeachersAsync(school.SchoolNumber);
             foreach (var sectionTeacher in @class.Teachers)

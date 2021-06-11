@@ -65,7 +65,7 @@ namespace EDUGraphAPI.Web.Controllers
             var userContext = await applicationService.GetUserContextAsync();
             var schoolsService = await GetSchoolsServiceAsync();
             var model = await schoolsService.GetSectionsViewModelAsync(userContext, schoolId, nextLink);
-            var classes = new List<EducationClass>(model.Classes.Value);
+            var classes = new List<Microsoft.Education.EducationClass>(model.Classes.Value);
             classes.AddRange(model.MyClasses);
             return Json(model, JsonRequestBehavior.AllowGet);
         }
