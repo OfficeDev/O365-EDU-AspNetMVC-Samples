@@ -2,19 +2,19 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using EDUGraphAPI.Data;
+using EDUGraphAPI.Infrastructure;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Infrastructure;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.Services;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 using Microsoft.Education;
-using EDUGraphAPI.Infrastructure;
+using Microsoft.Owin.Security;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -311,7 +311,7 @@ namespace EDUGraphAPI.Web.Controllers
         // GET: /Manage/AboutMe
         public async Task<ActionResult> AboutMe(bool? showSaveMessage)
         {
-            var model = new AboutMeViewModel {FavoriteColors = Constants.FavoriteColors};
+            var model = new AboutMeViewModel { FavoriteColors = Constants.FavoriteColors };
 
             var userContext = await applicationService.GetUserContextAsync();
             if (userContext.User == null)
@@ -331,9 +331,9 @@ namespace EDUGraphAPI.Web.Controllers
 
             if (userContext.IsO365Account || userContext.AreAccountsLinked)
             {
-                var accessToken = await AuthenticationHelper.GetAccessTokenAsync(Constants.Resources.MSGraph, Permissions.Delegated);                
+                var accessToken = await AuthenticationHelper.GetAccessTokenAsync(Constants.Resources.MSGraph, Permissions.Delegated);
                 var educationServiceClient = EducationServiceClient.GetEducationServiceClient(new BearerAuthenticationProvider(accessToken));
-                var schoolsService = new SchoolsService(educationServiceClient, dbContext); 
+                var schoolsService = new SchoolsService(educationServiceClient, dbContext);
                 model.Groups.AddRange(await schoolsService.GetMyClassesAsync());
             }
 

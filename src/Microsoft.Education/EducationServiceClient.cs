@@ -2,19 +2,17 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Microsoft.Education.Data;
-using Microsoft.Graph;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Education.Data;
+using Microsoft.Graph;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Education
 {
@@ -71,7 +69,7 @@ namespace Microsoft.Education
                 return new ArrayResult<EducationClass>
                 {
                     Value = new EducationClass[] { },
-                     NextLink = nextLink
+                    NextLink = nextLink
                 };
             }
             else
@@ -79,7 +77,7 @@ namespace Microsoft.Education
                 var relativeUrl = $"education/schools/{schoolId}/classes?$top=12";
                 return await HttpGetArrayAsync<EducationClass>(relativeUrl, nextLink);
 
-        
+
             }
         }
 
@@ -123,7 +121,7 @@ namespace Microsoft.Education
 
                 // Then get classes with schools - we can't get both at the same time today.
                 var classesWithSchools = await GetMyClassesAsync(true, "schools");
-                
+
 
                 //return classesWithMembers;
                 int i = 0;
@@ -163,7 +161,7 @@ namespace Microsoft.Education
         /// <returns>User.</returns>
         public Task<EducationUser> GetUserAsync()
         {
-           return HttpGetObjectAsync<EducationUser>("education/me");
+            return HttpGetObjectAsync<EducationUser>("education/me");
         }
 
         /// <summary>
@@ -223,7 +221,7 @@ namespace Microsoft.Education
             var assignTo = new JObject();
             assignTo["@odata.type"] = "#microsoft.graph.educationAssignmentClassRecipient";
             assignmentObject["assignTo"] = assignTo;
-            var json  = JsonConvert.SerializeObject(assignmentObject);
+            var json = JsonConvert.SerializeObject(assignmentObject);
             return HttpPostAsync<Assignment>(url, json);
         }
 
@@ -253,7 +251,7 @@ namespace Microsoft.Education
             resource["displayName"] = fileName;
             resource["@odata.type"] = GetFileType(fileName); //This type must match real type.
             var file = new JObject();
-            file["odataid"] = resourceUrl; 
+            file["odataid"] = resourceUrl;
             resource["file"] = file;
             jsonToPost["resource"] = resource;
 
@@ -271,7 +269,7 @@ namespace Microsoft.Education
         /// <param name="status"></param>
         /// <returns></returns>
         public Task<Assignment> PublishAssignmentAsync(string classId, string assignmentId)
-        { 
+        {
             string url = $"education/classes/{classId}/assignments/{assignmentId}/publish";
             return HttpPostAsync<Assignment>(url, ""); ;
         }
@@ -285,7 +283,7 @@ namespace Microsoft.Education
         /// <param name="fileName"></param>
         /// <param name="resourceUrl"></param>
         /// <returns></returns>
-        public async Task<EducationAssignmentResource> AddSubmissionResourceAsync(string classId, string assignmentId,string submissionId, string fileName, string resourceUrl)
+        public async Task<EducationAssignmentResource> AddSubmissionResourceAsync(string classId, string assignmentId, string submissionId, string fileName, string resourceUrl)
         {
             string url = $"education/classes/{classId}/assignments/{assignmentId}/submissions/{submissionId}/resources";
             var jsonToPost = new JObject();
@@ -383,10 +381,10 @@ namespace Microsoft.Education
                 uri = relativeUrl;
             }
             var message = new HttpRequestMessage(HttpMethod.Get, uri);
-            await authenticationProvider.AuthenticateRequestAsync(message);           
+            await authenticationProvider.AuthenticateRequestAsync(message);
 
             var client = new HttpClient();
-            var response = await client.SendAsync(message);            
+            var response = await client.SendAsync(message);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
@@ -434,10 +432,10 @@ namespace Microsoft.Education
                 uri = relativeUrl;
             }
             var message = new HttpRequestMessage(HttpMethod.Post, uri);
-            message.Content = new StringContent(json, UnicodeEncoding.UTF8, "application/json"); 
+            message.Content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
             await authenticationProvider.AuthenticateRequestAsync(message);
             var client = new HttpClient();
-            var response = await client.SendAsync(message); 
+            var response = await client.SendAsync(message);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(responseString);
@@ -468,7 +466,7 @@ namespace Microsoft.Education
         /// <summary>
         /// Get an instance of EducationServiceClient
         /// </summary>
-        public static EducationServiceClient GetEducationServiceClient( IAuthenticationProvider authenticationProvider)
+        public static EducationServiceClient GetEducationServiceClient(IAuthenticationProvider authenticationProvider)
         {
             var serviceRoot = new Uri(new Uri(Constants.Resources.MSGraph), Constants.Resources.MSGraphVersion);
             return new EducationServiceClient(serviceRoot, authenticationProvider);

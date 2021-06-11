@@ -2,10 +2,10 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using EDUGraphAPI.Web.Infrastructure;
-using EDUGraphAPI.Web.Services;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EDUGraphAPI.Web.Infrastructure;
+using EDUGraphAPI.Web.Services;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -13,7 +13,7 @@ namespace EDUGraphAPI.Web.Controllers
     public class HomeController : Controller
     {
         private ApplicationService applicationService;
-        
+
         public HomeController(ApplicationService applicationService)
         {
             this.applicationService = applicationService;
@@ -30,7 +30,8 @@ namespace EDUGraphAPI.Web.Controllers
                     return RedirectToAction("Index", "Admin");
                 return RedirectToAction("Index", "Schools");
             }
-            else {
+            else
+            {
                 return RedirectToAction("Index", "Link");
             }
         }

@@ -5,9 +5,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Reflection;
-using Microsoft.Graph;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -18,7 +16,7 @@ namespace EDUGraphAPI.DifferentialQuery
         private static PropertyInfo EntityIdProperty { get; } = typeof(TEntity).GetProperty("Id",
             BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public);
 
-        public Delta(TEntity entity) 
+        public Delta(TEntity entity)
         {
             this.Entity = entity;
         }

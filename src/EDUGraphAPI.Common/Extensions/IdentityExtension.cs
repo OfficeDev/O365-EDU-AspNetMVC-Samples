@@ -52,7 +52,7 @@ namespace EDUGraphAPI
                     fullName = givenName + " " + surname;
             }
 
-            if(fullName.IsNullOrEmpty())
+            if (fullName.IsNullOrEmpty())
                 fullName = identity.GetUserName();
 
             return fullName;

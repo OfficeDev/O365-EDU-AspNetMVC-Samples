@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Education
 {
-    public class EducationTeacher 
+    public class EducationTeacher
     {
         [JsonProperty("externalId")]
         public string ExternalId { get; set; }

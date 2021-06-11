@@ -1,7 +1,11 @@
-﻿/*   
- *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
- *   * See LICENSE in the project root for license information.  
+﻿/*
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ *   * See LICENSE in the project root for license information.
  */
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Services;
@@ -11,10 +15,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace EDUGraphAPI.Web
 {
@@ -34,9 +34,9 @@ namespace EDUGraphAPI.Web
                     Caption = "Microsoft Work or school account",
                     ClientId = Constants.AADClientId,
                     Authority = Constants.Authority,
-                    TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters
+                    TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
-                        // instead of using the default validation (validating against a single issuer value, as we do in line of business apps), 
+                        // instead of using the default validation (validating against a single issuer value, as we do in line of business apps),
                         // we inject our own multitenant validation logic
                         ValidateIssuer = false,
                     },
@@ -51,8 +51,8 @@ namespace EDUGraphAPI.Web
                             context.ProtocolMessage.RedirectUri = appBaseUrl + "/";
                             context.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
                             CookieService cookieService = new CookieService();
-                            string hint =  cookieService.GetCookiesOfEmail();
-                            if(!string.IsNullOrEmpty(hint))
+                            string hint = cookieService.GetCookiesOfEmail();
+                            if (!string.IsNullOrEmpty(hint))
                                 context.ProtocolMessage.LoginHint = hint;
                             return Task.FromResult(0);
                         },

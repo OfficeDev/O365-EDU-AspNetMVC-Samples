@@ -2,22 +2,20 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Web.Infrastructure;
 using EDUGraphAPI.Web.Models;
 using EDUGraphAPI.Web.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using System;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -28,7 +26,7 @@ namespace EDUGraphAPI.Web.Controllers
         private ApplicationUserManager userManager;
         private CookieService cookieServie;
         private ApplicationService applicationService;
- 
+
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, CookieService cookieService,
             ApplicationService applicationService)
@@ -67,8 +65,8 @@ namespace EDUGraphAPI.Web.Controllers
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
-                case SignInStatus.Success:                   
-                    ApplicationUser user=await applicationService.GetUserByEmailAsync(model.Email);
+                case SignInStatus.Success:
+                    ApplicationUser user = await applicationService.GetUserByEmailAsync(model.Email);
                     if (user != null && !string.IsNullOrEmpty(user.O365Email))
                     {
                         SetCookiesForO365User(user.FullName, user.O365Email);
@@ -279,7 +277,7 @@ namespace EDUGraphAPI.Web.Controllers
             Session["AnyName"] = "AnyValue";
 
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", 
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account",
                 new { ReturnUrl = returnUrl }));
         }
 
@@ -448,7 +446,7 @@ namespace EDUGraphAPI.Web.Controllers
                 TempData["email"] = email;
             }
             else
-                RedirectToAction("Login","Account");
+                RedirectToAction("Login", "Account");
             return View();
         }
         private void SetCookiesForO365User(string username, string email)
@@ -456,7 +454,7 @@ namespace EDUGraphAPI.Web.Controllers
 
             Response.Cookies.Add(new HttpCookie(Constants.UsernameCookie, username)
             {
-                Expires = DateTime.UtcNow.AddDays(30) 
+                Expires = DateTime.UtcNow.AddDays(30)
             });
             Response.Cookies.Add(new HttpCookie(Constants.EmailCookie, email)
             {

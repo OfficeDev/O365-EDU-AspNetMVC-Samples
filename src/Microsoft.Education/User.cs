@@ -3,7 +3,7 @@
  *   * See LICENSE in the project root for license information.  
  */
 
- using System;
+using System;
 using Newtonsoft.Json;
 
 namespace Microsoft.Education

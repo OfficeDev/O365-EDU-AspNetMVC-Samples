@@ -1,13 +1,13 @@
-﻿/*   
- *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
- *   * See LICENSE in the project root for license information.  
+﻿/*
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+ *   * See LICENSE in the project root for license information.
  */
-using EDUGraphAPI.Data;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Security;
+using EDUGraphAPI.Data;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace EDUGraphAPI.Models
 {
@@ -55,7 +55,7 @@ namespace EDUGraphAPI.Models
                 try
                 {
                     var data = MachineKey.Unprotect(cacheBits, MachinKeyProtectPurpose);
-                    this.Deserialize(data);
+                    this.DeserializeAdalV3(data);
                 }
                 catch { }
             }
@@ -63,7 +63,7 @@ namespace EDUGraphAPI.Models
 
         private void SerializeAndUpdateCache()
         {
-            var cacheBits = MachineKey.Protect(this.Serialize(), MachinKeyProtectPurpose);
+            var cacheBits = MachineKey.Protect(this.SerializeAdalV3(), MachinKeyProtectPurpose);
             UpdateUserTokenCache(userId, cacheBits);
         }
 

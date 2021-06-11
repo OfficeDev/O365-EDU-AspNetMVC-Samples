@@ -50,14 +50,14 @@ namespace Microsoft.Education
 
         public IList<EducationSchool> Schools { get; set; }
 
-        public string ExternalId => 
+        public string ExternalId =>
             this.PrimaryRole == EducationRole.Teacher && this.Teacher != null
             ? this.Teacher.ExternalId
             : (this.PrimaryRole == EducationRole.Student && this.Student != null
                 ? this.Student.ExternalId
                 : (this.Teacher != null
                     ? this.Teacher.ExternalId
-                    : (this.Student != null ? this.Student.ExternalId 
+                    : (this.Student != null ? this.Student.ExternalId
                         : null)));
     }
 }

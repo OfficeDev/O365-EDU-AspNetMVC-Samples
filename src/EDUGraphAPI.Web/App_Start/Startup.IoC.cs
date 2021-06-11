@@ -2,6 +2,8 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
+using System.Web;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using EDUGraphAPI.Data;
@@ -9,8 +11,6 @@ using EDUGraphAPI.Web.Controllers;
 using EDUGraphAPI.Web.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
-using System.Web;
-using System.Web.Mvc;
 
 namespace EDUGraphAPI.Web
 {

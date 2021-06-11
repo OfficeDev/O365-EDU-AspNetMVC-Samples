@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Education.Data
 {
@@ -51,7 +50,7 @@ namespace Microsoft.Education.Data
         public string ResourceFiles { get; set; }
 
         public static string GetResourcesFiles(List<ResourceContainer> resources)
-        {  
+        {
             List<string> array = new List<string>();
             foreach (var item in resources)
             {
@@ -124,7 +123,7 @@ namespace Microsoft.Education.Data
         [JsonProperty("resourcesFolder")]
         public ResourcesFolder ResourcesFolder { get; set; }
 
-        
+
         [JsonProperty("resourcesFolderUrl")]
         public string ResourcesFolderUrl { get; set; }
 
