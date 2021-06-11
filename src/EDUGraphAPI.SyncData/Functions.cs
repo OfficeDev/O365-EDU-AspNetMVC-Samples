@@ -2,13 +2,13 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
+using System.Configuration;
+using System.IO;
+using System.Threading.Tasks;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.DataSync;
 using EDUGraphAPI.Utils;
 using Microsoft.Azure.WebJobs;
-using System.Configuration;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace EDUGraphAPI.SyncData
 {

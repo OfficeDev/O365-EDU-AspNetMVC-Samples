@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Education
 {
-    public class EducationStudent 
+    public class EducationStudent
     {
         [JsonProperty("graduationYear")]
         public string GraduationYear { get; set; }

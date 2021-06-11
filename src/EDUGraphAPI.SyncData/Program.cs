@@ -3,7 +3,6 @@
  *   * See LICENSE in the project root for license information.  
  */
 
-using System;
 using Microsoft.Azure.WebJobs;
 
 namespace EDUGraphAPI.SyncData

@@ -2,6 +2,10 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  *   * See LICENSE in the project root for license information.
  */
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Services;
@@ -11,10 +15,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace EDUGraphAPI.Web
 {

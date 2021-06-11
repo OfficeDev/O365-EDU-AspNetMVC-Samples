@@ -2,10 +2,9 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 
 namespace Microsoft.Education
@@ -51,7 +50,7 @@ namespace Microsoft.Education
 
         public IList<EducationUser> Members { get; set; }
 
-        public IEnumerable<EducationUser> Students => Members.Where(m => m.PrimaryRole == EducationRole.Student );
+        public IEnumerable<EducationUser> Students => Members.Where(m => m.PrimaryRole == EducationRole.Student);
 
         public IList<EducationUser> Teachers { get; set; }
 

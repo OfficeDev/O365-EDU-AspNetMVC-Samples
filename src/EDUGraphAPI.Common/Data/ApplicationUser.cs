@@ -2,11 +2,11 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EDUGraphAPI.Data
 {
@@ -23,7 +23,7 @@ namespace EDUGraphAPI.Data
 
         [ForeignKey("OrganizationId")]
         public virtual Organization Organization { get; set; }
-        
+
         public string O365UserId { get; set; }
 
         public string O365Email { get; set; }

@@ -2,6 +2,11 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
+using System;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 using EDUGraphAPI.Data;
 using EDUGraphAPI.Utils;
 using EDUGraphAPI.Web.Infrastructure;
@@ -12,11 +17,6 @@ using EDUGraphAPI.Web.Services.GraphClients;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OpenIdConnect;
-using System;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Data.Entity;
 
 namespace EDUGraphAPI.Web.Controllers
 {
@@ -32,8 +32,8 @@ namespace EDUGraphAPI.Web.Controllers
         private ApplicationUserManager userManager;
         private CookieService cookieServie;
 
-        public LinkController(ApplicationService applicationService, ApplicationUserManager userManager, 
-            ApplicationSignInManager signInManager,CookieService cookieServie)
+        public LinkController(ApplicationService applicationService, ApplicationUserManager userManager,
+            ApplicationSignInManager signInManager, CookieService cookieServie)
         {
             this.applicationService = applicationService;
             this.userManager = userManager;
@@ -118,7 +118,7 @@ namespace EDUGraphAPI.Web.Controllers
             var graphServiceClient = await AuthenticationHelper.GetGraphServiceClientAsync();
             IGraphClient graphClient = new MSGraphClient(graphServiceClient);
             var user = await graphClient.GetCurrentUserAsync();
-            var localUser = userManager.FindByEmail(string.IsNullOrEmpty(user.Mail)? user.UserPrincipalName:user.Mail);
+            var localUser = userManager.FindByEmail(string.IsNullOrEmpty(user.Mail) ? user.UserPrincipalName : user.Mail);
             if (localUser == null)
             {
                 foreach (var modelValue in ModelState.Values)
@@ -127,7 +127,7 @@ namespace EDUGraphAPI.Web.Controllers
                 }
                 return View(model);
             }
-            var tenantId = User.GetTenantId();            
+            var tenantId = User.GetTenantId();
             if (localUser.O365UserId.IsNotNullAndEmpty())
             {
                 ModelState.AddModelError("Email", "The local account has already been linked to another Office 365 account.");

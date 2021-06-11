@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EDUGraphAPI.Data
 {
-   public class ClassroomSeatingArrangements
+    public class ClassroomSeatingArrangements
     {
         [Key]
         public int Id { get; set; }

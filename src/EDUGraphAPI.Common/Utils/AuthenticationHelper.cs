@@ -2,17 +2,17 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using EDUGraphAPI.Infrastructure;
-using EDUGraphAPI.Models;
-using Microsoft.Azure.ActiveDirectory.GraphClient;
-using Microsoft.Graph;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
+using EDUGraphAPI.Infrastructure;
+using EDUGraphAPI.Models;
+using Microsoft.Azure.ActiveDirectory.GraphClient;
 using Microsoft.Education;
+using Microsoft.Graph;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace EDUGraphAPI.Utils
 {

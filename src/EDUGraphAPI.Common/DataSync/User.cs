@@ -3,8 +3,6 @@
  *   * See LICENSE in the project root for license information.  
  */
 
-using Newtonsoft.Json;
-
 namespace EDUGraphAPI.DataSync
 {
     /// <summary>

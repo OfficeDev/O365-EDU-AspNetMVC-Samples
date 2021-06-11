@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Education
 {
-    public class EducationTerm 
+    public class EducationTerm
     {
         [JsonProperty("startDate")]
         public DateTimeOffset StartDate { get; set; }

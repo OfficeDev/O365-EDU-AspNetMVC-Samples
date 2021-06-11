@@ -2,10 +2,6 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using EDUGraphAPI.Data;
-using EDUGraphAPI.Web.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,6 +9,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
+using EDUGraphAPI.Data;
+using EDUGraphAPI.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EDUGraphAPI.Web.Services
 {
@@ -83,7 +83,7 @@ namespace EDUGraphAPI.Web.Services
         /// </summary>
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
-            return await dbContext.Users               
+            return await dbContext.Users
                 .Where(i => i.Email == email)
                 .FirstOrDefaultAsync();
         }

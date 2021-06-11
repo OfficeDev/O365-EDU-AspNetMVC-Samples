@@ -2,13 +2,11 @@
  *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
  *   * See LICENSE in the project root for license information.  
  */
-using EDUGraphAPI.Infrastructure;
-using EDUGraphAPI.Utils;
-using EDUGraphAPI.Web.Models;
-using Microsoft.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EDUGraphAPI.Web.Models;
+using Microsoft.Graph;
 
 namespace EDUGraphAPI.Web.Services.GraphClients
 {
@@ -26,7 +24,7 @@ namespace EDUGraphAPI.Web.Services.GraphClients
             var me = await graphServiceClient.Me.Request()
                 .Select("id,givenName,surname,userPrincipalName,assignedLicenses")
                 .GetAsync();
-            
+
             return new UserInfo
             {
                 Id = me.Id,
@@ -52,11 +50,11 @@ namespace EDUGraphAPI.Web.Services.GraphClients
         {
             var roles = new List<string>();
             var directoryAdminRole = await GetDirectoryAdminRoleAsync();
-            
+
             if (await directoryAdminRole.Members.AnyAsync(i => i.Id == user.Id))
                 roles.Add(Constants.Roles.Admin);
-            if(roles.Count==0)
-            { 
+            if (roles.Count == 0)
+            {
                 var educationServiceClient = Microsoft.Education.EducationServiceClient.GetEducationServiceClient(this.graphServiceClient.AuthenticationProvider);
                 var me = await educationServiceClient.GetUserAsync();
                 if (me.PrimaryRole == Microsoft.Education.EducationRole.Student)
